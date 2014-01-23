@@ -1,9 +1,12 @@
+# Innocence
+## King Fella
 me-mord.md
 king-falla-fella.md
 tree-house.md
 spoils-of-failure.md
 who-is-mord.md
 dwarf-roast.md
+## Carrot
 mord-feed.md
 elfling-and-me.md
 a-small-home-for-a-small-people.md
@@ -14,6 +17,7 @@ rescue-or-pursuit-2.md
 mine-enemy.md
 the-spoiling-of-victory.md
 settling-in.md
+## Core
 wet-and-bruised.md
 lights-in-the-sky.md
 docking-ale.md
@@ -21,7 +25,7 @@ on-the-hills-of-the-mountain-goat.md
 beaten-into-the-light.md
 a-core-loss.md
 save-the-elf.md
-a-bero-of-fish.md
+## Tackling
 dwarves-and-water.md
 gurgle-gurgle.md
 tackling-the-underwater-dwarves.md
@@ -30,6 +34,8 @@ sin-tears.md
 to-the-mountain-smith.md
 how-to-die.md
 mord-sword.md
+# Betrayal
+## Fiola
 nothing-to-report.md
 ambushed.md
 flight-of-the-half-orc.md
@@ -37,16 +43,19 @@ escape-and-capture.md
 death-and-retreat.md
 of-maces-and-men.md
 the-emerald-hall.md
+## Starg
 prisoners-dilemma.md
 flight-of-reason.md
 of-nightmares-and-elves.md
 soul-ale-old-tale.md
 rusty-thrust.md
+## LikeMore
 giants-on-the-move.md
 heavy-clouds.md
 after-the-fall.md
 tales-of-the-fall.md
 the-remnants-of-like-more.md
+## Starg and Fiola
 freeing-a-friend.md
 of-suspicions-and-elves.md
 fealty-to-ones-lord.md
@@ -55,16 +64,19 @@ of-goblins-and-bugbears.md
 betrayal-served-cold.md
 and-betrayal-served-hot.md
 of-goblins-orcs-and-gnomes.md
+## ABrick
 follow-the-temple.md
 a-new-hunt.md
 rogue-strikes-back.md
 return-of-the-mord.md
 work-and-recon.md
 death-of-a-leader.md
+## ISear
 snow-tracks.md
 the-stone-giants.md
 giant-refugee-camp.md
 a-bricking-we-go.md
+##DieLess
 elves-in-the-dark.md
 the-dark-heart.md
 the-council-cometh.md
@@ -72,6 +84,7 @@ greasing-the-greasedrow.md
 prisoner-ally.md
 uncle-arry.md
 the-fall-of-the-house-of-emtor.md
+## GalNear
 day-of-rest.md
 a-weaklead.md
 smoking-fish.md
@@ -80,6 +93,7 @@ the-core-matter.md
 a-mighty-tankard.md
 the-fall-of-galnear.md
 again-core.md
+## Arry
 the-end-begins.md
 ruins-of-a-home.md
 darkening-flight.md
@@ -87,6 +101,13 @@ sword-of-drok.md
 earth-pounders.md
 snake-ladies.md
 dust-to-life.md
+## BaffledMint
 braving-the-nothing.md
 a-maze.md
 baffledmint.md
+# Renewal
+# Pride
+# Doom
+# Apocrypha
+## Bero Speaks
+a-bero-of-fish.md
