@@ -10,7 +10,7 @@ This is a literate program that will compile into Mord Blog and perhaps a few ot
 * [TODO.md](#todo "save: | clean raw") A list of growing and shrinking items todo.
 * [.gitignore](#gitignore "Save:") A .gitignore file
 * [assembler.js](#assembler "save: | jshint") assembling the blog
-* [template.htm](#template "save: |jshint") the html template to insert the content in. 
+* [template.htm](#boilerplate "save:") the html template to insert the content in. 
 * [ghpages/index.html](#intro "save: *boilerplate ") the intro to Mord
 * [toc.htm](#table-of-contents "save: | jshint") the table of contents template that assembler creates
 
@@ -54,6 +54,11 @@ This is the intro
 
 This is where the table of contents template is.    
 
+[title]()
+
+    Journal
+
+The body gets replaced with a short list (5) of the most recent.  Then it should become a set of divs with various headers.     
 
 ## boilerplate
 
@@ -148,6 +153,8 @@ The requisite npm package file. Use `npm run-script compile` to compile the lite
       "dependencies":{
         "jsdom" : "=0.8.8",
         "html-md" : "=3.0.2"
+        "literate-programming": "~0.7.5",
+        "marked": "~0.3.0"
       },
       "private":true,
       "scripts" : { 
