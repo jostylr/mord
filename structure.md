@@ -18,15 +18,108 @@ This is a literate program that will compile into Mord Blog and perhaps a few ot
 
 This is the project behind the awesome Mord, servant of Kord. 
 
+## Queuer
+
+We use the directory queue to queue up an article. 
+
+    var files;
+    _"read directory for md"
+
+    _"date line if done"
+
+    _"move and register file"
+
+### Read directory for md
+
+We read the directory and put the filenames (stripped of .md) as
+
+    files = fs.readdirSync("./entries");
+    console.log(files);
+    files.forEach(function (el, index, arr) {
+        if (el.slice(-3) === ".md") {
+            var fname = el.slice(0, -3);
+            fs.statSync(
+            toCompile[fname] = []
+        }
+    });
+
+### date line if done
+
+If a draft is done, then there should be a date line (which can be relative). The line after the title is the date line. A value of "draft" is the same as an empty line or a non-parseable date. 
+
+
+### move and register file
+
+We need to move the files that are done into the entries folder and then add a line at the end of the list with the date to publish and after the date a "new"
+
 ## Assembler
 
-Grab the list.txt file, use it to go through the pieces, transforming them into the html template, and then build the table of contents
+Grab the list.txt file, read the directoy, use it to assemble the links and table of contents, build new list if needed, then go through the pieces, transforming them into the html template
 
-    require
+    var marked = require('marked');
+    var fs = require('fs');
+    var list = "./list.txt";
+    var entries = "./entries/";
 
-## Template
+    var sections;
+    _"read list txt"
 
-This is the html template
+The sections are an array as the order is important. The files is a hash since this is how we will check new vs. not new. Each section is a title and modification date (or none if not parsed before). Each file has key as file name and then an array [true/false if needs parsing, date modified].
+
+
+    var toCompile = {};
+    _"check for differences"
+
+    _"create a new list if differences"
+
+    _"create table of contents if a new entry has been posted"
+
+    _"loop through new entries creating"
+
+### Read list txt
+
+We need to grab the list file, then split it into lines. 
+
+    sections = fs.readFileSync(list, {encoding:"utf8"}).split("\n");
+
+Next we go through each one and split into a filename and time (if any)
+    
+    sections.forEach(function (el, index, arr) {
+        var num;
+        var ar = el.split(/\s+/);
+        if (ar[1]) {
+            num = parseInt(ar[1], 10);
+            if (num) {
+                ar[1] = num;
+            }
+        }
+        arr[index] = ar;
+    });
+
+    console.log(sections);
+
+
+
+### Check for differences
+
+Delete filenames if they are not to be recompiled.
+
+    //
+
+### Create a new list if differences
+
+    //
+
+### Create table of contents if a new entry has been posted
+
+So we have a table of contents, a latest entries, and an rss feed to update as need be. 
+
+    //
+
+### Loop through new entries creating
+
+    //
+
 
 
 ## intro
@@ -104,7 +197,7 @@ This is the html for the header on all the mord pages
 
     <div id="site-title">
         <h2>
-            <a href="http://www.jostylr.com/mordblog/" title="Mord Blog" rel="home">Mord Blog</a>
+            <a href="http://mord.jostylr.com" title="Mord Blog" rel="home">Mord Blog</a>
         </h2>
         <div id="site-description">I am Mord. I serve my lord Kord with my greatsword.</div>
     </div>
@@ -152,7 +245,7 @@ The requisite npm package file. Use `npm run-script compile` to compile the lite
       },
       "dependencies":{
         "jsdom" : "=0.8.8",
-        "html-md" : "=3.0.2"
+        "html-md" : "=3.0.2",
         "literate-programming": "~0.7.5",
         "marked": "~0.3.0"
       },
