@@ -14,43 +14,99 @@ This is a literate program that will compile into Mord Blog and perhaps a few ot
 * [ghpages/index.html](#intro "save: *boilerplate ") the intro to Mord
 * [toc.htm](#table-of-contents "save: | jshint") the table of contents template that assembler creates
 
+## Modules of interest
+
+* [slug](https://npmjs.org/package/slug) makes slug out of strings (titles)
+* [
+
+
 ## Readme
 
 This is the project behind the awesome Mord, servant of Kord. 
 
+## Common variables
+
+These are the variables that one might want tweaked.
+
+    var list = "./list.txt";
+    var entries = "./entries/";
+    var drafts = "./drafts/";
+
 ## Queuer
 
 We use the directory queue to queue up an article. 
+
+    var slug = require("slug");
 
     var files;
     _"read directory for md"
 
     _"date line if done"
 
-    _"move and register file"
 
 ### Read directory for md
 
 We read the directory and put the filenames (stripped of .md) as
 
-    files = fs.readdirSync("./entries");
+    files = fs.readdirSync("./drafts");
     console.log(files);
-    files.forEach(function (el, index, arr) {
-        if (el.slice(-3) === ".md") {
-            var fname = el.slice(0, -3);
-            fs.statSync(
-            toCompile[fname] = []
-        }
+    files = files.filter(function (el) {
+        return (el.slice(-3) === ".md");
     });
 
 ### date line if done
 
-If a draft is done, then there should be a date line (which can be relative). The line after the title is the date line. A value of "draft" is the same as an empty line or a non-parseable date. 
+If a draft is done, then there should be a date line (which can be relative). The line after the title is the date line. A space as first character will fail the match. So one could write " Jan 28, 2014" while in draft and then shift it.
+ 
+We match on `/^[^\n]+\n(\S[^\n]*)\n/`
+
+    files.forEach(function(el) {
+        var file = fs.readFileSync("./drafts/"+el, {encoding:"utf8"});
+        var m = file.match(/^[^\n]+\n(\S[^\n]*)\n/);
+        _"slug"
+        if (m) {
+            fs.renameSync(drafts+el, entries+selfslug);
+            _"register"
+        } else {
+            _"slug:change"
+        }
+    });
 
 
-### move and register file
+#### slug
 
-We need to move the files that are done into the entries folder and then add a line at the end of the list with the date to publish and after the date a "new"
+We also check the filename vs. slug and fix that up. You can skip the auto slug by having the title match [title name](slug). Note that we slug the slug to make sure it is compatible. So one could simply use the slug as a short version of the title but still have slug power it into an acceptable url form. 
+
+Most likely the title is complicated and one does not want to repeat typing it in some slug form at first creation. 
+
+        var title = file.match(/^([^\n]+)\n);
+        var selfslug = el.slice(0,-3);
+        if (title) {
+            selfslug = title.match(/\[([^\]]+)\]\(([^)]+)\)/);
+            if (selfslug) {
+                selfslug = slug(selfslug[2]);
+            } else {
+                selfslug = slug(title);
+            }
+        }
+
+[change]()
+
+Assuming the selfslug is non-empty and different than el, we rename the draft file and we let toMove know about it if it cares. 
+
+    if ( (selfslug) && (selfslug !== el.slice(0,-3) ) {
+         fs.rename(drafts+el, drafts+selfslug);
+     }
+
+
+
+#### register
+
+We need to add a line at the end of the list with the date to publish and after the date a "new"
+
+    time = m[1];
+    if 
+    fs.appendFileSync(list, selfslug + " " + 
 
 ## Assembler
 
@@ -58,8 +114,7 @@ Grab the list.txt file, read the directoy, use it to assemble the links and tabl
 
     var marked = require('marked');
     var fs = require('fs');
-    var list = "./list.txt";
-    var entries = "./entries/";
+    _"common variables"
 
     var sections;
     _"read list txt"
@@ -247,7 +302,8 @@ The requisite npm package file. Use `npm run-script compile` to compile the lite
         "jsdom" : "=0.8.8",
         "html-md" : "=3.0.2",
         "literate-programming": "~0.7.5",
-        "marked": "~0.3.0"
+        "marked": "~0.3.0",
+        "slug" : "~0.4.0"
       },
       "private":true,
       "scripts" : { 

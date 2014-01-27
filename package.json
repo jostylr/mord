@@ -31,7 +31,8 @@
     "jsdom" : "=0.8.8",
     "html-md" : "=3.0.2",
     "literate-programming": "~0.7.5",
-    "marked": "~0.3.0"
+    "marked": "~0.3.0",
+    "slug" : "~0.4.0"
   },
   "private":true,
   "scripts" : { 

@@ -2,6 +2,7 @@ var marked = require('marked');
 var fs = require('fs');
 var list = "./list.txt";
 var entries = "./entries/";
+var drafts = "./drafts/";
 
 var sections;
 sections = fs.readFileSync(list, {encoding:"utf8"}).split("\n");
