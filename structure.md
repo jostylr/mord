@@ -9,15 +9,16 @@ This is a literate program that will compile into Mord Blog and perhaps a few ot
 * [package.json](#npm-package "save: json  | jshint") The requisite package file for a npm project. 
 * [TODO.md](#todo "save: | clean raw") A list of growing and shrinking items todo.
 * [.gitignore](#gitignore "Save:") A .gitignore file
-* [assembler.js](#assembler "save: | jshint") assembling the blog
+* [assemble.js](#assembler "save: | jshint") assembling the blog
+* [queue.js](#queuer "save: | jshint")
 * [template.htm](#boilerplate "save:") the html template to insert the content in. 
 * [ghpages/index.html](#intro "save: *boilerplate ") the intro to Mord
-* [toc.htm](#table-of-contents "save: | jshint") the table of contents template that assembler creates
+* [toc.htm](#table-of-contents "save: ") the table of contents template that assembler creates
 
 ## Modules of interest
 
 * [slug](https://npmjs.org/package/slug) makes slug out of strings (titles)
-* [
+* [rss](https://npmjs.org/package/rss) rss feed maker
 
 
 ## Readme
@@ -37,6 +38,8 @@ These are the variables that one might want tweaked.
 We use the directory queue to queue up an article. 
 
     var slug = require("slug");
+    var fs = require("fs");
+    _"common variables"
 
     var files;
     _"read directory for md"
@@ -79,7 +82,7 @@ We also check the filename vs. slug and fix that up. You can skip the auto slug 
 
 Most likely the title is complicated and one does not want to repeat typing it in some slug form at first creation. 
 
-        var title = file.match(/^([^\n]+)\n);
+        var title = file.match(/^([^\n]+)\n/);
         var selfslug = el.slice(0,-3);
         if (title) {
             selfslug = title.match(/\[([^\]]+)\]\(([^)]+)\)/);
@@ -94,7 +97,7 @@ Most likely the title is complicated and one does not want to repeat typing it i
 
 Assuming the selfslug is non-empty and different than el, we rename the draft file and we let toMove know about it if it cares. 
 
-    if ( (selfslug) && (selfslug !== el.slice(0,-3) ) {
+    if ( (selfslug) && (selfslug !== el.slice(0,-3)) ) {
          fs.rename(drafts+el, drafts+selfslug);
      }
 
@@ -102,11 +105,42 @@ Assuming the selfslug is non-empty and different than el, we rename the draft fi
 
 #### register
 
-We need to add a line at the end of the list with the date to publish and after the date a "new"
+We need to add a line at the end of the list with the date to publish and after the date a "new". 
 
-    time = m[1];
-    if 
-    fs.appendFileSync(list, selfslug + " " + 
+To parse the date, we see if it is an actual date; if so we use it. We also have some recognized keywords: now, tomorrow, last, and first. The first two are the obvious, but the last two refer to ordering in a queue. The last will simply find the latest date and add a day to it for its own time. The first will search the new ones for the earliest date and then use it. It then shifts all the others by a day. If there are no new ones, then it queues for tomorrow. 
+
+    var txtDate, releaseDate, ms;
+    txtDate = m[1].toLowerCase();
+    releaseDate = new Date(txtDate);
+    if (releaseDate && releaseDate.hasOwnProperty("getTime") ) {
+        ms = releaseDate.getTime();
+    }
+    if (!ms || isNaN(ms) ) {
+        if (txtDate === "now") {
+            ms = (new Date()).getTime();
+        } else if (txtDate === "tomorrow") {
+            ms = (new Date()).getTime() + 86400000;
+        } else if (txtDate === "last") {
+            _"last on queue"
+        } else if (txtDate === "first") {
+            _"first on queue"
+        } else {
+            ms = (new Date()).getTime() + 86400000;        
+        }
+    }
+    fs.appendFileSync(list, selfslug + " " + ms + "new");
+
+#### First on queue
+
+!!! Search all items in list, noting the new ones and finding the earliest time. this is the time for this new post, add a day to all the rest. 
+
+    //
+
+#### Last on queue
+
+!!!  search all items in list, noting the new ones, and adding one day onto the most recent. 
+
+    //
 
 ## Assembler
 
@@ -119,7 +153,7 @@ Grab the list.txt file, read the directoy, use it to assemble the links and tabl
     var sections;
     _"read list txt"
 
-The sections are an array as the order is important. The files is a hash since this is how we will check new vs. not new. Each section is a title and modification date (or none if not parsed before). Each file has key as file name and then an array [true/false if needs parsing, date modified].
+The sections are an array as the order is important. The files is a hash since this is how we will check new vs. not new. Each section is either a filename and modification date (or none if not parsed before) or it is a chapter/part heading. Each file has key as file name and then an array [true/false if needs parsing, date modified].
 
 
     var toCompile = {};
@@ -141,18 +175,33 @@ Next we go through each one and split into a filename and time (if any)
     
     sections.forEach(function (el, index, arr) {
         var num;
-        var ar = el.split(/\s+/);
-        if (ar[1]) {
-            num = parseInt(ar[1], 10);
-            if (num) {
-                ar[1] = num;
+        if ( (el.slice(0,1) === "# ") ) {
+            //part
+            arr[index] = ["#", el.slice(2)];
+        } else if ( (el.slice(0,2) === "## ") ) {
+            //chapter
+            arr[index] = ["##", el.slice(3)];
+        } else {
+            var ar = el.split(/\s+/);
+            if (ar[2] === "new") {
+
+            } else if (ar[1]) {
+                num = parseInt(ar[1], 10);
+                if (num) {
+                    ar[1] = num;
+                    modtime = fs.statSync(ar[0]).mtime.getTime();
+                    if (ar[1] !== modtime) {
+
+                    }
+                } else {
+
+                }
             }
+            arr[index] = ar;
         }
-        arr[index] = ar;
     });
 
     console.log(sections);
-
 
 
 ### Check for differences
