@@ -3,6 +3,7 @@ var fs = require("fs");
 var list = "./list.txt";
 var entries = "./entries/";
 var drafts = "./drafts/";
+var now = new Date().getTime();
 
 var files;
 files = fs.readdirSync("./drafts");
@@ -34,7 +35,7 @@ files.forEach(function(el) {
         }
         if (!ms || isNaN(ms) ) {
             if (txtDate === "now") {
-                ms = (new Date()).getTime();
+                ms = now;
             } else if (txtDate === "tomorrow") {
                 ms = (new Date()).getTime() + 86400000;
             } else if (txtDate === "last") {

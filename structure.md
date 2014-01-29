@@ -32,6 +32,7 @@ These are the variables that one might want tweaked.
     var list = "./list.txt";
     var entries = "./entries/";
     var drafts = "./drafts/";
+    var now = new Date().getTime();
 
 ## Queuer
 
@@ -117,7 +118,7 @@ To parse the date, we see if it is an actual date; if so we use it. We also have
     }
     if (!ms || isNaN(ms) ) {
         if (txtDate === "now") {
-            ms = (new Date()).getTime();
+            ms = now;
         } else if (txtDate === "tomorrow") {
             ms = (new Date()).getTime() + 86400000;
         } else if (txtDate === "last") {
@@ -175,15 +176,39 @@ Next we go through each one and split into a filename and time (if any)
     
     sections.forEach(function (el, index, arr) {
         var num;
+
+Is it a part?
+
         if ( (el.slice(0,1) === "# ") ) {
-            //part
             arr[index] = ["#", el.slice(2)];
+
+Is it a chapter?
+
         } else if ( (el.slice(0,2) === "## ") ) {
             //chapter
             arr[index] = ["##", el.slice(3)];
+
+Should be a file. We get the time of last update and compare to latest mod time; if mod time is greater, then we compile. If no time, then it automatically should get compiled. 
+
         } else {
             var ar = el.split(/\s+/);
+
+The format for signalling a new entry is  `filename time new`. We check to see that the time has passed and then we publish (compile, rss feed generate). We also modify the list.txt (regenerate it each time). 
+
             if (ar[2] === "new") {
+                num = parseInt(ar[1], 10);
+                if (num) {
+                    if (num <= now) {
+                        publish(ar[0], now, "new");
+                        ar[1] = mdy(now);
+                        ar[2] = mdy(num);
+                    }
+                } else {
+                    publish(ar[0], now, "new");
+                    ar[1] = mdy(now);
+                }
+
+These should be files without 
 
             } else if (ar[1]) {
                 num = parseInt(ar[1], 10);
