@@ -19,6 +19,7 @@ This is a literate program that will compile into Mord Blog and perhaps a few ot
 
 * [slug](https://npmjs.org/package/slug) makes slug out of strings (titles)
 * [rss](https://npmjs.org/package/rss) rss feed maker
+* [marked](
 
 
 ## Readme
@@ -149,8 +150,44 @@ Grab the list.txt file, read the directoy, use it to assemble the links and tabl
 
     var marked = require('marked');
     var fs = require('fs');
+    var RSS = require('rss');
     _"common variables"
 
+    var feedNew = new RSS({
+        title: "Mord",
+        description : "I am Mord. I serve my lord Kord with my greatsword.",
+        feed_url : "http://mord.jostylr.com/rss.xml",
+        site_url : "http://mord.jostylr.com",
+        author : "Mord Drom of Drok",
+        managingEditor : "Janord Drom",
+        webMaster : "James Taylor",
+        language : "en",
+        categories : ["fantasy"],
+        pubDate : now.toString(),
+        ttl: '1440',
+        copyright : now.getFullYear() + " James Taylor"
+    });
+
+    var rssUpdate = new RSS({
+        title: "Mord Update",
+        description : "I am Mord. I serve my lord Kord with my greatsword. Misspeak I do.",
+        feed_url : "http://mord.jostylr.com/rssupdate.xml",
+        site_url : "http://mord.jostylr.com",
+        author : "Mord Drom of Drok",
+        managingEditor : "Janord Drom",
+        webMaster : "James Taylor",
+        language : "en",
+        categories : ["fantasy"],
+        pubDate : (new Date().toString() ),
+        ttl: '1440',
+        copyright : now.getFullYear() + " James Taylor"
+    });
+
+    var publish = _"publish";
+
+    var mdyt = _"month-day-year-time";
+
+    
     var sections;
     _"read list txt"
 
@@ -199,27 +236,30 @@ The format for signalling a new entry is  `filename time new`. We check to see t
                 num = parseInt(ar[1], 10);
                 if (num) {
                     if (num <= now) {
-                        publish(ar[0], now, "new");
-                        ar[1] = mdy(now);
-                        ar[2] = mdy(num);
+                        publish(ar[0]);
+                        ar[1] = mdyt(now);
+                        ar[2] = mdyt(num);
                     }
                 } else {
-                    publish(ar[0], now, "new");
-                    ar[1] = mdy(now);
+                    publish(ar[0]);
+                    ar[2] = ar[1] = mdyt(now);
                 }
 
-These should be files without 
+These should be files without a new. If no time, then they get published. If time, they get updated if mtime is greater than given time.
 
             } else if (ar[1]) {
                 num = parseInt(ar[1], 10);
                 if (num) {
                     ar[1] = num;
                     modtime = fs.statSync(ar[0]).mtime.getTime();
-                    if (ar[1] !== modtime) {
-
+                    if (ar[1] < modtime) {
+                        publish(ar[0], ar[1]);
+                        ar[2] = ar[1]; 
+                        ar[1] = modtime;
                     }
                 } else {
-
+                    publish(ar[0]);
+                    ar[2] = ar[1] = mdyt(now);         
                 }
             }
             arr[index] = ar;
@@ -228,12 +268,22 @@ These should be files without
 
     console.log(sections);
 
+### Publish
 
-### Check for differences
+This does the interesting work of compiling the markdown and generating the rss feed. 
 
-Delete filenames if they are not to be recompiled.
 
-    //
+
+### Month-day-year-time
+
+A short little function that takes in a Date object and outputs a mm-dd-yyyy-hh:mm which can be both human read and js parsed. 
+
+    function (date) {
+        var sep = "-";
+        return date.getMonth()+sep+date.getDate()+sep+date.getFullYear()+
+            sep+date.getHours()+":"+date.getMinutes();
+    }
+
 
 ### Create a new list if differences
 
@@ -377,7 +427,8 @@ The requisite npm package file. Use `npm run-script compile` to compile the lite
         "html-md" : "=3.0.2",
         "literate-programming": "~0.7.5",
         "marked": "~0.3.0",
-        "slug" : "~0.4.0"
+        "slug": "~0.4.0",
+        "rss": "~0.3.2"
       },
       "private":true,
       "scripts" : { 

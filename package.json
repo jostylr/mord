@@ -24,18 +24,19 @@
   "engines": {
     "node": ">.10.0"
   },
-  "devDependencies" : {
-    "literate-programming" : "~0.7.5"
+  "devDependencies": {
+    "literate-programming": "~0.7.5"
   },
-  "dependencies":{
-    "jsdom" : "=0.8.8",
-    "html-md" : "=3.0.2",
+  "dependencies": {
+    "jsdom": "=0.8.8",
+    "html-md": "=3.0.2",
     "literate-programming": "~0.7.5",
     "marked": "~0.3.0",
-    "slug" : "~0.4.0"
+    "slug": "~0.4.0",
+    "rss": "~0.3.2"
   },
-  "private":true,
-  "scripts" : { 
-    "compile" : "node ./node_modules/literate-programming/bin/literate-programming.js structure.md"
+  "private": true,
+  "scripts": {
+    "compile": "node ./node_modules/literate-programming/bin/literate-programming.js structure.md"
   }
 }

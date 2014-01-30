@@ -1,5 +1,10 @@
 var marked = require('marked');
 var fs = require('fs');
+
+var publish = _"publish";
+
+var mdyt = _"month-day-year-time";
+
 var list = "./list.txt";
 var entries = "./entries/";
 var drafts = "./drafts/";
@@ -26,13 +31,13 @@ sections.forEach(function (el, index, arr) {
             num = parseInt(ar[1], 10);
             if (num) {
                 if (num <= now) {
-                    publish(ar[0], now, "new");
-                    ar[1] = mdy(now);
-                    ar[2] = mdy(num);
+                    publish(ar[0]);
+                    ar[1] = mdyt(now);
+                    ar[2] = mdyt(num);
                 }
             } else {
-                publish(ar[0], now, "new");
-                ar[1] = mdy(now);
+                publish(ar[0]);
+                ar[2] = ar[1] = mdyt(now);
             }
 
         } else if (ar[1]) {
@@ -40,11 +45,14 @@ sections.forEach(function (el, index, arr) {
             if (num) {
                 ar[1] = num;
                 modtime = fs.statSync(ar[0]).mtime.getTime();
-                if (ar[1] !== modtime) {
-
+                if (ar[1] < modtime) {
+                    publish(ar[0], ar[1]);
+                    ar[2] = ar[1]; 
+                    ar[1] = modtime;
                 }
             } else {
-
+                publish(ar[0]);
+                ar[2] = ar[1] = mdyt(now);         
             }
         }
         arr[index] = ar;
@@ -54,7 +62,7 @@ sections.forEach(function (el, index, arr) {
 console.log(sections);
 
 var toCompile = {};
-//
+_"check for differences"
 
 //
 
