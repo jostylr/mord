@@ -33,7 +33,7 @@ These are the variables that one might want tweaked.
     var list = "./list.txt";
     var entries = "./entries/";
     var drafts = "./drafts/";
-    var now = new Date().getTime();
+    var now = new Date();
 
 ## Queuer
 
@@ -42,6 +42,8 @@ We use the directory queue to queue up an article.
     var slug = require("slug");
     var fs = require("fs");
     _"common variables"
+
+    var mdyt = _"month-day-year-time";
 
     var files;
     _"read directory for md"
@@ -114,14 +116,11 @@ To parse the date, we see if it is an actual date; if so we use it. We also have
     var txtDate, releaseDate, ms;
     txtDate = m[1].toLowerCase();
     releaseDate = new Date(txtDate);
-    if (releaseDate && releaseDate.hasOwnProperty("getTime") ) {
-        ms = releaseDate.getTime();
-    }
-    if (!ms || isNaN(ms) ) {
+    if (isNaN(releaseDate.getTime()) ) {
         if (txtDate === "now") {
-            ms = now;
+            releaseDate = now;
         } else if (txtDate === "tomorrow") {
-            ms = (new Date()).getTime() + 86400000;
+            releaseDate = (new Date(now.getTime() + 86400000));
         } else if (txtDate === "last") {
             _"last on queue"
         } else if (txtDate === "first") {
@@ -129,8 +128,8 @@ To parse the date, we see if it is an actual date; if so we use it. We also have
         } else {
             ms = (new Date()).getTime() + 86400000;        
         }
-    }
-    fs.appendFileSync(list, selfslug + " " + ms + "new");
+    } 
+    fs.appendFileSync(list, selfslug + " " + mdyt(releaseDate) + " new");
 
 #### First on queue
 
@@ -153,35 +152,7 @@ Grab the list.txt file, read the directoy, use it to assemble the links and tabl
     var RSS = require('rss');
     _"common variables"
 
-    var feedNew = new RSS({
-        title: "Mord",
-        description : "I am Mord. I serve my lord Kord with my greatsword.",
-        feed_url : "http://mord.jostylr.com/rss.xml",
-        site_url : "http://mord.jostylr.com",
-        author : "Mord Drom of Drok",
-        managingEditor : "Janord Drom",
-        webMaster : "James Taylor",
-        language : "en",
-        categories : ["fantasy"],
-        pubDate : now.toString(),
-        ttl: '1440',
-        copyright : now.getFullYear() + " James Taylor"
-    });
-
-    var rssUpdate = new RSS({
-        title: "Mord Update",
-        description : "I am Mord. I serve my lord Kord with my greatsword. Misspeak I do.",
-        feed_url : "http://mord.jostylr.com/rssupdate.xml",
-        site_url : "http://mord.jostylr.com",
-        author : "Mord Drom of Drok",
-        managingEditor : "Janord Drom",
-        webMaster : "James Taylor",
-        language : "en",
-        categories : ["fantasy"],
-        pubDate : (new Date().toString() ),
-        ttl: '1440',
-        copyright : now.getFullYear() + " James Taylor"
-    });
+    _"rss feeds"
 
     var publish = _"publish";
 
@@ -207,7 +178,8 @@ The sections are an array as the order is important. The files is a hash since t
 
 We need to grab the list file, then split it into lines. 
 
-    sections = fs.readFileSync(list, {encoding:"utf8"}).split("\n");
+    oldlist = fs.readFileSync(list, {encoding:"utf8"});
+    sections = oldlist.split("\n");
 
 Next we go through each one and split into a filename and time (if any)
     
@@ -272,6 +244,7 @@ These should be files without a new. If no time, then they get published. If tim
 
 This does the interesting work of compiling the markdown and generating the rss feed. 
 
+We are given either 
 
 
 ### Month-day-year-time
@@ -284,10 +257,64 @@ A short little function that takes in a Date object and outputs a mm-dd-yyyy-hh:
             sep+date.getHours()+":"+date.getMinutes();
     }
 
+### rss feeds
+
+This is for setting up the rss feeds. So we create two need feeds, one for new items and one that includes updates. 
+
+    var feedNew = new RSS({
+        title: "Mord",
+        description : "I am Mord. I serve my lord Kord with my greatsword.",
+        feed_url : "http://mord.jostylr.com/rss.xml",
+        _":common"
+    });
+
+    var rssUpdate = new RSS({
+        title: "Mord Update",
+        description : "I am Mord. I serve my lord Kord with my greatsword. Misspeak I do.",
+        feed_url : "http://mord.jostylr.com/rssupdate.xml",
+    });
+
+    var news, udates;
+    try {
+         news = fs.readFileSync("rssnew.txt", "utf8") ;
+    } catch (e) {
+        news = [];
+    }
+    try {
+        updates = fs.readFileSync("rssupdates.txt", "utf8") ;
+    } catch (e) {
+        updates = [];
+    }
+
+[common]()
+
+The common fields for the feeds
+
+    site_url : "http://mord.jostylr.com",
+    author : "Mord Drom of Drok",
+    managingEditor : "Janord Drom",
+    webMaster : "James Taylor",
+    language : "en",
+    categories : ["fantasy"],
+    pubDate : now.toString(),
+    ttl: '1440',
+    copyright : now.getFullYear() + " James Taylor"
+    
+
 
 ### Create a new list if differences
 
-    //
+To make the newlist, our sections array consists of subarrays to be joined by spaces, and then each of those should be joined by newlines into the text. We then compare to the old one and save if different.
+
+    newlist = sections.map(function (el) {
+        return el.join(" ");
+        }).
+        join("\n");
+
+    if (newlist !== oldlist) {
+        fs.renameSync("list.txt", "list_old.txt");
+        fs.writeFileSync("list.txt", newlist, "utf8");
+    }
 
 ### Create table of contents if a new entry has been posted
 
