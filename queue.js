@@ -3,7 +3,14 @@ var fs = require("fs");
 var list = "./list.txt";
 var entries = "./entries/";
 var drafts = "./drafts/";
-var now = new Date().getTime();
+var pages = "./ghpages/";
+var now = new Date();
+
+var mdyt = function (date) {
+        var sep = "-";
+        return date.getMonth()+sep+date.getDate()+sep+date.getFullYear()+
+            sep+date.getHours()+":"+date.getMinutes();
+    };
 
 var files;
 files = fs.readdirSync("./drafts");
@@ -30,14 +37,11 @@ files.forEach(function(el) {
         var txtDate, releaseDate, ms;
         txtDate = m[1].toLowerCase();
         releaseDate = new Date(txtDate);
-        if (releaseDate && releaseDate.hasOwnProperty("getTime") ) {
-            ms = releaseDate.getTime();
-        }
-        if (!ms || isNaN(ms) ) {
+        if (isNaN(releaseDate.getTime()) ) {
             if (txtDate === "now") {
-                ms = now;
+                releaseDate = now;
             } else if (txtDate === "tomorrow") {
-                ms = (new Date()).getTime() + 86400000;
+                releaseDate = (new Date(now.getTime() + 86400000));
             } else if (txtDate === "last") {
                 //
             } else if (txtDate === "first") {
@@ -45,8 +49,8 @@ files.forEach(function(el) {
             } else {
                 ms = (new Date()).getTime() + 86400000;        
             }
-        }
-        fs.appendFileSync(list, selfslug + " " + ms + "new");
+        } 
+        fs.appendFileSync(list, selfslug + " " + mdyt(releaseDate) + " new");
     } else {
         if ( (selfslug) && (selfslug !== el.slice(0,-3)) ) {
              fs.rename(drafts+el, drafts+selfslug);

@@ -33,6 +33,7 @@ These are the variables that one might want tweaked.
     var list = "./list.txt";
     var entries = "./entries/";
     var drafts = "./drafts/";
+    var pages = "./ghpages/";
     var now = new Date();
 
 ## Queuer
@@ -154,6 +155,7 @@ Grab the list.txt file, read the directoy, use it to assemble the links and tabl
 
     _"rss feeds"
 
+    var template = fs.readFileSync("template.htm", "utf8");
     var publish = _"publish";
 
     var mdyt = _"month-day-year-time";
@@ -244,7 +246,25 @@ These should be files without a new. If no time, then they get published. If tim
 
 This does the interesting work of compiling the markdown and generating the rss feed. 
 
-We are given either 
+We are given a filename and possibly a time?
+
+The procedure is: load the markdown file, transform to html, save in the html page place, and then record the item on the feeds (updates always, news if not time).
+
+First line is the title, second line is date, then blank line, and then the body.
+
+    function (fname, time) {
+
+        var md = fs.readFileSync(entries + fname, "utf8");
+
+        var htm = marked(md);
+        var html = template.replace('_"*:body"', htm);
+        fs.writeFileSync(ghpages+fname.replace(".md", ".html"), "utf8");
+        updates.unshift([fname, md, );
+        if (!time) {
+            news.unshift(fname);
+        }
+
+    }
 
 
 ### Month-day-year-time
@@ -316,15 +336,13 @@ To make the newlist, our sections array consists of subarrays to be joined by sp
         fs.writeFileSync("list.txt", newlist, "utf8");
     }
 
-### Create table of contents if a new entry has been posted
+### Table of contents
 
 So we have a table of contents, a latest entries, and an rss feed to update as need be. 
 
     //
 
-### Loop through new entries creating
-
-    //
+### Make feeds
 
 
 
@@ -348,6 +366,7 @@ This is the intro
 
     Returning? Get the [latest stories of Mord](journal) and his party of brave adventurers. Live it as they live it, with that fear and excitement of not knowing what will happen next.
 
+    Mords of Wisdom: Read Mord
 
 ## table of contents
 
@@ -372,7 +391,8 @@ The body gets replaced with a short list (5) of the most recent.  Then it should
             <style>
                 #site-title h2  a {font-family: cursive; color: maroon}
                 #site-title {border-bottom: medium solid #3C3C3C}
-                article {background-color: #3C3C3C}
+                #body {background-color: #3C3C3C}
+                #body p:last-child {text-align:right; font-variant: small-caps;}
                 .row {margin-bottom: 1em}
             </style> 
         </head>
@@ -387,7 +407,7 @@ The body gets replaced with a short list (5) of the most recent.  Then it should
         </div>
         <div class="row">
         <div class="column col-sm-2"></div>
-        <div class="column col-sm-8">
+        <div class="column col-sm-8" id="body">
         _"*:body"
         </div>
         <div class="column col-sm-2"></div>
@@ -399,7 +419,7 @@ The body gets replaced with a short list (5) of the most recent.  Then it should
 
 ### header 
 
-This is the html for the header on all the mord pages
+This is the html for the header on all the mord pages.
 
     <div id="site-title">
         <h2>
