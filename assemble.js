@@ -40,9 +40,9 @@ var publish = function (fname, time) {
         var htm = marked(md);
         var html = template.replace('_"*:body"', htm);
         fs.writeFileSync(ghpages+fname.replace(".md", ".html"), "utf8");
-        updates.unshift([fname, md, );
+        updates.unshift([fname, md, time] );
         if (!time) {
-            news.unshift(fname);
+            news.unshift([fname, md, time]);
         }
     
     };
@@ -92,8 +92,10 @@ sections.forEach(function (el, index, arr) {
                 modtime = fs.statSync(ar[0]).mtime.getTime();
                 if (ar[1] < modtime) {
                     publish(ar[0], ar[1]);
-                    ar[2] = ar[1]; 
-                    ar[1] = modtime;
+                    if (!ar[2]) {
+                        ar[2] = mdyt(ar[1]); 
+                    }
+                    ar[1] = mdyt(modtime);
                 }
             } else {
                 publish(ar[0]);
@@ -110,6 +112,14 @@ var toCompile = {};
 _"check for differences"
 
 newlist = sections.map(function (el) {
+    var md;
+    if ( (el.length < 3) ) {
+        if (! files[el[0]] ) {
+            files[el[0]] = fs.readFileSync(entries+el[0], "utf8");
+        }
+        md = files[el[0]];
+        el[3] = md.split("\n")[0];
+    } 
     return el.join(" ");
     }).
     join("\n");

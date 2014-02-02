@@ -178,6 +178,13 @@ The sections are an array as the order is important. The files is a hash since t
 
 ### Read list txt
 
+The list has the following format. 
+
+* `# Title ; description` This is a part with a title and a short description.
+* `## Title ; description` This is a chapter with a title and a short description.
+* `name-stuff.md date date title` is an actual entry. The first date is the last updated date, the second is the published date. Then we have the actual title. If an entry does not have a `date date title` then it gets generated. It should never have a title without the two dates. 
+
+
 We need to grab the list file, then split it into lines. 
 
     oldlist = fs.readFileSync(list, {encoding:"utf8"});
@@ -228,8 +235,10 @@ These should be files without a new. If no time, then they get published. If tim
                     modtime = fs.statSync(ar[0]).mtime.getTime();
                     if (ar[1] < modtime) {
                         publish(ar[0], ar[1]);
-                        ar[2] = ar[1]; 
-                        ar[1] = modtime;
+                        if (!ar[2]) {
+                            ar[2] = mdyt(ar[1]); 
+                        }
+                        ar[1] = mdyt(modtime);
                     }
                 } else {
                     publish(ar[0]);
@@ -259,9 +268,9 @@ First line is the title, second line is date, then blank line, and then the body
         var htm = marked(md);
         var html = template.replace('_"*:body"', htm);
         fs.writeFileSync(ghpages+fname.replace(".md", ".html"), "utf8");
-        updates.unshift([fname, md, );
+        updates.unshift([fname, md, time] );
         if (!time) {
-            news.unshift(fname);
+            news.unshift([fname, md, time]);
         }
 
     }
@@ -326,7 +335,17 @@ The common fields for the feeds
 
 To make the newlist, our sections array consists of subarrays to be joined by spaces, and then each of those should be joined by newlines into the text. We then compare to the old one and save if different.
 
+We check to see if the title is already known. If not, then we get it. 
+
     newlist = sections.map(function (el) {
+        var md;
+        if ( (el.length < 3) ) {
+            if (! files[el[0]] ) {
+                files[el[0]] = fs.readFileSync(entries+el[0], "utf8");
+            }
+            md = files[el[0]];
+            el[3] = md.split("\n")[0];
+        } 
         return el.join(" ");
         }).
         join("\n");
@@ -338,11 +357,15 @@ To make the newlist, our sections array consists of subarrays to be joined by sp
 
 ### Table of contents
 
-So we have a table of contents, a latest entries, and an rss feed to update as need be. 
+We want to create a table of contents and the most recent ones (the last five entries)
 
-    //
+    toc = sections.map( function (el) {
 
-### Make feeds
+        });
+
+### Save feeds
+
+Let's make the rss feeds. We have them already stored in updates and news. We only want the first 10. 
 
 
 
