@@ -1,3 +1,18 @@
 toc = sections.map( function (el) {
+    var latest = [],
+        ret;
+    if (el[0] === "#") {
+        _":part"
+    } else if (el[0] === "##") {
+        _":chapter"
+    } else {
+        _":entry"
+        ret.unshift(latest);
+        if (latest.length > 5) {
+            latest.pop();
+        }
+    }
+    return ret;
+};
 
-    });
+tochtm = read(

@@ -36,12 +36,21 @@ These are the variables that one might want tweaked.
     var pages = "./ghpages/";
     var now = new Date();
 
+We define read and write functions so that we can easily swap in other ones (say for test runs).
+
+    var fs = require("fs");    
+    var read = fs.readFileSync;
+    var write = fs.writeFileSync;
+    var ls = fs.readdirSync;
+    var mv = fs.renameSync;
+    var append = fs.appendFileSync;
+    var stat = fs.statSync;
+
 ## Queuer
 
 We use the directory queue to queue up an article. 
 
     var slug = require("slug");
-    var fs = require("fs");
     _"common variables"
 
     var mdyt = _"month-day-year-time";
@@ -56,7 +65,7 @@ We use the directory queue to queue up an article.
 
 We read the directory and put the filenames (stripped of .md) as
 
-    files = fs.readdirSync("./drafts");
+    files = ls("./drafts");
     console.log(files);
     files = files.filter(function (el) {
         return (el.slice(-3) === ".md");
@@ -69,11 +78,11 @@ If a draft is done, then there should be a date line (which can be relative). Th
 We match on `/^[^\n]+\n(\S[^\n]*)\n/`
 
     files.forEach(function(el) {
-        var file = fs.readFileSync("./drafts/"+el, {encoding:"utf8"});
+        var file = read("./drafts/"+el, {encoding:"utf8"});
         var m = file.match(/^[^\n]+\n(\S[^\n]*)\n/);
         _"slug"
         if (m) {
-            fs.renameSync(drafts+el, entries+selfslug);
+            mv(drafts+el, entries+selfslug);
             _"register"
         } else {
             _"slug:change"
@@ -100,10 +109,10 @@ Most likely the title is complicated and one does not want to repeat typing it i
 
 [change]()
 
-Assuming the selfslug is non-empty and different than el, we rename the draft file and we let toMove know about it if it cares. 
+Assuming the selfslug is non-empty and different than el.
 
     if ( (selfslug) && (selfslug !== el.slice(0,-3)) ) {
-         fs.rename(drafts+el, drafts+selfslug);
+         mv(drafts+el, drafts+selfslug);
      }
 
 
@@ -130,7 +139,7 @@ To parse the date, we see if it is an actual date; if so we use it. We also have
             ms = (new Date()).getTime() + 86400000;        
         }
     } 
-    fs.appendFileSync(list, selfslug + " " + mdyt(releaseDate) + " new");
+    append(list, selfslug + " " + mdyt(releaseDate) + " new");
 
 #### First on queue
 
@@ -149,13 +158,12 @@ To parse the date, we see if it is an actual date; if so we use it. We also have
 Grab the list.txt file, read the directoy, use it to assemble the links and table of contents, build new list if needed, then go through the pieces, transforming them into the html template
 
     var marked = require('marked');
-    var fs = require('fs');
     var RSS = require('rss');
     _"common variables"
 
     _"rss feeds"
 
-    var template = fs.readFileSync("template.htm", "utf8");
+    var template = read("template.htm", "utf8");
     var publish = _"publish";
 
     var mdyt = _"month-day-year-time";
@@ -187,7 +195,7 @@ The list has the following format.
 
 We need to grab the list file, then split it into lines. 
 
-    oldlist = fs.readFileSync(list, {encoding:"utf8"});
+    oldlist = read(list, {encoding:"utf8"});
     sections = oldlist.split("\n");
 
 Next we go through each one and split into a filename and time (if any)
@@ -232,7 +240,7 @@ These should be files without a new. If no time, then they get published. If tim
                 num = parseInt(ar[1], 10);
                 if (num) {
                     ar[1] = num;
-                    modtime = fs.statSync(ar[0]).mtime.getTime();
+                    modtime = stat(ar[0]).mtime.getTime();
                     if (ar[1] < modtime) {
                         publish(ar[0], ar[1]);
                         if (!ar[2]) {
@@ -263,11 +271,11 @@ First line is the title, second line is date, then blank line, and then the body
 
     function (fname, time) {
 
-        var md = fs.readFileSync(entries + fname, "utf8");
+        var md = read(entries + fname, "utf8");
 
         var htm = marked(md);
         var html = template.replace('_"*:body"', htm);
-        fs.writeFileSync(ghpages+fname.replace(".md", ".html"), "utf8");
+        write(ghpages+fname.replace(".md", ".html"), "utf8");
         updates.unshift([fname, md, time] );
         if (!time) {
             news.unshift([fname, md, time]);
@@ -305,12 +313,12 @@ This is for setting up the rss feeds. So we create two need feeds, one for new i
 
     var news, udates;
     try {
-         news = fs.readFileSync("rssnew.txt", "utf8") ;
+         news = read("rssnew.txt", "utf8") ;
     } catch (e) {
         news = [];
     }
     try {
-        updates = fs.readFileSync("rssupdates.txt", "utf8") ;
+        updates = read("rssupdates.txt", "utf8") ;
     } catch (e) {
         updates = [];
     }
@@ -341,7 +349,7 @@ We check to see if the title is already known. If not, then we get it.
         var md;
         if ( (el.length < 3) ) {
             if (! files[el[0]] ) {
-                files[el[0]] = fs.readFileSync(entries+el[0], "utf8");
+                files[el[0]] = read(entries+el[0], "utf8");
             }
             md = files[el[0]];
             el[3] = md.split("\n")[0];
@@ -351,17 +359,32 @@ We check to see if the title is already known. If not, then we get it.
         join("\n");
 
     if (newlist !== oldlist) {
-        fs.renameSync("list.txt", "list_old.txt");
-        fs.writeFileSync("list.txt", newlist, "utf8");
+        mv("list.txt", "list_old.txt");
+        write("list.txt", newlist, "utf8");
     }
 
 ### Table of contents
 
-We want to create a table of contents and the most recent ones (the last five entries)
+We want to create a table of contents and the most recent ones (the last five entries in toc, not necessarily last created)
 
     toc = sections.map( function (el) {
+        var latest = [],
+            ret;
+        if (el[0] === "#") {
+            _":part"
+        } else if (el[0] === "##") {
+            _":chapter"
+        } else {
+            _":entry"
+            ret.unshift(latest);
+            if (latest.length > 5) {
+                latest.pop();
+            }
+        }
+        return ret;
+    };
 
-        });
+    tochtm = read(
 
 ### Save feeds
 

@@ -1,10 +1,17 @@
 var slug = require("slug");
-var fs = require("fs");
 var list = "./list.txt";
 var entries = "./entries/";
 var drafts = "./drafts/";
 var pages = "./ghpages/";
 var now = new Date();
+
+var fs = require("fs");    
+var read = fs.readFileSync;
+var write = fs.writeFileSync;
+var ls = fs.readdirSync;
+var mv = fs.renameSync;
+var append = fs.appendFileSync;
+var stat = fs.statSync;
 
 var mdyt = function (date) {
         var sep = "-";
@@ -13,14 +20,14 @@ var mdyt = function (date) {
     };
 
 var files;
-files = fs.readdirSync("./drafts");
+files = ls("./drafts");
 console.log(files);
 files = files.filter(function (el) {
     return (el.slice(-3) === ".md");
 });
 
 files.forEach(function(el) {
-    var file = fs.readFileSync("./drafts/"+el, {encoding:"utf8"});
+    var file = read("./drafts/"+el, {encoding:"utf8"});
     var m = file.match(/^[^\n]+\n(\S[^\n]*)\n/);
         var title = file.match(/^([^\n]+)\n/);
         var selfslug = el.slice(0,-3);
@@ -33,7 +40,7 @@ files.forEach(function(el) {
             }
         }
     if (m) {
-        fs.renameSync(drafts+el, entries+selfslug);
+        mv(drafts+el, entries+selfslug);
         var txtDate, releaseDate, ms;
         txtDate = m[1].toLowerCase();
         releaseDate = new Date(txtDate);
@@ -50,10 +57,10 @@ files.forEach(function(el) {
                 ms = (new Date()).getTime() + 86400000;        
             }
         } 
-        fs.appendFileSync(list, selfslug + " " + mdyt(releaseDate) + " new");
+        append(list, selfslug + " " + mdyt(releaseDate) + " new");
     } else {
         if ( (selfslug) && (selfslug !== el.slice(0,-3)) ) {
-             fs.rename(drafts+el, drafts+selfslug);
+             mv(drafts+el, drafts+selfslug);
          }
     }
 });

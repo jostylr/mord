@@ -1,11 +1,18 @@
 var marked = require('marked');
-var fs = require('fs');
 var RSS = require('rss');
 var list = "./list.txt";
 var entries = "./entries/";
 var drafts = "./drafts/";
 var pages = "./ghpages/";
 var now = new Date();
+
+var fs = require("fs");    
+var read = fs.readFileSync;
+var write = fs.writeFileSync;
+var ls = fs.readdirSync;
+var mv = fs.renameSync;
+var append = fs.appendFileSync;
+var stat = fs.statSync;
 
 var feedNew = new RSS({
     title: "Mord",
@@ -22,24 +29,24 @@ var rssUpdate = new RSS({
 
 var news, udates;
 try {
-     news = fs.readFileSync("rssnew.txt", "utf8") ;
+     news = read("rssnew.txt", "utf8") ;
 } catch (e) {
     news = [];
 }
 try {
-    updates = fs.readFileSync("rssupdates.txt", "utf8") ;
+    updates = read("rssupdates.txt", "utf8") ;
 } catch (e) {
     updates = [];
 }
 
-var template = fs.readFileSync("template.htm", "utf8");
+var template = read("template.htm", "utf8");
 var publish = function (fname, time) {
     
-        var md = fs.readFileSync(entries + fname, "utf8");
+        var md = read(entries + fname, "utf8");
     
         var htm = marked(md);
         var html = template.replace('_"*:body"', htm);
-        fs.writeFileSync(ghpages+fname.replace(".md", ".html"), "utf8");
+        write(ghpages+fname.replace(".md", ".html"), "utf8");
         updates.unshift([fname, md, time] );
         if (!time) {
             news.unshift([fname, md, time]);
@@ -55,7 +62,7 @@ var mdyt = function (date) {
 
 
 var sections;
-oldlist = fs.readFileSync(list, {encoding:"utf8"});
+oldlist = read(list, {encoding:"utf8"});
 sections = oldlist.split("\n");
 
 
@@ -89,7 +96,7 @@ sections.forEach(function (el, index, arr) {
             num = parseInt(ar[1], 10);
             if (num) {
                 ar[1] = num;
-                modtime = fs.statSync(ar[0]).mtime.getTime();
+                modtime = stat(ar[0]).mtime.getTime();
                 if (ar[1] < modtime) {
                     publish(ar[0], ar[1]);
                     if (!ar[2]) {
@@ -115,7 +122,7 @@ newlist = sections.map(function (el) {
     var md;
     if ( (el.length < 3) ) {
         if (! files[el[0]] ) {
-            files[el[0]] = fs.readFileSync(entries+el[0], "utf8");
+            files[el[0]] = read(entries+el[0], "utf8");
         }
         md = files[el[0]];
         el[3] = md.split("\n")[0];
@@ -125,8 +132,8 @@ newlist = sections.map(function (el) {
     join("\n");
 
 if (newlist !== oldlist) {
-    fs.renameSync("list.txt", "list_old.txt");
-    fs.writeFileSync("list.txt", newlist, "utf8");
+    mv("list.txt", "list_old.txt");
+    write("list.txt", newlist, "utf8");
 }
 
 _"create table of contents if a new entry has been posted"
