@@ -46,7 +46,7 @@ var publish = function (fname, time) {
     
         var htm = marked(md);
         var html = template.replace('_"*:body"', htm);
-        write(ghpages+fname.replace(".md", ".html"), "utf8");
+        write(ghpages+fname.replace(".md", ".html"), html, "utf8");
         updates.unshift([fname, md, time] );
         if (!time) {
             news.unshift([fname, md, time]);

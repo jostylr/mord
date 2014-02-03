@@ -13,7 +13,7 @@ This is a literate program that will compile into Mord Blog and perhaps a few ot
 * [queue.js](#queuer "save: | jshint")
 * [template.htm](#boilerplate "save:") the html template to insert the content in. 
 * [ghpages/index.html](#intro "save: *boilerplate ") the intro to Mord
-* [toc.htm](#table-of-contents "save: ") the table of contents template that assembler creates
+* [toc.htm](#table-of-contents "save: *boilerplate ") the table of contents template that assembler creates
 
 ## Modules of interest
 
@@ -275,7 +275,7 @@ First line is the title, second line is date, then blank line, and then the body
 
         var htm = marked(md);
         var html = template.replace('_"*:body"', htm);
-        write(ghpages+fname.replace(".md", ".html"), "utf8");
+        write(ghpages+fname.replace(".md", ".html"), html, "utf8");
         updates.unshift([fname, md, time] );
         if (!time) {
             news.unshift([fname, md, time]);
@@ -363,13 +363,18 @@ We check to see if the title is already known. If not, then we get it.
         write("list.txt", newlist, "utf8");
     }
 
-### Table of contents
+### Creating the table of contents
 
 We want to create a table of contents and the most recent ones (the last five entries in toc, not necessarily last created)
 
-    toc = sections.map( function (el) {
-        var latest = [],
-            ret;
+Each part creates a new object in the structure array. Each chapter creates a new object in the current part's section. Each entry gets tacked on to the current chapter's array.
+
+Once all of that is completed, then we loop over and create corresponding html. 
+
+    var latest = [],
+        parts = [],
+        part, chapter;
+    sections.forEach( function (el) {
         if (el[0] === "#") {
             _":part"
         } else if (el[0] === "##") {
@@ -384,7 +389,68 @@ We want to create a table of contents and the most recent ones (the last five en
         return ret;
     };
 
-    tochtm = read(
+    var journalOut = parts.reduce(_:"part reduce", "");
+    var latestOut = latest.reduce(_":latest reduce", "");
+
+    tochtm = read("toc.htm", "utf8");
+
+    tocOut = tochtm.replace('_"table of contents:body"',
+        latestOut + journalOut);
+
+    write(ghpages+"toc.html", tocOut, "utf8");
+
+
+[part]() 
+
+Here we figure out what to do when we encounter a part. Basically, get the name, description, and a place for chapters.
+    
+    nd = el.slice(1).split(";");
+    part = {name : nd[0], description : nd[1], chapters : []};
+    parts.push(part);
+
+[chapter]() 
+
+    _":no part"
+    nd = el.slice(1).split(";");
+    chapter = {name: nd[0], description: nd[1], entries : []};
+    part.chapters.push(chapter);
+
+[entry]() 
+    
+    _":no chapter"
+    chapter.push({
+        name : el.slice(3).join(""),
+        fname : el[0],
+        mod : el[1], 
+        pub : el[2] 
+    });
+
+
+[no part]() 
+
+    if (!part) {
+        part = {name: "", description : "", chapters :[]};
+        parts.push(part);
+    }
+
+[no chapter]() 
+
+
+    _":no part"
+    if (!chapter) {
+        chapter = {name:"", description :"", entries:[]};
+        part.chapters.push(chapter);
+    }
+
+[part reduce]()
+
+
+
+[chapter reduce]()
+
+[entries render]()
+
+[latest reduce]()
 
 ### Save feeds
 

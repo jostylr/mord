@@ -1,18 +1,40 @@
-toc = sections.map( function (el) {
-    var latest = [],
-        ret;
-    if (el[0] === "#") {
-        _":part"
-    } else if (el[0] === "##") {
-        _":chapter"
-    } else {
-        _":entry"
-        ret.unshift(latest);
-        if (latest.length > 5) {
-            latest.pop();
-        }
-    }
-    return ret;
-};
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Journal</title>
+        <link rel="stylesheet" href="bootstrap.css">
+        <style>
+            #site-title h2  a {font-family: cursive; color: maroon}
+            #site-title {border-bottom: medium solid #3C3C3C}
+            #body {background-color: #3C3C3C}
+            #body p:last-child {text-align:right; font-variant: small-caps;}
+            .row {margin-bottom: 1em}
+        </style> 
+    </head>
+    <body>
+    <div class="container">
+    <div class="row">
+    <div class="column col-sm-2"></div>
+    <div class="column col-sm-8">
+    <div id="site-title">
+        <h2>
+            <a href="http://mord.jostylr.com" title="Mord Blog" rel="home">Mord Blog</a>
+        </h2>
+        <div id="site-description">I am Mord. I serve my lord Kord with my greatsword.</div>
+    </div>
+    </div>
+    <div class="column col-sm-2"></div>
+    </div>
+    <div class="row">
+    <div class="column col-sm-2"></div>
+    <div class="column col-sm-8" id="body">
+    _"table of contents:body"
+    </div>
+    <div class="column col-sm-2"></div>
 
-tochtm = read(
+    </div>
+    </div>
+    </body>
+</html>
