@@ -208,12 +208,12 @@ Next we go through each one and split into a filename and time (if any)
 
 Is it a part?
 
-        if ( (el.slice(0,1) === "# ") ) {
+        if ( (el.slice(0,2) === "# ") ) {
             arr[index] = ["#", el.slice(2)];
 
 Is it a chapter?
 
-        } else if ( (el.slice(0,2) === "## ") ) {
+        } else if ( (el.slice(0,3) === "## ") ) {
             //chapter
             arr[index] = ["##", el.slice(3)];
 
