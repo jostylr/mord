@@ -16,7 +16,7 @@ var stat = fs.statSync;
 var render = function (str, obj) {
         var key;
         for (key in obj) {
-            str = str.replace(key.toUpperCase(), obj[key]);
+            str = str.replace("!"+key.toUpperCase(), obj[key]);
         }
         return str;
     };
@@ -24,6 +24,9 @@ var render = function (str, obj) {
 var slug = require("slug");
 
 var mdyt = function (date) {
+        if (typeof date === "number") {
+            date = new Date(date);
+        }
         var sep = "-";
         return date.getMonth()+sep+date.getDate()+sep+date.getFullYear()+
             sep+date.getHours()+":"+date.getMinutes();

@@ -16,7 +16,7 @@ var stat = fs.statSync;
 var render = function (str, obj) {
         var key;
         for (key in obj) {
-            str = str.replace(key.toUpperCase(), obj[key]);
+            str = str.replace("!"+key.toUpperCase(), obj[key]);
         }
         return str;
     };
@@ -83,6 +83,9 @@ var publish = function (fname, time) {
     };
 
 var mdyt = function (date) {
+        if (typeof date === "number") {
+            date = new Date(date);
+        }
         var sep = "-";
         return date.getMonth()+sep+date.getDate()+sep+date.getFullYear()+
             sep+date.getHours()+":"+date.getMinutes();
@@ -97,10 +100,10 @@ sections = oldlist.split("\n");
 sections.forEach(function (el, index, arr) {
     var num, ar, modtime;
 
-    if ( (el.slice(0,1) === "# ") ) {
+    if ( (el.slice(0,2) === "# ") ) {
         arr[index] = ["#", el.slice(2)];
 
-    } else if ( (el.slice(0,2) === "## ") ) {
+    } else if ( (el.slice(0,3) === "## ") ) {
         //chapter
         arr[index] = ["##", el.slice(3)];
 
@@ -110,7 +113,7 @@ sections.forEach(function (el, index, arr) {
         if (ar[2] === "new") {
             num = parseInt(ar[1], 10);
             if (num) {
-                if (num <= now) {
+                if (num <= now.getTime()) {
                     publish(ar[0]);
                     ar[1] = mdyt(now);
                     ar[2] = mdyt(num);
@@ -124,7 +127,7 @@ sections.forEach(function (el, index, arr) {
             num = parseInt(ar[1], 10);
             if (num) {
                 ar[1] = num;
-                modtime = stat(ar[0]).mtime.getTime();
+                modtime = stat(entries+ar[0]).mtime.getTime();
                 if (ar[1] < modtime) {
                     publish(ar[0], ar[1]);
                     if (!ar[2]) {
@@ -136,7 +139,12 @@ sections.forEach(function (el, index, arr) {
                 publish(ar[0]);
                 ar[2] = ar[1] = mdyt(now);         
             }
+
+        } else {
+            publish(ar[0]);
+            ar[2] = ar[1] = mdyt(now);         
         }
+
         arr[index] = ar;
     }
 });
@@ -147,20 +155,25 @@ var files = {};
 
 newlist = sections.map(function (el) {
     var md;
-    if ( (el.length < 3) ) {
-        if (! files[el[0]] ) {
+    console.log(el);
+    if ( (el.length < 4) && (el[0] !== "#") && (el[0] !== "##") ) {
+        if ( ! files[el[0]] ) {
             files[el[0]] = read(entries+el[0], "utf8");
         }
         md = files[el[0]];
-        el[3] = md.split("\n")[0];
+        md = md.split("\n");
+        el[3] = md[0];
+        if (md[1]) {
+            el[2] = mdyt(new Date(md[1]));
+        }
     } 
     return el.join(" ");
-    }).
-    join("\n");
-
+}).
+join("\n");
 if (newlist !== oldlist) {
-    mv("list.txt", "list_old.txt");
-    write("list.txt", newlist, "utf8");
+    //mv("list.txt", "list_old.txt");
+    console.log("would save list to: ", newlist);
+    //write("list.txt", newlist, "utf8");
 }
 
 var latest = [],
@@ -170,16 +183,16 @@ var latest = [],
 sections.forEach( function (el) {
     var nd; 
     if (el[0] === "#") {
-        nd = el.slice(1).split(";");
+        nd = el[1].split(";");
         part = {name : nd[0], description : nd[1], chapters : []};
         parts.push(part);
-        chapter = undefined;
+        chapter = null;
     } else if (el[0] === "##") {
         if (!part) {
             part = {name: "", description : "", chapters :[]};
             parts.push(part);
         }
-        nd = el.slice(1).split(";");
+        nd = el[1].split(";");
         chapter = {name: nd[0], description: nd[1], entries : []};
         part.chapters.push(chapter);
     } else {
@@ -197,7 +210,7 @@ sections.forEach( function (el) {
             mod : el[1], 
             pub : el[2] 
         };
-        chapter.push(entry);
+        chapter.entries.push(entry);
         latest.unshift(entry);
         if (latest.length > 5) {
             latest.pop();
@@ -213,8 +226,8 @@ var journalOut = parts.reduce(function (ret, el) {
                 var description = "<div class='description'>"+el.description+ "</div>";
                 var entries = el.entries.reduce(function (ret, el) {
                         var tmpl = 
-                            "<li data-mod='MOD' data-pub='PUB'>" +
-                                "<a href='FNAME'>NAME</a>" + 
+                            "<li data-mod='!MOD' data-pub='!PUB'>" +
+                                "<a href='!FNAME'>!NAME</a>" + 
                             "</li>";
                         return ret + render(tmpl, el);
                     } , "");
@@ -225,8 +238,8 @@ var journalOut = parts.reduce(function (ret, el) {
 
 var latestOut = latest.reduce(function (ret, el) {
         var tmpl = 
-            "<li data-mod='MOD' data-pub='PUB'>" +
-                "<a href='FNAME'>NAME</a>" + 
+            "<li data-mod='!MOD' data-pub='!PUB'>" +
+                "<a href='!FNAME'>!NAME</a>" + 
             "</li>";
         return ret + render(tmpl, el);
     } , 

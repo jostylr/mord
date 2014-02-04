@@ -34,6 +34,7 @@ sin-tears.md
 to-the-mountain-smith.md
 how-to-die.md
 mord-sword.md
+a-bero-of-fish.md 
 # Betrayal ; The stings of treachery
 ## Fiola ; Saving the one I love from my own.
 nothing-to-report.md
@@ -76,7 +77,7 @@ snow-tracks.md
 the-stone-giants.md
 giant-refugee-camp.md
 a-bricking-we-go.md
-##DieLess ; Vengeance served cold, heated to a fury.
+## DieLess ; Vengeance served cold, heated to a fury.
 elves-in-the-dark.md
 the-dark-heart.md
 the-council-cometh.md
@@ -108,6 +109,3 @@ baffledmint.md
 # Renewal
 # Pride
 # Doom
-# Apocrypha
-## Bero Speaks
-a-bero-of-fish.md 123423

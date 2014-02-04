@@ -227,7 +227,7 @@ The format for signalling a new entry is  `filename time new`. We check to see t
             if (ar[2] === "new") {
                 num = parseInt(ar[1], 10);
                 if (num) {
-                    if (num <= now) {
+                    if (num <= now.getTime()) {
                         publish(ar[0]);
                         ar[1] = mdyt(now);
                         ar[2] = mdyt(num);
@@ -243,7 +243,7 @@ These should be files without a new. If no time, then they get published. If tim
                 num = parseInt(ar[1], 10);
                 if (num) {
                     ar[1] = num;
-                    modtime = stat(ar[0]).mtime.getTime();
+                    modtime = stat(entries+ar[0]).mtime.getTime();
                     if (ar[1] < modtime) {
                         publish(ar[0], ar[1]);
                         if (!ar[2]) {
@@ -255,7 +255,14 @@ These should be files without a new. If no time, then they get published. If tim
                     publish(ar[0]);
                     ar[2] = ar[1] = mdyt(now);         
                 }
+
+This is if the entry is in there with no time or anything. 
+
+            } else {
+                publish(ar[0]);
+                ar[2] = ar[1] = mdyt(now);         
             }
+
             arr[index] = ar;
         }
     });
@@ -292,6 +299,9 @@ First line is the title, second line is date, then blank line, and then the body
 A short little function that takes in a Date object and outputs a mm-dd-yyyy-hh:mm which can be both human read and js parsed. 
 
     function (date) {
+        if (typeof date === "number") {
+            date = new Date(date);
+        }
         var sep = "-";
         return date.getMonth()+sep+date.getDate()+sep+date.getFullYear()+
             sep+date.getHours()+":"+date.getMinutes();
@@ -354,20 +364,25 @@ We check to see if the title is already known. If not, then we get it.
 
     newlist = sections.map(function (el) {
         var md;
-        if ( (el.length < 3) ) {
-            if (! files[el[0]] ) {
+        console.log(el);
+        if ( (el.length < 4) && (el[0] !== "#") && (el[0] !== "##") ) {
+            if ( ! files[el[0]] ) {
                 files[el[0]] = read(entries+el[0], "utf8");
             }
             md = files[el[0]];
-            el[3] = md.split("\n")[0];
+            md = md.split("\n");
+            el[3] = md[0];
+            if (md[1]) {
+                el[2] = mdyt(new Date(md[1]));
+            }
         } 
         return el.join(" ");
-        }).
-        join("\n");
-
+    }).
+    join("\n");
     if (newlist !== oldlist) {
-        mv("list.txt", "list_old.txt");
-        write("list.txt", newlist, "utf8");
+        //mv("list.txt", "list_old.txt");
+        console.log("would save list to: ", newlist);
+        //write("list.txt", newlist, "utf8");
     }
 
 ### Creating the table of contents
@@ -415,17 +430,17 @@ Once all of that is completed, then we loop over and create corresponding html.
 
 Here we figure out what to do when we encounter a part. Basically, get the name, description, and a place for chapters.
     
-    nd = el.slice(1).split(";");
+    nd = el[1].split(";");
     part = {name : nd[0], description : nd[1], chapters : []};
     parts.push(part);
-    chapter = undefined;
+    chapter = null;
 
 [chapter]() 
 
 And now we add in chapters, adding in an umbrella part if need be.
 
     _":no part"
-    nd = el.slice(1).split(";");
+    nd = el[1].split(";");
     chapter = {name: nd[0], description: nd[1], entries : []};
     part.chapters.push(chapter);
 
@@ -440,7 +455,7 @@ Similarly with entry, adding a chapter if needed.
         mod : el[1], 
         pub : el[2] 
     };
-    chapter.push(entry);
+    chapter.entries.push(entry);
 
 
 
@@ -489,8 +504,8 @@ Just an item link
 
     function (ret, el) {
         var tmpl = 
-            "<li data-mod='MOD' data-pub='PUB'>" +
-                "<a href='FNAME'>NAME</a>" + 
+            "<li data-mod='!MOD' data-pub='!PUB'>" +
+                "<a href='!FNAME'>!NAME</a>" + 
             "</li>";
         return ret + render(tmpl, el);
     } 
@@ -504,7 +519,7 @@ This is a simple templating function that replaces the caps version of the keys 
     function (str, obj) {
         var key;
         for (key in obj) {
-            str = str.replace(key.toUpperCase(), obj[key]);
+            str = str.replace("!"+key.toUpperCase(), obj[key]);
         }
         return str;
     }
