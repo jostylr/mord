@@ -7,7 +7,10 @@ var ghpages = "./ghpages/";
 var now = new Date();
 
 var fs = require("fs");    
-var read = fs.readFileSync;
+var read = function (a,b) {
+    console.log(a, b);
+    return fs.readFileSync(a,b);
+}
 var write = fs.writeFileSync;
 var ls = fs.readdirSync;
 var mv = fs.renameSync;
@@ -71,8 +74,12 @@ var template = read("template.htm", "utf8");
 var publish = function (fname, time) {
     
         var md = read(entries + fname, "utf8");
-    
-        var htm = marked(md);
+        md = md.split("\n");
+        var title = md[0];
+        var date = md[1];
+        var body = md.slice(3).join("\n");
+        var htm = marked(body);
+        htm = "<h3>"+title+"</h3>"+htm;
         var html = template.replace('_"*:body"', htm);
         write(ghpages+fname.replace(".md", ".html"), html, "utf8");
         updates.unshift([fname, md, time] );
@@ -149,13 +156,10 @@ sections.forEach(function (el, index, arr) {
     }
 });
 
-console.log(sections);
-
 var files = {};
 
 newlist = sections.map(function (el) {
     var md;
-    console.log(el);
     if ( (el.length < 4) && (el[0] !== "#") && (el[0] !== "##") ) {
         if ( ! files[el[0]] ) {
             files[el[0]] = read(entries+el[0], "utf8");
@@ -170,10 +174,10 @@ newlist = sections.map(function (el) {
     return el.join(" ");
 }).
 join("\n");
+
 if (newlist !== oldlist) {
-    //mv("list.txt", "list_old.txt");
-    console.log("would save list to: ", newlist);
-    //write("list.txt", newlist, "utf8");
+    mv("list.txt", "list_old.txt");
+    write("list.txt", newlist, "utf8");
 }
 
 var latest = [],

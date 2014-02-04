@@ -7,7 +7,10 @@ var ghpages = "./ghpages/";
 var now = new Date();
 
 var fs = require("fs");    
-var read = fs.readFileSync;
+var read = function (a,b) {
+    console.log(a, b);
+    return fs.readFileSync(a,b);
+}
 var write = fs.writeFileSync;
 var ls = fs.readdirSync;
 var mv = fs.renameSync;
