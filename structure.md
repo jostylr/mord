@@ -30,10 +30,12 @@ This is the project behind the awesome Mord, servant of Kord.
 
 These are the variables that one might want tweaked.
 
+    /*global require, console*/
+
     var list = "./list.txt";
     var entries = "./entries/";
     var drafts = "./drafts/";
-    var pages = "./ghpages/";
+    var ghpages = "./ghpages/";
     var now = new Date();
 
 We define read and write functions so that we can easily swap in other ones (say for test runs).
@@ -45,13 +47,15 @@ We define read and write functions so that we can easily swap in other ones (say
     var mv = fs.renameSync;
     var append = fs.appendFileSync;
     var stat = fs.statSync;
+    var render = _"render";
 
 ## Queuer
 
 We use the directory queue to queue up an article. 
 
-    var slug = require("slug");
     _"common variables"
+
+    var slug = require("slug");
 
     var mdyt = _"month-day-year-time";
 
@@ -153,13 +157,16 @@ To parse the date, we see if it is an actual date; if so we use it. We also have
 
     //
 
+
 ## Assembler
 
 Grab the list.txt file, read the directoy, use it to assemble the links and table of contents, build new list if needed, then go through the pieces, transforming them into the html template
 
+
+    _"common variables"
+
     var marked = require('marked');
     var RSS = require('rss');
-    _"common variables"
 
     _"rss feeds"
 
@@ -169,20 +176,16 @@ Grab the list.txt file, read the directoy, use it to assemble the links and tabl
     var mdyt = _"month-day-year-time";
 
     
-    var sections;
+    var sections, oldlist, newlist;
     _"read list txt"
 
-The sections are an array as the order is important. The files is a hash since this is how we will check new vs. not new. Each section is either a filename and modification date (or none if not parsed before) or it is a chapter/part heading. Each file has key as file name and then an array [true/false if needs parsing, date modified].
 
-
-    var toCompile = {};
-    _"check for differences"
+    var files = {};
 
     _"create a new list if differences"
 
-    _"create table of contents if a new entry has been posted"
+    _"creating the table of contents"
 
-    _"loop through new entries creating"
 
 ### Read list txt
 
@@ -201,7 +204,7 @@ We need to grab the list file, then split it into lines.
 Next we go through each one and split into a filename and time (if any)
     
     sections.forEach(function (el, index, arr) {
-        var num;
+        var num, ar, modtime;
 
 Is it a part?
 
@@ -217,7 +220,7 @@ Is it a chapter?
 Should be a file. We get the time of last update and compare to latest mod time; if mod time is greater, then we compile. If no time, then it automatically should get compiled. 
 
         } else {
-            var ar = el.split(/\s+/);
+            ar = el.split(/\s+/);
 
 The format for signalling a new entry is  `filename time new`. We check to see that the time has passed and then we publish (compile, rss feed generate). We also modify the list.txt (regenerate it each time). 
 
@@ -302,16 +305,34 @@ This is for setting up the rss feeds. So we create two need feeds, one for new i
         title: "Mord",
         description : "I am Mord. I serve my lord Kord with my greatsword.",
         feed_url : "http://mord.jostylr.com/rss.xml",
-        _":common"
+        site_url : "http://mord.jostylr.com",
+        author : "Mord Drom of Drok",
+        managingEditor : "Janord Drom",
+        webMaster : "James Taylor",
+        language : "en",
+        categories : ["fantasy"],
+        pubDate : now.toString(),
+        ttl: '1440',
+        copyright : now.getFullYear() + " James Taylor"
     });
+
 
     var rssUpdate = new RSS({
         title: "Mord Update",
         description : "I am Mord. I serve my lord Kord with my greatsword. Misspeak I do.",
         feed_url : "http://mord.jostylr.com/rssupdate.xml",
+        site_url : "http://mord.jostylr.com",
+        author : "Mord Drom of Drok",
+        managingEditor : "Janord Drom",
+        webMaster : "James Taylor",
+        language : "en",
+        categories : ["fantasy"],
+        pubDate : now.toString(),
+        ttl: '1440',
+        copyright : now.getFullYear() + " James Taylor"
     });
 
-    var news, udates;
+    var news, updates;
     try {
          news = read("rssnew.txt", "utf8") ;
     } catch (e) {
@@ -322,21 +343,7 @@ This is for setting up the rss feeds. So we create two need feeds, one for new i
     } catch (e) {
         updates = [];
     }
-
-[common]()
-
-The common fields for the feeds
-
-    site_url : "http://mord.jostylr.com",
-    author : "Mord Drom of Drok",
-    managingEditor : "Janord Drom",
-    webMaster : "James Taylor",
-    language : "en",
-    categories : ["fantasy"],
-    pubDate : now.toString(),
-    ttl: '1440',
-    copyright : now.getFullYear() + " James Taylor"
-    
+ 
 
 
 ### Create a new list if differences
@@ -373,28 +380,32 @@ Once all of that is completed, then we loop over and create corresponding html.
 
     var latest = [],
         parts = [],
-        part, chapter;
+        part, chapter, entry;
+
     sections.forEach( function (el) {
+        var nd; 
         if (el[0] === "#") {
             _":part"
         } else if (el[0] === "##") {
             _":chapter"
         } else {
             _":entry"
-            ret.unshift(latest);
+            latest.unshift(entry);
             if (latest.length > 5) {
                 latest.pop();
             }
         }
-        return ret;
-    };
+    });
 
-    var journalOut = parts.reduce(_:"part reduce", "");
-    var latestOut = latest.reduce(_":latest reduce", "");
+    var journalOut = parts.reduce(_":part reduce", "");
 
-    tochtm = read("toc.htm", "utf8");
+    var latestOut = latest.reduce(_":entry render", 
+        "<h2>The Latest</h2><ol class='latest'>") +
+        "</ol>";
 
-    tocOut = tochtm.replace('_"table of contents:body"',
+    var tochtm = read("toc.htm", "utf8");
+
+    var tocOut = tochtm.replace('_"table of contents:body"',
         latestOut + journalOut);
 
     write(ghpages+"toc.html", tocOut, "utf8");
@@ -407,8 +418,11 @@ Here we figure out what to do when we encounter a part. Basically, get the name,
     nd = el.slice(1).split(";");
     part = {name : nd[0], description : nd[1], chapters : []};
     parts.push(part);
+    chapter = undefined;
 
 [chapter]() 
+
+And now we add in chapters, adding in an umbrella part if need be.
 
     _":no part"
     nd = el.slice(1).split(";");
@@ -416,14 +430,18 @@ Here we figure out what to do when we encounter a part. Basically, get the name,
     part.chapters.push(chapter);
 
 [entry]() 
-    
+   
+Similarly with entry, adding a chapter if needed.
+
     _":no chapter"
-    chapter.push({
+    entry = {
         name : el.slice(3).join(""),
         fname : el[0],
         mod : el[1], 
         pub : el[2] 
-    });
+    };
+    chapter.push(entry);
+
 
 
 [no part]() 
@@ -444,13 +462,52 @@ Here we figure out what to do when we encounter a part. Basically, get the name,
 
 [part reduce]()
 
+Now we want to reduce the parts, creating some html that gets placed in the journal. 
 
+    function (ret, el) {
+        var heading = "<h2>"+el.name+"</h2>";
+        var description = "<div class='description'>"+el.description+ "</div>";
+        var chapters = el.chapters.reduce(_":chapter reduce", "");
+        return ret+"<div class='part'>"+heading+description+chapters+"</div>";
+    }
 
 [chapter reduce]()
 
-[entries render]()
+Similar story for chapters.
 
-[latest reduce]()
+    function (ret, el) {
+        var heading = "<h3>"+el.name+"</h3>";
+        var description = "<div class='description'>"+el.description+ "</div>";
+        var entries = el.entries.reduce(_":entry render", "");
+        return ret+"<div class='chapter'>"+heading+description+"<ol>"+entries+"</ol></div>";
+    }
+
+
+[entry render]()
+
+Just an item link
+
+    function (ret, el) {
+        var tmpl = 
+            "<li data-mod='MOD' data-pub='PUB'>" +
+                "<a href='FNAME'>NAME</a>" + 
+            "</li>";
+        return ret + render(tmpl, el);
+    } 
+
+
+
+### render
+
+This is a simple templating function that replaces the caps version of the keys in the object with the values. Very simple. 
+
+    function (str, obj) {
+        var key;
+        for (key in obj) {
+            str = str.replace(key.toUpperCase(), obj[key]);
+        }
+        return str;
+    }
 
 ### Save feeds
 
@@ -488,7 +545,7 @@ This is where the table of contents template is.
 
     Journal
 
-The body gets replaced with a short list (5) of the most recent.  Then it should become a set of divs with various headers.     
+The body gets replaced with a short list (5) of the most recent.  Then it should become a set of divs with various headers.   
 
 ## boilerplate
 

@@ -1,9 +1,9 @@
-var marked = require('marked');
-var RSS = require('rss');
+/*global require, console*/
+
 var list = "./list.txt";
 var entries = "./entries/";
 var drafts = "./drafts/";
-var pages = "./ghpages/";
+var ghpages = "./ghpages/";
 var now = new Date();
 
 var fs = require("fs");    
@@ -13,21 +13,48 @@ var ls = fs.readdirSync;
 var mv = fs.renameSync;
 var append = fs.appendFileSync;
 var stat = fs.statSync;
+var render = function (str, obj) {
+        var key;
+        for (key in obj) {
+            str = str.replace(key.toUpperCase(), obj[key]);
+        }
+        return str;
+    };
+
+var marked = require('marked');
+var RSS = require('rss');
 
 var feedNew = new RSS({
     title: "Mord",
     description : "I am Mord. I serve my lord Kord with my greatsword.",
     feed_url : "http://mord.jostylr.com/rss.xml",
-    _":common"
+    site_url : "http://mord.jostylr.com",
+    author : "Mord Drom of Drok",
+    managingEditor : "Janord Drom",
+    webMaster : "James Taylor",
+    language : "en",
+    categories : ["fantasy"],
+    pubDate : now.toString(),
+    ttl: '1440',
+    copyright : now.getFullYear() + " James Taylor"
 });
 
 var rssUpdate = new RSS({
     title: "Mord Update",
     description : "I am Mord. I serve my lord Kord with my greatsword. Misspeak I do.",
     feed_url : "http://mord.jostylr.com/rssupdate.xml",
+    site_url : "http://mord.jostylr.com",
+    author : "Mord Drom of Drok",
+    managingEditor : "Janord Drom",
+    webMaster : "James Taylor",
+    language : "en",
+    categories : ["fantasy"],
+    pubDate : now.toString(),
+    ttl: '1440',
+    copyright : now.getFullYear() + " James Taylor"
 });
 
-var news, udates;
+var news, updates;
 try {
      news = read("rssnew.txt", "utf8") ;
 } catch (e) {
@@ -38,6 +65,7 @@ try {
 } catch (e) {
     updates = [];
 }
+
 
 var template = read("template.htm", "utf8");
 var publish = function (fname, time) {
@@ -61,13 +89,13 @@ var mdyt = function (date) {
     };
 
 
-var sections;
+var sections, oldlist, newlist;
 oldlist = read(list, {encoding:"utf8"});
 sections = oldlist.split("\n");
 
 
 sections.forEach(function (el, index, arr) {
-    var num;
+    var num, ar, modtime;
 
     if ( (el.slice(0,1) === "# ") ) {
         arr[index] = ["#", el.slice(2)];
@@ -77,7 +105,7 @@ sections.forEach(function (el, index, arr) {
         arr[index] = ["##", el.slice(3)];
 
     } else {
-        var ar = el.split(/\s+/);
+        ar = el.split(/\s+/);
 
         if (ar[2] === "new") {
             num = parseInt(ar[1], 10);
@@ -115,8 +143,7 @@ sections.forEach(function (el, index, arr) {
 
 console.log(sections);
 
-var toCompile = {};
-_"check for differences"
+var files = {};
 
 newlist = sections.map(function (el) {
     var md;
@@ -136,6 +163,79 @@ if (newlist !== oldlist) {
     write("list.txt", newlist, "utf8");
 }
 
-_"create table of contents if a new entry has been posted"
+var latest = [],
+    parts = [],
+    part, chapter, entry;
 
-_"loop through new entries creating"
+sections.forEach( function (el) {
+    var nd; 
+    if (el[0] === "#") {
+        nd = el.slice(1).split(";");
+        part = {name : nd[0], description : nd[1], chapters : []};
+        parts.push(part);
+        chapter = undefined;
+    } else if (el[0] === "##") {
+        if (!part) {
+            part = {name: "", description : "", chapters :[]};
+            parts.push(part);
+        }
+        nd = el.slice(1).split(";");
+        chapter = {name: nd[0], description: nd[1], entries : []};
+        part.chapters.push(chapter);
+    } else {
+        if (!part) {
+            part = {name: "", description : "", chapters :[]};
+            parts.push(part);
+        }
+        if (!chapter) {
+            chapter = {name:"", description :"", entries:[]};
+            part.chapters.push(chapter);
+        }
+        entry = {
+            name : el.slice(3).join(""),
+            fname : el[0],
+            mod : el[1], 
+            pub : el[2] 
+        };
+        chapter.push(entry);
+        latest.unshift(entry);
+        if (latest.length > 5) {
+            latest.pop();
+        }
+    }
+});
+
+var journalOut = parts.reduce(function (ret, el) {
+        var heading = "<h2>"+el.name+"</h2>";
+        var description = "<div class='description'>"+el.description+ "</div>";
+        var chapters = el.chapters.reduce(function (ret, el) {
+                var heading = "<h3>"+el.name+"</h3>";
+                var description = "<div class='description'>"+el.description+ "</div>";
+                var entries = el.entries.reduce(function (ret, el) {
+                        var tmpl = 
+                            "<li data-mod='MOD' data-pub='PUB'>" +
+                                "<a href='FNAME'>NAME</a>" + 
+                            "</li>";
+                        return ret + render(tmpl, el);
+                    } , "");
+                return ret+"<div class='chapter'>"+heading+description+"<ol>"+entries+"</ol></div>";
+            }, "");
+        return ret+"<div class='part'>"+heading+description+chapters+"</div>";
+    }, "");
+
+var latestOut = latest.reduce(function (ret, el) {
+        var tmpl = 
+            "<li data-mod='MOD' data-pub='PUB'>" +
+                "<a href='FNAME'>NAME</a>" + 
+            "</li>";
+        return ret + render(tmpl, el);
+    } , 
+    "<h2>The Latest</h2><ol class='latest'>") +
+    "</ol>";
+
+var tochtm = read("toc.htm", "utf8");
+
+var tocOut = tochtm.replace('_"table of contents:body"',
+    latestOut + journalOut);
+
+write(ghpages+"toc.html", tocOut, "utf8");

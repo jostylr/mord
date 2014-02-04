@@ -1,8 +1,9 @@
-var slug = require("slug");
+/*global require, console*/
+
 var list = "./list.txt";
 var entries = "./entries/";
 var drafts = "./drafts/";
-var pages = "./ghpages/";
+var ghpages = "./ghpages/";
 var now = new Date();
 
 var fs = require("fs");    
@@ -12,6 +13,15 @@ var ls = fs.readdirSync;
 var mv = fs.renameSync;
 var append = fs.appendFileSync;
 var stat = fs.statSync;
+var render = function (str, obj) {
+        var key;
+        for (key in obj) {
+            str = str.replace(key.toUpperCase(), obj[key]);
+        }
+        return str;
+    };
+
+var slug = require("slug");
 
 var mdyt = function (date) {
         var sep = "-";
