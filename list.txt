@@ -76,7 +76,7 @@ snow-tracks.md
 the-stone-giants.md
 giant-refugee-camp.md
 a-bricking-we-go.md
-##DieLess ; Vengeance served cold, heated to a fury.
+## DieLess ; Vengeance served cold, heated to a fury.
 elves-in-the-dark.md
 the-dark-heart.md
 the-council-cometh.md

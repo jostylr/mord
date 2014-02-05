@@ -2,6 +2,8 @@
 
 This is a literate program that will compile into Mord Blog and perhaps a few other things. 
 
+colors: crimson
+
 ## Files
 
 * [todo.md](#todo "save: |clean raw")
@@ -158,6 +160,8 @@ If the correct date of publishing is not in the second line, then we correct it.
 
 Grab the list.txt file, read the directoy, use it to assemble the links and table of contents, build new list if needed, then go through the pieces, transforming them into the html template
 
+The creating a list comes first since it gets the title into the mix of the entries if it is not already there. 
+
 
     _"common variables"
 
@@ -167,20 +171,25 @@ Grab the list.txt file, read the directoy, use it to assemble the links and tabl
     _"rss feeds"
 
     var template = read("template.htm", "utf8");
-    var publish = _"publish";
+    var toPublish = [];
+
+    var nav = _"footer nav";
 
     var mdyt = _"month-day-year-time";
 
     
     var sections, oldlist, newlist;
+    
     _"read list txt"
-
-    _"publish"
 
     var files = {};
 
-    _"create a new list if differences"
+    _"prep entries"
 
+    toPublish.forEach(_"publish");
+
+    _"create a new list if differences"
+   
     _"creating the table of contents"
 
 
@@ -226,14 +235,15 @@ The format for signalling a new entry is  `filename time new`. We check to see t
                 num = date.getTime();
                 if ( ! isNaN(num) ) {
                     if (num <= now.getTime()) {
-                        toPublish.push(ind);
+                        toPublish.push(index);
                         ar[1] = mdyt(now);
                         ar[2] = mdyt(date);
                     }
                 } else {
-                    toPublish.push(ind);
+                    toPublish.push(index);
                     ar[1] = mdyt(now);
                 }
+                ar.fresh = true;
 
 These should be files without a new. If no time, then they get published. If time, they get updated if mtime is greater than given time.
 
@@ -243,18 +253,18 @@ These should be files without a new. If no time, then they get published. If tim
                     ar[1] = num;
                     modtime = stat(entries+ar[0]).mtime.getTime();
                     if (ar[1] < modtime) {
-                        toPublish.push([ar[0], ar[1], ind]);
+                        toPublish.push(index);
                         ar[1] = mdyt(modtime);
                     }
                 } else {
-                    toPublish.push([ar[0], "", ind]);
+                    toPublish.push(index);
                     ar[1] = mdyt(now);         
                 }
 
 This is if the entry is in there with no time or anything. 
 
             } else {
-                toPublish.push([ar[0], "", ind]);
+                toPublish.push(index);
                 ar[1] = mdyt(now);         
             }
 
@@ -262,8 +272,29 @@ This is if the entry is in there with no time or anything.
         }
     });
 
-!!!! toPublish is an array of things to publish. we are transitioning to add a separate publish step to enable easier insertion of navigation elements. 
+### Prep Entries
 
+Make the entries all have dates, etc.
+
+    sections.forEach(function (el) {
+        var md;
+        if ( (el[0] !== "#") && (el[0] !== "##") ) {
+            if (el.length < 4) {
+                if ( ! files[el[0]] ) {
+                    files[el[0]] = read(entries+el[0], "utf8");
+                }
+                md = files[el[0]];
+                md = md.split("\n");
+                el[3] = md[0];
+                if (md[1]) {
+                    el[2] = mdyt(new Date(md[1]));
+                }
+            } else {
+                el[3] = el.slice(3).join(" ");
+                el.length = 4;
+            }
+        } 
+    });
 
 ### Publish
 
@@ -275,8 +306,9 @@ The procedure is: load the markdown file, transform to html, save in the html pa
 
 First line is the title, second line is date, then blank line, and then the body.
 
-    function (fname, time, arr, ind) {
-
+    function (index) {
+        var el = sections[index];
+        var fname = el[0];
         var md = read(entries + fname, "utf8");
         md = md.split("\n");
         var title = md[0];
@@ -287,22 +319,66 @@ First line is the title, second line is date, then blank line, and then the body
 Add title
 
         htm = "<h3>"+title+"</h3>"+htm;
-
-Add navigation
-
-        htm += htm + nav(arr, ind);
         
 Create the page
 
         var html = template.replace('_"*:body"', htm);
+        html = html.replace('_"*:title"', title);
+        html = html.replace('<!--footer-->', nav(sections, index));
         write(ghpages+fname.replace(".md", ".html"), html, "utf8");
-        updates.unshift([fname, md, time] );
-        if (!time) {
-            news.unshift([fname, md, time]);
+        updates.unshift([fname, md, el[1]] );
+        if (el.fresh) {
+            news.unshift([fname, md, el[1]]);
         }
 
     }
 
+### Footer Nav
+
+We want to put the back and forward links.
+
+    function (arr, index) {
+        var prior = index-1, 
+            posterior = index+1, 
+            n = arr.length,
+            before = '<a href="/">&#8613; Intro</a>',
+            after = '<a href="/">Restart &#8615;</a>',
+            el, fname;
+
+        while (prior >= 0) {
+            el = arr[prior];
+            fname = el[0].slice(0,-2)+"html";
+            if ( (el[0] === "#") || (el[0] === "##") ) {
+                prior -= 1;            
+            } else {
+                before = '<a href="' + 
+                    fname +
+                    '">&#8612; ' + 
+                    el[3] + 
+                    '</a>';
+                break;
+            }
+        } 
+
+        while (posterior < n) {
+            el = arr[posterior];
+            fname = el[0].slice(0,-2)+"html";
+            if ( (el[0] === "#") || (el[0] === "##") ) {
+                posterior += 1;            
+            } else {
+                after = '<a href="' + 
+                    fname +
+                    '">' + 
+                    el[3] + 
+                    ' &#8614;</a>';
+                break;
+            }
+        } 
+
+        return '<div id="before">'+before+'</div>' +
+            '<div id="after">'+after+'</div>';
+
+    }    
 
 ### Month-day-year-time
 
@@ -370,24 +446,11 @@ This is for setting up the rss feeds. So we create two need feeds, one for new i
 
 To make the newlist, our sections array consists of subarrays to be joined by spaces, and then each of those should be joined by newlines into the text. We then compare to the old one and save if different.
 
-We check to see if the title is already known. If not, then we get it. 
+We check to see if the title is already known. If not, then we get it. Note we are modifying sections while doing this. This is important for the publish function. 
 
     newlist = sections.map(function (el) {
-        var md;
-        if ( (el.length < 4) && (el[0] !== "#") && (el[0] !== "##") ) {
-            if ( ! files[el[0]] ) {
-                files[el[0]] = read(entries+el[0], "utf8");
-            }
-            md = files[el[0]];
-            md = md.split("\n");
-            el[3] = md[0];
-            if (md[1]) {
-                el[2] = mdyt(new Date(md[1]));
-            }
-        } 
         return el.join(" ");
-    }).
-    join("\n");
+    }).join("\n");
 
     if (newlist !== oldlist) {
         //mv("list.txt", "list_old.txt");
@@ -460,7 +523,7 @@ Similarly with entry, adding a chapter if needed.
     _":no chapter"
     entry = {
         name : el.slice(3).join(""),
-        fname : el[0],
+        fname : el[0].slice(0,-2)+"html",
         mod : el[1], 
         pub : el[2] 
     };
@@ -555,9 +618,9 @@ This is the intro
 
     I know, I know. We all know about what Mord did and the lessons he taught all of us. But why not get the truth from the horse’s mouth, or, rather, the half-orc’s mouth.
 
-    New to Mord blog? Start at the beginning when [Mord first starts talking to us.](me-mord)
+    New to Mord blog? Start at the beginning when [Mord first starts talking to us.](me-mord.html)
 
-    Returning? Get the [latest stories of Mord](journal) and his party of brave adventurers. Live it as they live it, with that fear and excitement of not knowing what will happen next.
+    Returning? Get the [latest stories of Mord](toc.html) and his party of brave adventurers. Live it as they live it, with that fear and excitement of not knowing what will happen next.
 
     Mords of Wisdom: Read Mord
 
@@ -587,25 +650,31 @@ The body gets replaced with a short list (5) of the most recent.  Then it should
                 #body {background-color: #3C3C3C}
                 #body p:last-child {text-align:right; font-variant: small-caps;}
                 .row {margin-bottom: 1em}
+                #before {float:left}
+                #after {float:right}
             </style> 
         </head>
         <body>
         <div class="container">
-        <div class="row">
-        <div class="column col-sm-2"></div>
-        <div class="column col-sm-8">
-        _"header"
-        </div>
-        <div class="column col-sm-2"></div>
-        </div>
-        <div class="row">
-        <div class="column col-sm-2"></div>
-        <div class="column col-sm-8" id="body">
-        _"*:body"
-        </div>
-        <div class="column col-sm-2"></div>
 
+        <div class="row">
+        <div class="column col-sm-2"></div>
+        <div class="column col-sm-8">_"header"</div>
+        <div class="column col-sm-2"></div>
         </div>
+
+        <div class="row">
+        <div class="column col-sm-2"></div>
+        <div class="column col-sm-8" id="body">_"*:body"</div>
+        <div class="column col-sm-2"></div>
+        </div>
+
+        <div class="row">
+        <div class="column col-sm-2"></div>
+        <div class="column col-sm-8" id="footer"><!--footer--></div>
+        <div class="column col-sm-2"></div>
+        </div>
+
         </div>
         </body>
     </html>

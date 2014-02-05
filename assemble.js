@@ -71,28 +71,50 @@ try {
 
 
 var template = read("template.htm", "utf8");
-var publish = function (fname, time, arr, ind) {
+var toPublish = [];
+
+var nav = function (arr, index) {
+        var prior = index-1, 
+            posterior = index+1, 
+            n = arr.length,
+            before = '<a href="/">&#8613; Intro</a>',
+            after = '<a href="/">Restart &#8615;</a>',
+            el, fname;
     
-        var md = read(entries + fname, "utf8");
-        md = md.split("\n");
-        var title = md[0];
-        var date = md[1];
-        var body = md.slice(3).join("\n");
-        var htm = marked(body);
+        while (prior >= 0) {
+            el = arr[prior];
+            fname = el[0].slice(0,-2)+"html";
+            if ( (el[0] === "#") || (el[0] === "##") ) {
+                prior -= 1;            
+            } else {
+                before = '<a href="' + 
+                    fname +
+                    '">&#8612; ' + 
+                    el[3] + 
+                    '</a>';
+                break;
+            }
+        } 
     
-        htm = "<h3>"+title+"</h3>"+htm;
+        while (posterior < n) {
+            el = arr[posterior];
+            fname = el[0].slice(0,-2)+"html";
+            if ( (el[0] === "#") || (el[0] === "##") ) {
+                posterior += 1;            
+            } else {
+                after = '<a href="' + 
+                    fname +
+                    '">' + 
+                    el[3] + 
+                    ' &#8614;</a>';
+                break;
+            }
+        } 
     
-        htm += htm + nav(arr, ind);
-        
+        return '<div id="before">'+before+'</div>' +
+            '<div id="after">'+after+'</div>';
     
-        var html = template.replace('_"*:body"', htm);
-        write(ghpages+fname.replace(".md", ".html"), html, "utf8");
-        updates.unshift([fname, md, time] );
-        if (!time) {
-            news.unshift([fname, md, time]);
-        }
-    
-    };
+    }    ;
 
 var mdyt = function (date) {
         if (typeof date === "number") {
@@ -105,6 +127,7 @@ var mdyt = function (date) {
 
 
 var sections, oldlist, newlist;
+
 oldlist = read(list, {encoding:"utf8"});
 sections = oldlist.split("\n");
 
@@ -127,14 +150,15 @@ sections.forEach(function (el, index, arr) {
             num = date.getTime();
             if ( ! isNaN(num) ) {
                 if (num <= now.getTime()) {
-                    toPublish.push(ind);
+                    toPublish.push(index);
                     ar[1] = mdyt(now);
                     ar[2] = mdyt(date);
                 }
             } else {
-                toPublish.push(ind);
+                toPublish.push(index);
                 ar[1] = mdyt(now);
             }
+            ar.fresh = true;
 
         } else if (ar[1]) {
             num = parseInt(ar[1], 10);
@@ -142,16 +166,16 @@ sections.forEach(function (el, index, arr) {
                 ar[1] = num;
                 modtime = stat(entries+ar[0]).mtime.getTime();
                 if (ar[1] < modtime) {
-                    toPublish.push([ar[0], ar[1], ind]);
+                    toPublish.push(index);
                     ar[1] = mdyt(modtime);
                 }
             } else {
-                toPublish.push([ar[0], "", ind]);
+                toPublish.push(index);
                 ar[1] = mdyt(now);         
             }
 
         } else {
-            toPublish.push([ar[0], "", ind]);
+            toPublish.push(index);
             ar[1] = mdyt(now);         
         }
 
@@ -159,53 +183,61 @@ sections.forEach(function (el, index, arr) {
     }
 });
 
-function (fname, time, arr, ind) {
-
-    var md = read(entries + fname, "utf8");
-    md = md.split("\n");
-    var title = md[0];
-    var date = md[1];
-    var body = md.slice(3).join("\n");
-    var htm = marked(body);
-
-    htm = "<h3>"+title+"</h3>"+htm;
-
-    htm += htm + nav(arr, ind);
-    
-
-    var html = template.replace('_"*:body"', htm);
-    write(ghpages+fname.replace(".md", ".html"), html, "utf8");
-    updates.unshift([fname, md, time] );
-    if (!time) {
-        news.unshift([fname, md, time]);
-    }
-
-}
-
 var files = {};
 
-newlist = sections.map(function (el) {
+sections.forEach(function (el) {
     var md;
-    if ( (el.length < 4) && (el[0] !== "#") && (el[0] !== "##") ) {
-        if ( ! files[el[0]] ) {
-            files[el[0]] = read(entries+el[0], "utf8");
-        }
-        md = files[el[0]];
-        md = md.split("\n");
-        el[3] = md[0];
-        if (md[1]) {
-            el[2] = mdyt(new Date(md[1]));
+    if ( (el[0] !== "#") && (el[0] !== "##") ) {
+        if (el.length < 4) {
+            if ( ! files[el[0]] ) {
+                files[el[0]] = read(entries+el[0], "utf8");
+            }
+            md = files[el[0]];
+            md = md.split("\n");
+            el[3] = md[0];
+            if (md[1]) {
+                el[2] = mdyt(new Date(md[1]));
+            }
+        } else {
+            el[3] = el.slice(3).join(" ");
+            el.length = 4;
         }
     } 
+});
+
+toPublish.forEach(function (index) {
+        var el = sections[index];
+        var fname = el[0];
+        var md = read(entries + fname, "utf8");
+        md = md.split("\n");
+        var title = md[0];
+        var date = md[1];
+        var body = md.slice(3).join("\n");
+        var htm = marked(body);
+    
+        htm = "<h3>"+title+"</h3>"+htm;
+        
+    
+        var html = template.replace('_"*:body"', htm);
+        html = html.replace('_"*:title"', title);
+        html = html.replace('<!--footer-->', nav(sections, index));
+        write(ghpages+fname.replace(".md", ".html"), html, "utf8");
+        updates.unshift([fname, md, el[1]] );
+        if (el.fresh) {
+            news.unshift([fname, md, el[1]]);
+        }
+    
+    });
+
+newlist = sections.map(function (el) {
     return el.join(" ");
-}).
-join("\n");
+}).join("\n");
 
 if (newlist !== oldlist) {
     //mv("list.txt", "list_old.txt");
     //write("list.txt", newlist, "utf8");
 }
-
+   
 var latest = [],
     parts = [],
     part, chapter, entry;
@@ -236,7 +268,7 @@ sections.forEach( function (el) {
         }
         entry = {
             name : el.slice(3).join(""),
-            fname : el[0],
+            fname : el[0].slice(0,-2)+"html",
             mod : el[1], 
             pub : el[2] 
         };
