@@ -89,7 +89,7 @@ We match on `/^[^\n]+\n(\S[^\n]*)\n/`
         var m = file.match(/^[^\n]+\n(\S[^\n]*)\n/);
         _"slug"
         if (m) {
-            mv(drafts+el, entries+selfslug);
+            mv(drafts+el, entries+selfslug);            
             _"register"
         } else {
             _"slug:change"
@@ -120,7 +120,7 @@ Assuming the selfslug is non-empty and different than el.
 
     if ( (selfslug) && (selfslug !== el.slice(0,-3)) ) {
          mv(drafts+el, drafts+selfslug);
-     }
+    }
 
 
 
@@ -128,38 +128,31 @@ Assuming the selfslug is non-empty and different than el.
 
 We need to add a line at the end of the list with the date to publish and after the date a "new". 
 
-To parse the date, we see if it is an actual date; if so we use it. We also have some recognized keywords: now, tomorrow, last, and first. The first two are the obvious, but the last two refer to ordering in a queue. The last will simply find the latest date and add a day to it for its own time. The first will search the new ones for the earliest date and then use it. It then shifts all the others by a day. If there are no new ones, then it queues for tomorrow. 
+To parse the date, we see if it is an actual date; if so we use it. We also have some recognized keywords: now, tomorrow, or an integer which gives the number of days before release. Actually anything unrecognized leads to the next day. 
 
-    var txtDate, releaseDate, ms;
+    var txtDate, releaseDate, releaseDay;
     txtDate = m[1].toLowerCase();
+    releaseDay = parseInt(txtDate, 10);
     releaseDate = new Date(txtDate);
-    if (isNaN(releaseDate.getTime()) ) {
+    if (releaseDay.toStr() === releaseDay) {
+        releaseDate = (new Date(now.getTime() + 86400000*releaseDay));
+    } else if (isNaN(releaseDate.getTime()) ) {
         if (txtDate === "now") {
             releaseDate = now;
-        } else if (txtDate === "tomorrow") {
-            releaseDate = (new Date(now.getTime() + 86400000));
-        } else if (txtDate === "last") {
-            _"last on queue"
-        } else if (txtDate === "first") {
-            _"first on queue"
         } else {
-            ms = (new Date()).getTime() + 86400000;        
+            releaseDate = (new Date(now.getTime() + 86400000));
         }
     } 
+
+If the correct date of publishing is not in the second line, then we correct it. 
+
+    if (releaseDate !== txtDate) {
+        file = file.replace(/^([^\n]+\n)(\S[^\n]*)\n/, "$1"+releaseDate+"\n");
+        write(entries+selfslug, file, "utf8");
+    }
     append(list, selfslug + " " + mdyt(releaseDate) + " new");
 
-#### First on queue
-
-!!! Search all items in list, noting the new ones and finding the earliest time. this is the time for this new post, add a day to all the rest. 
-
-    //
-
-#### Last on queue
-
-!!!  search all items in list, noting the new ones, and adding one day onto the most recent. 
-
-    //
-
+!!! We may want to add a bit more queue placement manipulations. But perhaps a separate script. 
 
 ## Assembler
 
@@ -182,6 +175,7 @@ Grab the list.txt file, read the directoy, use it to assemble the links and tabl
     var sections, oldlist, newlist;
     _"read list txt"
 
+    _"publish"
 
     var files = {};
 
@@ -207,7 +201,7 @@ We need to grab the list file, then split it into lines.
 Next we go through each one and split into a filename and time (if any)
     
     sections.forEach(function (el, index, arr) {
-        var num, ar, modtime;
+        var num, ar, modtime, date;
 
 Is it a part?
 
@@ -228,16 +222,17 @@ Should be a file. We get the time of last update and compare to latest mod time;
 The format for signalling a new entry is  `filename time new`. We check to see that the time has passed and then we publish (compile, rss feed generate). We also modify the list.txt (regenerate it each time). 
 
             if (ar[2] === "new") {
-                num = parseInt(ar[1], 10);
-                if (num) {
+                date = new Date(ar[1]);
+                num = date.getTime();
+                if ( ! isNaN(num) ) {
                     if (num <= now.getTime()) {
-                        publish(ar[0]);
+                        toPublish.push(ind);
                         ar[1] = mdyt(now);
-                        ar[2] = mdyt(num);
+                        ar[2] = mdyt(date);
                     }
                 } else {
-                    publish(ar[0]);
-                    ar[2] = ar[1] = mdyt(now);
+                    toPublish.push(ind);
+                    ar[1] = mdyt(now);
                 }
 
 These should be files without a new. If no time, then they get published. If time, they get updated if mtime is greater than given time.
@@ -248,32 +243,31 @@ These should be files without a new. If no time, then they get published. If tim
                     ar[1] = num;
                     modtime = stat(entries+ar[0]).mtime.getTime();
                     if (ar[1] < modtime) {
-                        publish(ar[0], ar[1]);
-                        if (!ar[2]) {
-                            ar[2] = mdyt(ar[1]); 
-                        }
+                        toPublish.push([ar[0], ar[1], ind]);
                         ar[1] = mdyt(modtime);
                     }
                 } else {
-                    publish(ar[0]);
-                    ar[2] = ar[1] = mdyt(now);         
+                    toPublish.push([ar[0], "", ind]);
+                    ar[1] = mdyt(now);         
                 }
 
 This is if the entry is in there with no time or anything. 
 
             } else {
-                publish(ar[0]);
-                ar[2] = ar[1] = mdyt(now);         
+                toPublish.push([ar[0], "", ind]);
+                ar[1] = mdyt(now);         
             }
 
             arr[index] = ar;
         }
     });
 
+!!!! toPublish is an array of things to publish. we are transitioning to add a separate publish step to enable easier insertion of navigation elements. 
+
 
 ### Publish
 
-This does the interesting work of compiling the markdown and generating the rss feed. 
+This does the interesting work of compiling the markdown and prepping the rss feed. 
 
 We are given a filename and possibly a time?
 
@@ -281,7 +275,7 @@ The procedure is: load the markdown file, transform to html, save in the html pa
 
 First line is the title, second line is date, then blank line, and then the body.
 
-    function (fname, time) {
+    function (fname, time, arr, ind) {
 
         var md = read(entries + fname, "utf8");
         md = md.split("\n");
@@ -289,7 +283,17 @@ First line is the title, second line is date, then blank line, and then the body
         var date = md[1];
         var body = md.slice(3).join("\n");
         var htm = marked(body);
+
+Add title
+
         htm = "<h3>"+title+"</h3>"+htm;
+
+Add navigation
+
+        htm += htm + nav(arr, ind);
+        
+Create the page
+
         var html = template.replace('_"*:body"', htm);
         write(ghpages+fname.replace(".md", ".html"), html, "utf8");
         updates.unshift([fname, md, time] );
@@ -386,8 +390,8 @@ We check to see if the title is already known. If not, then we get it.
     join("\n");
 
     if (newlist !== oldlist) {
-        mv("list.txt", "list_old.txt");
-        write("list.txt", newlist, "utf8");
+        //mv("list.txt", "list_old.txt");
+        //write("list.txt", newlist, "utf8");
     }
 
 ### Creating the table of contents

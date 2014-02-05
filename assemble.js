@@ -71,7 +71,7 @@ try {
 
 
 var template = read("template.htm", "utf8");
-var publish = function (fname, time) {
+var publish = function (fname, time, arr, ind) {
     
         var md = read(entries + fname, "utf8");
         md = md.split("\n");
@@ -79,7 +79,12 @@ var publish = function (fname, time) {
         var date = md[1];
         var body = md.slice(3).join("\n");
         var htm = marked(body);
+    
         htm = "<h3>"+title+"</h3>"+htm;
+    
+        htm += htm + nav(arr, ind);
+        
+    
         var html = template.replace('_"*:body"', htm);
         write(ghpages+fname.replace(".md", ".html"), html, "utf8");
         updates.unshift([fname, md, time] );
@@ -105,7 +110,7 @@ sections = oldlist.split("\n");
 
 
 sections.forEach(function (el, index, arr) {
-    var num, ar, modtime;
+    var num, ar, modtime, date;
 
     if ( (el.slice(0,2) === "# ") ) {
         arr[index] = ["#", el.slice(2)];
@@ -118,16 +123,17 @@ sections.forEach(function (el, index, arr) {
         ar = el.split(/\s+/);
 
         if (ar[2] === "new") {
-            num = parseInt(ar[1], 10);
-            if (num) {
+            date = new Date(ar[1]);
+            num = date.getTime();
+            if ( ! isNaN(num) ) {
                 if (num <= now.getTime()) {
-                    publish(ar[0]);
+                    toPublish.push(ind);
                     ar[1] = mdyt(now);
-                    ar[2] = mdyt(num);
+                    ar[2] = mdyt(date);
                 }
             } else {
-                publish(ar[0]);
-                ar[2] = ar[1] = mdyt(now);
+                toPublish.push(ind);
+                ar[1] = mdyt(now);
             }
 
         } else if (ar[1]) {
@@ -136,25 +142,45 @@ sections.forEach(function (el, index, arr) {
                 ar[1] = num;
                 modtime = stat(entries+ar[0]).mtime.getTime();
                 if (ar[1] < modtime) {
-                    publish(ar[0], ar[1]);
-                    if (!ar[2]) {
-                        ar[2] = mdyt(ar[1]); 
-                    }
+                    toPublish.push([ar[0], ar[1], ind]);
                     ar[1] = mdyt(modtime);
                 }
             } else {
-                publish(ar[0]);
-                ar[2] = ar[1] = mdyt(now);         
+                toPublish.push([ar[0], "", ind]);
+                ar[1] = mdyt(now);         
             }
 
         } else {
-            publish(ar[0]);
-            ar[2] = ar[1] = mdyt(now);         
+            toPublish.push([ar[0], "", ind]);
+            ar[1] = mdyt(now);         
         }
 
         arr[index] = ar;
     }
 });
+
+function (fname, time, arr, ind) {
+
+    var md = read(entries + fname, "utf8");
+    md = md.split("\n");
+    var title = md[0];
+    var date = md[1];
+    var body = md.slice(3).join("\n");
+    var htm = marked(body);
+
+    htm = "<h3>"+title+"</h3>"+htm;
+
+    htm += htm + nav(arr, ind);
+    
+
+    var html = template.replace('_"*:body"', htm);
+    write(ghpages+fname.replace(".md", ".html"), html, "utf8");
+    updates.unshift([fname, md, time] );
+    if (!time) {
+        news.unshift([fname, md, time]);
+    }
+
+}
 
 var files = {};
 
@@ -176,8 +202,8 @@ newlist = sections.map(function (el) {
 join("\n");
 
 if (newlist !== oldlist) {
-    mv("list.txt", "list_old.txt");
-    write("list.txt", newlist, "utf8");
+    //mv("list.txt", "list_old.txt");
+    //write("list.txt", newlist, "utf8");
 }
 
 var latest = [],

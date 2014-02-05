@@ -1,111 +1,113 @@
 # Innocence ; A simple life for me.
 ## King Fella ; Elven king has lots of wine.
-me-mord.md 1-4-2014-11:22 1-4-2014-11:22 Me Mord
-king-falla-fella.md 1-4-2014-11:22 1-4-2014-11:22 King Falla…fella?
-tree-house.md 1-4-2014-11:22 1-4-2014-11:22 Tree house of Elves
-spoils-of-failure.md 1-4-2014-11:22 1-4-2014-11:22 Spoils of Failure
-who-is-mord.md 1-4-2014-11:22 1-4-2014-11:22 Who is Mord
-dwarf-roast.md 1-4-2014-11:22 1-4-2014-11:22 Dwarf roast
+me-mord.md 
+king-falla-fella.md
+tree-house.md
+spoils-of-failure.md
+who-is-mord.md
+dwarf-roast.md
 ## Carrot ; Dwarves enjoy wrestling.
-mord-feed.md 1-4-2014-11:22 1-4-2014-11:22 Mord feed
-elfling-and-me.md 1-4-2014-11:22 1-4-2014-11:22 Elfling and Me
-a-small-home-for-a-small-people.md 1-4-2014-11:22 1-4-2014-11:22 A small home for a small people
-a-new-day-a-new-strength.md 1-4-2014-11:22 1-4-2014-11:22 A new day, a new strength
-carrot-clan.md 1-4-2014-11:22 1-4-2014-11:22 Carrot clan
-a-brick-cometh.md 1-4-2014-11:22 1-4-2014-11:22 A Brick Cometh
-rescue-or-pursuit-2.md 1-4-2014-11:22 1-4-2014-11:22 Rescue or Pursuit
-mine-enemy.md 1-4-2014-11:22 1-4-2014-11:22 Mine Enemy
-the-spoiling-of-victory.md 1-4-2014-11:22 1-4-2014-11:22 The spoiling of victory
-settling-in.md 1-4-2014-11:22 1-4-2014-11:22 Settling in
+mord-feed.md
+elfling-and-me.md
+a-small-home-for-a-small-people.md
+a-new-day-a-new-strength.md
+carrot-clan.md
+a-brick-cometh.md
+rescue-or-pursuit-2.md
+mine-enemy.md
+the-spoiling-of-victory.md
+settling-in.md
 ## Core ; Someone to understand me, someone to lose.
-wet-and-bruised.md 1-4-2014-11:22 1-4-2014-11:22 Wet and Bruised
-lights-in-the-sky.md 1-4-2014-11:22 1-4-2014-11:22 Lights in the sky
-docking-ale.md 1-4-2014-11:22 1-4-2014-11:22 Docking Ale
-on-the-hills-of-the-mountain-goat.md 1-4-2014-11:22 1-4-2014-11:22 On the Hills of the Mountain Goat
-beaten-into-the-light.md 1-4-2014-11:22 1-4-2014-11:22 Beaten into the Light
-a-core-loss.md 1-4-2014-11:22 1-4-2014-11:22 A Core Loss
-save-the-elf.md 1-4-2014-11:22 1-4-2014-11:22 Save the Elf
+wet-and-bruised.md
+lights-in-the-sky.md
+docking-ale.md
+on-the-hills-of-the-mountain-goat.md
+beaten-into-the-light.md
+a-core-loss.md
+save-the-elf.md
 ## Tackling ; Dwarves and water don't mix, unless they do.
-dwarves-and-water.md 1-4-2014-11:22 1-4-2014-11:22 Dwarves and water
-gurgle-gurgle.md 1-4-2014-11:22 1-4-2014-11:22 Gurgle, gurgle
-tackling-the-underwater-dwarves.md 1-4-2014-11:22 1-4-2014-11:22 Tackling the Underwater Dwarves
-weakling-and-me.md 1-4-2014-11:22 1-4-2014-11:22 Weakling and Me
-sin-tears.md 1-4-2014-11:22 1-4-2014-11:22 Sin Tears
-to-the-mountain-smith.md 1-4-2014-11:22 1-4-2014-11:22 To the Mountain Smith
-how-to-die.md 1-4-2014-11:22 1-4-2014-11:22 How to Die
-mord-sword.md 1-4-2014-11:22 1-4-2014-11:22 Mord Sword
-a-bero-of-fish.md 1-4-2014-11:22 1-4-2014-11:22 A Bero of Fish
+dwarves-and-water.md
+gurgle-gurgle.md
+tackling-the-underwater-dwarves.md
+weakling-and-me.md
+sin-tears.md
+to-the-mountain-smith.md
+how-to-die.md
+mord-sword.md
 # Betrayal ; The stings of treachery
 ## Fiola ; Saving the one I love from my own.
-nothing-to-report.md 1-4-2014-11:22 1-4-2014-11:22 Nothing to Report…
-ambushed.md 1-4-2014-11:22 1-4-2014-11:22 Ambushed
-flight-of-the-half-orc.md 1-4-2014-11:22 1-4-2014-11:22 Flight of the Half-Orc
-escape-and-capture.md 1-4-2014-11:22 1-4-2014-11:22 Escape and Capture
-death-and-retreat.md 1-4-2014-11:22 1-4-2014-11:22 Death and Retreat
-of-maces-and-men.md 1-4-2014-11:22 1-4-2014-11:22 Of Maces and Men
-the-emerald-hall.md 1-4-2014-11:22 1-4-2014-11:22 The Emerald Hall
+nothing-to-report.md
+ambushed.md
+flight-of-the-half-orc.md
+escape-and-capture.md
+death-and-retreat.md
+of-maces-and-men.md
+the-emerald-hall.md
 ## Starg ; Saving my friend at great pain.
-prisoners-dilemma.md 1-4-2014-11:22 1-4-2014-11:22 Prisoner’s Dilemma
-flight-of-reason.md 1-4-2014-11:22 1-4-2014-11:22 Flight of Reason
-of-nightmares-and-elves.md 1-4-2014-11:22 1-4-2014-11:22 Of Nightmares and Elves
-soul-ale-old-tale.md 1-4-2014-11:22 1-4-2014-11:22 Soul Ale, Old Tale
-rusty-thrust.md 1-4-2014-11:22 1-4-2014-11:22 Rusty Thrust
+prisoners-dilemma.md
+flight-of-reason.md
+of-nightmares-and-elves.md
+soul-ale-old-tale.md
+rusty-thrust.md
 ## LikeMore ; Dwarven losses. 
-giants-on-the-move.md 1-4-2014-11:22 1-4-2014-11:22 Giants on the Move
-heavy-clouds.md 1-4-2014-11:22 1-4-2014-11:22 Heavy Clouds
-after-the-fall.md 1-4-2014-11:22 1-4-2014-11:22 After the Fall
-tales-of-the-fall.md 1-4-2014-11:22 1-4-2014-11:22 Tales of the Fall
-the-remnants-of-like-more.md 1-4-2014-11:22 1-4-2014-11:22 The Remnants of Like More
+giants-on-the-move.md
+heavy-clouds.md
+after-the-fall.md
+tales-of-the-fall.md
+the-remnants-of-like-more.md
 ## Starg and Fiola ; Redemptions and unity.
-freeing-a-friend.md 1-4-2014-11:22 1-4-2014-11:22 Freeing a Friend
-of-suspicions-and-elves.md 1-4-2014-11:22 1-4-2014-11:22 Of Suspicions and Elves
-fealty-to-ones-lord.md 1-4-2014-11:22 1-4-2014-11:22 Fealty to One’s Lord
-the-plain-truth.md 1-4-2014-11:22 1-4-2014-11:22 The Plain Truth
-of-goblins-and-bugbears.md 1-4-2014-11:22 1-4-2014-11:22 Of Goblins and Bugbears
-betrayal-served-cold.md 1-4-2014-11:22 1-4-2014-11:22 Betrayal Served Cold
-and-betrayal-served-hot.md 1-4-2014-11:22 1-4-2014-11:22 And Betrayal Served Hot
-of-goblins-orcs-and-gnomes.md 1-4-2014-11:22 1-4-2014-11:22 Of Goblins, Orcs, and Gnomes
+freeing-a-friend.md
+of-suspicions-and-elves.md
+fealty-to-ones-lord.md
+the-plain-truth.md
+of-goblins-and-bugbears.md
+betrayal-served-cold.md
+and-betrayal-served-hot.md
+of-goblins-orcs-and-gnomes.md
 ## ABrick ; Looking for giants. 
-follow-the-temple.md 1-4-2014-11:22 1-4-2014-11:22 Follow the Temple
-a-new-hunt.md 1-4-2014-11:22 1-4-2014-11:22 A New Hunt
-rogue-strikes-back.md 1-4-2014-11:22 1-4-2014-11:22 Rogue Strikes Back
-return-of-the-mord.md 1-4-2014-11:22 1-4-2014-11:22 Return of the Mord
-work-and-recon.md 1-4-2014-11:22 1-4-2014-11:22 Work and Recon
-death-of-a-leader.md 1-4-2014-11:22 1-4-2014-11:22 Death of a Leader
+follow-the-temple.md
+a-new-hunt.md
+rogue-strikes-back.md
+return-of-the-mord.md
+work-and-recon.md
+death-of-a-leader.md
 ## ISear ; Joining up with the giants.
-snow-tracks.md 1-4-2014-11:22 1-4-2014-11:22 Snow Tracks
-the-stone-giants.md 1-4-2014-11:22 1-4-2014-11:22 The Stone Giants
-giant-refugee-camp.md 1-4-2014-11:22 1-4-2014-11:22 Giant Refugee Camp
-a-bricking-we-go.md 1-4-2014-11:22 1-4-2014-11:22 A Bricking We Go
-## DieLess ; Vengeance served cold, heated to a fury.
-elves-in-the-dark.md 1-4-2014-11:22 1-4-2014-11:22 Elves in the Dark
-the-dark-heart.md 1-4-2014-11:22 1-4-2014-11:22 The Dark Heart
-the-council-cometh.md 1-4-2014-11:22 1-4-2014-11:22 The Council Cometh
-greasing-the-greasedrow.md 1-4-2014-11:22 1-4-2014-11:22 Greasing the GreasedRow
-prisoner-ally.md 1-4-2014-11:22 1-4-2014-11:22 Prisoner Ally
-uncle-arry.md 1-4-2014-11:22 1-4-2014-11:22 Uncle Arry
-the-fall-of-the-house-of-emtor.md 1-4-2014-11:22 1-4-2014-11:22 The Fall of the House of EmTor
+snow-tracks.md
+the-stone-giants.md
+giant-refugee-camp.md
+a-bricking-we-go.md
+##DieLess ; Vengeance served cold, heated to a fury.
+elves-in-the-dark.md
+the-dark-heart.md
+the-council-cometh.md
+greasing-the-greasedrow.md
+prisoner-ally.md
+uncle-arry.md
+the-fall-of-the-house-of-emtor.md
 ## GalNear ;  Taking on angry giants.
-day-of-rest.md 1-4-2014-11:22 1-4-2014-11:22 Day of Rest
-a-weaklead.md 1-4-2014-11:22 1-4-2014-11:22 A WeakLead
-smoking-fish.md 1-4-2014-11:22 1-4-2014-11:22 Smoking Fish
-grinning-with-dragons.md 1-4-2014-11:22 1-4-2014-11:22 Grinning with Dragons
-the-core-matter.md 1-4-2014-11:22 1-4-2014-11:22 The Core Matter
-a-mighty-tankard.md 1-4-2014-11:22 1-4-2014-11:22 A Mighty Tankard
-the-fall-of-galnear.md 1-4-2014-11:22 1-4-2014-11:22 The Fall of GalNear
-again-core.md 1-4-2014-11:22 1-4-2014-11:22 Again, Core?
+day-of-rest.md
+a-weaklead.md
+smoking-fish.md
+grinning-with-dragons.md
+the-core-matter.md
+a-mighty-tankard.md
+the-fall-of-galnear.md
+again-core.md
 ## Arry ; Demons aplenty with a brave death.
-the-end-begins.md 1-4-2014-11:22 1-4-2014-11:22 The End Begins
-ruins-of-a-home.md 1-4-2014-11:22 1-4-2014-11:22 Ruins of a Home
-darkening-flight.md 1-4-2014-11:22 1-4-2014-11:22 Darkening Flight
-sword-of-drok.md 1-4-2014-11:22 1-4-2014-11:22 Sword of Drok
-earth-pounders.md 1-4-2014-11:22 1-4-2014-11:22 Earth Pounders
-snake-ladies.md 1-4-2014-11:22 1-4-2014-11:22 Snake Ladies
-dust-to-life.md 1-4-2014-11:22 1-4-2014-11:22 Dust to Life
+the-end-begins.md
+ruins-of-a-home.md
+darkening-flight.md
+sword-of-drok.md
+earth-pounders.md
+snake-ladies.md
+dust-to-life.md
 ## BaffledMint ; Taking on a demon lord.
-braving-the-nothing.md 1-4-2014-11:22 1-4-2014-11:22 Braving the Nothing
-a-maze.md 1-4-2014-11:22 1-4-2014-11:22 A Maze
-baffledmint.md 1-4-2014-11:22 1-4-2014-11:22 BaffledMint
+braving-the-nothing.md
+a-maze.md
+baffledmint.md
 # Renewal
 # Pride
 # Doom
+# Apocrypha
+## Bero Speaks
+a-bero-of-fish.md 

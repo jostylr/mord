@@ -56,27 +56,29 @@ files.forEach(function(el) {
             }
         }
     if (m) {
-        mv(drafts+el, entries+selfslug);
-        var txtDate, releaseDate, ms;
+        mv(drafts+el, entries+selfslug);            
+        var txtDate, releaseDate, releaseDay;
         txtDate = m[1].toLowerCase();
+        releaseDay = parseInt(txtDate, 10);
         releaseDate = new Date(txtDate);
-        if (isNaN(releaseDate.getTime()) ) {
+        if (releaseDay.toStr() === releaseDay) {
+            releaseDate = (new Date(now.getTime() + 86400000*releaseDay));
+        } else if (isNaN(releaseDate.getTime()) ) {
             if (txtDate === "now") {
                 releaseDate = now;
-            } else if (txtDate === "tomorrow") {
-                releaseDate = (new Date(now.getTime() + 86400000));
-            } else if (txtDate === "last") {
-                //
-            } else if (txtDate === "first") {
-                //
             } else {
-                ms = (new Date()).getTime() + 86400000;        
+                releaseDate = (new Date(now.getTime() + 86400000));
             }
         } 
+        
+        if (releaseDate !== txtDate) {
+            file = file.replace(/^([^\n]+\n)(\S[^\n]*)\n/, "$1"+releaseDate+"\n");
+            write(entries+selfslug, file, "utf8");
+        }
         append(list, selfslug + " " + mdyt(releaseDate) + " new");
     } else {
         if ( (selfslug) && (selfslug !== el.slice(0,-3)) ) {
              mv(drafts+el, drafts+selfslug);
-         }
+        }
     }
 });
