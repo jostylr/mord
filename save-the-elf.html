@@ -3,34 +3,76 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>_"*:title"</title>
-        <link rel="stylesheet" href="bootstrap.css">
+        <link href='http://fonts.googleapis.com/css?family=Leckerli+One' rel='stylesheet' type='text/css'>
+        <title>Save the Elf</title>
         <style>
-            #site-title h2  a {font-family: cursive; color: maroon}
-            #site-title {border-bottom: medium solid #3C3C3C}
-            #body {background-color: #3C3C3C}
-            #body p:last-child {text-align:right; font-variant: small-caps;}
-            .row {margin-bottom: 1em}
+            body {
+                background-color: black; 
+                color : #999; 
+                font-size: 26px;
+            }
+            h1, h2, h3, h4, h5, h6, a {
+                font-family: 'Leckerli One', cursive; 
+                color: crimson;
+            }
+            #site-title h1 {
+                margin-bottom : 0;
+            }
+            #site-description { 
+                margin : 0 auto;
+                font-size : 20px;
+            }
+            div[role~=header] {
+                border-bottom: thick solid #3C3C3C;
+            }
+            div[role~=main] {
+            }
+            div[role~=main] p:last-child {
+                text-align:right; 
+                font-variant: small-caps;
+            }
+            div[role~=main], div[role~=main] a,  #site-description {
+                font-family : Times New Roman, sans-serif;
+            }
+            @media (min-width: 980px) {
+                div[role] {
+                    width:980px; 
+                    padding : 10px;
+                    margin: 1em auto;
+                }
+            }
+            @media (min-width: 500px) and (max-width: 979px) {
+                div[role] {
+                    margin: 1em;
+                }
+            }
+            
+            @media (max-width: 499px) {
+                div[role] {
+                    margin: 0.5em;
+                }
+            }
+            
+            div[role~=navigation] {
+                position:relative
+            }
+            #before {
+                float:left
+            }
+            #after {
+                float:right
+            }
         </style> 
+
     </head>
     <body>
-    <div class="container">
-    <div class="row">
-    <div class="column col-sm-2"></div>
-    <div class="column col-sm-8">
-    <div id="site-title">
-        <h2>
-            <a href="http://mord.jostylr.com" title="Mord Blog" rel="home">Mord Blog</a>
-        </h2>
-        <div id="site-description">I am Mord. I serve my lord Kord with my greatsword.</div>
-    </div>
-    </div>
-    <div class="column col-sm-2"></div>
-    </div>
-    <div class="row">
-    <div class="column col-sm-2"></div>
-    <div class="column col-sm-8" id="body">
-    <h3>Save the Elf</h3><p>So we attended Core&#39;s remembrance. I was an honorary honor guard, allowed to carry my weapon, the weapon Core had made. In attendance were the heads of the dwarven community and so many others. But a great elf had joined us as well, to pay the elven respects. Apparently Core had once done some great deeds for them as well.</p>
+    <div role="header"><div id="site-title">
+            <h1>
+                <a href="http://mord.jostylr.com" title="Mord Blog" rel="home">Mord Blog</a>
+            </h1>
+            <p id="site-description">I am Mord. I serve my lord Kord with my greatsword.</p>
+        </div></div>
+    <div role="main"><h3>Save the Elf</h3><p>So we attended Core&#39;s remembrance. I was an honorary honor guard, allowed to carry my weapon, the weapon Core had made. In attendance were the heads of the dwarven community and so many others. But a great elf had joined us as well, to pay the elven respects. Apparently Core had once done some great deeds for them as well.</p>
 <p>As I listened, I felt this weight. Suspicious eyes glanced in my direction. I was the last one to see him, I was there and let this great dwarf fall. I was the reason, mysterious reason, why he was out. I could see ugliness in many of their eyes. And I was sad as their eyes reflected my own heart.</p>
 <p>But then it was over and they left. A few stayed behind for the final respects. The elf was among them as was I. Barrel stayed around too though I don&#39;t know why. He never seemed to really trust Core. But it seemed he wanted to be near the elf, I felt.</p>
 <p>As we were about to leave, I heard it, a chanting, a chanting I had heard before. This was not good. I yelled, &quot;Duck&quot; and I threw myself on the closest person to me which was the elf. My body covered him as the fireball scorched us in the room. I took the full brunt, but he was unharmed. Others in the room were not so lucky. Many were writhing in pain.</p>
@@ -44,11 +86,7 @@
 <p>As for me, the elf gave me a nice shirt. My old one was pretty ripped apart, by fire and the undead. This one, when I wear it, well, I seem to be able concentrate better. I like it. The elves do nice work even if they are a bit boring.</p>
 <p>And so the days go on. I think I need a change or a challenge. I miss Core.</p>
 <p>Mords of Wisdom: There is no safe place. Be ready.</p>
-
-    </div>
-    <div class="column col-sm-2"></div>
-
-    </div>
-    </div>
+</div>
+    <div role="navigation"><div id="before"><a href="a-core-loss.html">&#8612; A Core Loss</a></div><div id="after"><a href="dwarves-and-water.html">Dwarves and water &#8614;</a></div></div>
     </body>
 </html>

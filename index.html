@@ -3,44 +3,82 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href='http://fonts.googleapis.com/css?family=Leckerli+One' rel='stylesheet' type='text/css'>
         <title>Mord Blog</title>
-        <link rel="stylesheet" href="bootstrap.css">
         <style>
-            #site-title h2  a {font-family: cursive; color: maroon}
-            #site-title {border-bottom: medium solid #3C3C3C}
-            #body {background-color: #3C3C3C}
-            #body p:last-child {text-align:right; font-variant: small-caps;}
-            .row {margin-bottom: 1em}
+            body {
+                background-color: black; 
+                color : #999; 
+                font-size: 26px;
+            }
+            h1, h2, h3, h4, h5, h6, a {
+                font-family: 'Leckerli One', cursive; 
+                color: crimson;
+            }
+            #site-title h1 {
+                margin-bottom : 0;
+            }
+            #site-description { 
+                margin : 0 auto;
+                font-size : 20px;
+            }
+            div[role~=header] {
+                border-bottom: thick solid #3C3C3C;
+            }
+            div[role~=main] {
+            }
+            div[role~=main] p:last-child {
+                text-align:right; 
+                font-variant: small-caps;
+            }
+            div[role~=main], div[role~=main] a,  #site-description {
+                font-family : Times New Roman, sans-serif;
+            }
+            @media (min-width: 980px) {
+                div[role] {
+                    width:980px; 
+                    padding : 10px;
+                    margin: 1em auto;
+                }
+            }
+            @media (min-width: 500px) and (max-width: 979px) {
+                div[role] {
+                    margin: 1em;
+                }
+            }
+            
+            @media (max-width: 499px) {
+                div[role] {
+                    margin: 0.5em;
+                }
+            }
+            
+            div[role~=navigation] {
+                position:relative
+            }
+            #before {
+                float:left
+            }
+            #after {
+                float:right
+            }
         </style> 
+
     </head>
     <body>
-    <div class="container">
-    <div class="row">
-    <div class="column col-sm-2"></div>
-    <div class="column col-sm-8">
-    <div id="site-title">
-        <h2>
-            <a href="http://mord.jostylr.com" title="Mord Blog" rel="home">Mord Blog</a>
-        </h2>
-        <div id="site-description">I am Mord. I serve my lord Kord with my greatsword.</div>
-    </div>
-    </div>
-    <div class="column col-sm-2"></div>
-    </div>
-    <div class="row">
-    <div class="column col-sm-2"></div>
-    <div class="column col-sm-8" id="body">
-    <p>Welcome fans of Mord!</p>
-    <p>I, the wizard of techdom, have arranged for a direct line to the ancient great Mord.</p>
-    <p>I know, I know. We all know about what Mord did and the lessons he taught all of us. But why not get the truth from the horse’s mouth, or, rather, the half-orc’s mouth.</p>
-    <p>New to Mord blog? Start at the beginning when <a href="me-mord">Mord first starts talking to us.</a></p>
-    <p>Returning? Get the <a href="journal">latest stories of Mord</a> and his party of brave adventurers. Live it as they live it, with that fear and excitement of not knowing what will happen next.</p>
-    <p>Mords of Wisdom: Read Mord</p>
-    
-    </div>
-    <div class="column col-sm-2"></div>
-
-    </div>
-    </div>
+    <div role="header"><div id="site-title">
+            <h1>
+                <a href="http://mord.jostylr.com" title="Mord Blog" rel="home">Mord Blog</a>
+            </h1>
+            <p id="site-description">I am Mord. I serve my lord Kord with my greatsword.</p>
+        </div></div>
+    <div role="main"><p>Welcome fans of Mord!</p>
+        <p>I, the wizard of techdom, have arranged for a direct line to the ancient great Mord.</p>
+        <p>I know, I know. We all know about what Mord did and the lessons he taught all of us. But why not get the truth from the horse’s mouth, or, rather, the half-orc’s mouth.</p>
+        <p>New to Mord blog? Start at the beginning when <a href="me-mord.html">Mord first starts talking to us.</a></p>
+        <p>Returning? Get the <a href="toc.html">latest stories of Mord</a> and his party of brave adventurers. Live it as they live it, with that fear and excitement of not knowing what will happen next.</p>
+        <p>Mords of Wisdom: Read Mord</p>
+        </div>
+    <div role="navigation"><!--footer--></div>
     </body>
 </html>

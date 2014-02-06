@@ -3,44 +3,82 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>_"*:title"</title>
-        <link rel="stylesheet" href="bootstrap.css">
+        <link href='http://fonts.googleapis.com/css?family=Leckerli+One' rel='stylesheet' type='text/css'>
+        <title>Smoking Fish</title>
         <style>
-            #site-title h2  a {font-family: cursive; color: maroon}
-            #site-title {border-bottom: medium solid #3C3C3C}
-            #body {background-color: #3C3C3C}
-            #body p:last-child {text-align:right; font-variant: small-caps;}
-            .row {margin-bottom: 1em}
+            body {
+                background-color: black; 
+                color : #999; 
+                font-size: 26px;
+            }
+            h1, h2, h3, h4, h5, h6, a {
+                font-family: 'Leckerli One', cursive; 
+                color: crimson;
+            }
+            #site-title h1 {
+                margin-bottom : 0;
+            }
+            #site-description { 
+                margin : 0 auto;
+                font-size : 20px;
+            }
+            div[role~=header] {
+                border-bottom: thick solid #3C3C3C;
+            }
+            div[role~=main] {
+            }
+            div[role~=main] p:last-child {
+                text-align:right; 
+                font-variant: small-caps;
+            }
+            div[role~=main], div[role~=main] a,  #site-description {
+                font-family : Times New Roman, sans-serif;
+            }
+            @media (min-width: 980px) {
+                div[role] {
+                    width:980px; 
+                    padding : 10px;
+                    margin: 1em auto;
+                }
+            }
+            @media (min-width: 500px) and (max-width: 979px) {
+                div[role] {
+                    margin: 1em;
+                }
+            }
+            
+            @media (max-width: 499px) {
+                div[role] {
+                    margin: 0.5em;
+                }
+            }
+            
+            div[role~=navigation] {
+                position:relative
+            }
+            #before {
+                float:left
+            }
+            #after {
+                float:right
+            }
         </style> 
+
     </head>
     <body>
-    <div class="container">
-    <div class="row">
-    <div class="column col-sm-2"></div>
-    <div class="column col-sm-8">
-    <div id="site-title">
-        <h2>
-            <a href="http://mord.jostylr.com" title="Mord Blog" rel="home">Mord Blog</a>
-        </h2>
-        <div id="site-description">I am Mord. I serve my lord Kord with my greatsword.</div>
-    </div>
-    </div>
-    <div class="column col-sm-2"></div>
-    </div>
-    <div class="row">
-    <div class="column col-sm-2"></div>
-    <div class="column col-sm-8" id="body">
-    <h3>Smoking Fish</h3><p>After downing one round (okay, okay, two, well, three, well...) we flew to the mountain. It was stormy and getting dark. Kord guided us to the mountain now that we knew more about its location. When we arrived, it was pretty dark. We split up and searched all over the mountain. We saw no fires. It was dark and we could not see very far at all. Eventually, Barrel stumbled upon an abandoned campsite. We all flew down.</p>
+    <div role="header"><div id="site-title">
+            <h1>
+                <a href="http://mord.jostylr.com" title="Mord Blog" rel="home">Mord Blog</a>
+            </h1>
+            <p id="site-description">I am Mord. I serve my lord Kord with my greatsword.</p>
+        </div></div>
+    <div role="main"><h3>Smoking Fish</h3><p>After downing one round (okay, okay, two, well, three, well...) we flew to the mountain. It was stormy and getting dark. Kord guided us to the mountain now that we knew more about its location. When we arrived, it was pretty dark. We split up and searched all over the mountain. We saw no fires. It was dark and we could not see very far at all. Eventually, Barrel stumbled upon an abandoned campsite. We all flew down.</p>
 <p>Pitter mentioned that he felt a sadness in the air. As we searched, we found several dead stone giants. That was promising to the rest of us, though not exactly comforting to Pitter. As we searched further and farther, we found an outcropping that overlooked what seems to be a valley. And there on that rock we found dwarf bodies, broken. As I looked at them closely, it was clear to me that these were comrades of Weakling. We had found his party. But not him.</p>
 <p>I tried to call to him, to find him through the power of Kord, but nothing came of it. I am filled with despair as to what may have happened to him.</p>
 <p>I not understand. The dwarves look like they were taken by surprise, killed laying down, squashed into the stone. So who or what killed the stone giants? They smell a little singed and there seems to be one that was thrown against the side of the mountain--it looks like a big hammer mark on its chest.</p>
 <p>The others are exhausted and will likely sleep. I do not need sleep, this night of all nights, to be sure. I shall search for these giants and find Weakling, one way or another. This I vow to Kord in your honor, Weakling, bravest of the little dwarves.</p>
 <p>Mords of Wisdom: Locations change, drinks can wait.</p>
-
-    </div>
-    <div class="column col-sm-2"></div>
-
-    </div>
-    </div>
+</div>
+    <div role="navigation"><div id="before"><a href="a-weaklead.html">&#8612; A WeakLead</a></div><div id="after"><a href="grinning-with-dragons.html">Grinning with Dragons &#8614;</a></div></div>
     </body>
 </html>

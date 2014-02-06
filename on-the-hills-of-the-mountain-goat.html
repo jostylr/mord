@@ -3,34 +3,76 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>_"*:title"</title>
-        <link rel="stylesheet" href="bootstrap.css">
+        <link href='http://fonts.googleapis.com/css?family=Leckerli+One' rel='stylesheet' type='text/css'>
+        <title>On the Hills of the Mountain Goat</title>
         <style>
-            #site-title h2  a {font-family: cursive; color: maroon}
-            #site-title {border-bottom: medium solid #3C3C3C}
-            #body {background-color: #3C3C3C}
-            #body p:last-child {text-align:right; font-variant: small-caps;}
-            .row {margin-bottom: 1em}
+            body {
+                background-color: black; 
+                color : #999; 
+                font-size: 26px;
+            }
+            h1, h2, h3, h4, h5, h6, a {
+                font-family: 'Leckerli One', cursive; 
+                color: crimson;
+            }
+            #site-title h1 {
+                margin-bottom : 0;
+            }
+            #site-description { 
+                margin : 0 auto;
+                font-size : 20px;
+            }
+            div[role~=header] {
+                border-bottom: thick solid #3C3C3C;
+            }
+            div[role~=main] {
+            }
+            div[role~=main] p:last-child {
+                text-align:right; 
+                font-variant: small-caps;
+            }
+            div[role~=main], div[role~=main] a,  #site-description {
+                font-family : Times New Roman, sans-serif;
+            }
+            @media (min-width: 980px) {
+                div[role] {
+                    width:980px; 
+                    padding : 10px;
+                    margin: 1em auto;
+                }
+            }
+            @media (min-width: 500px) and (max-width: 979px) {
+                div[role] {
+                    margin: 1em;
+                }
+            }
+            
+            @media (max-width: 499px) {
+                div[role] {
+                    margin: 0.5em;
+                }
+            }
+            
+            div[role~=navigation] {
+                position:relative
+            }
+            #before {
+                float:left
+            }
+            #after {
+                float:right
+            }
         </style> 
+
     </head>
     <body>
-    <div class="container">
-    <div class="row">
-    <div class="column col-sm-2"></div>
-    <div class="column col-sm-8">
-    <div id="site-title">
-        <h2>
-            <a href="http://mord.jostylr.com" title="Mord Blog" rel="home">Mord Blog</a>
-        </h2>
-        <div id="site-description">I am Mord. I serve my lord Kord with my greatsword.</div>
-    </div>
-    </div>
-    <div class="column col-sm-2"></div>
-    </div>
-    <div class="row">
-    <div class="column col-sm-2"></div>
-    <div class="column col-sm-8" id="body">
-    <h3>On the Hills of the Mountain Goat</h3><p>&quot;Where is A Brick?&quot; me asked in the morning. We were to help him with the dwarven children expedition. All we got is that he was &quot;busy&quot;. So we took the children out anyway. It was Barrel, Pitter, Throw Down, All Grins, myself, and about 10 dwarven children. Barrel knew this great little spot overlooking a mountain lake, some forests, and great cliff sides for climbing. Apparently, this is where he shot the mountain goat and has been returning often.</p>
+    <div role="header"><div id="site-title">
+            <h1>
+                <a href="http://mord.jostylr.com" title="Mord Blog" rel="home">Mord Blog</a>
+            </h1>
+            <p id="site-description">I am Mord. I serve my lord Kord with my greatsword.</p>
+        </div></div>
+    <div role="main"><h3>On the Hills of the Mountain Goat</h3><p>&quot;Where is A Brick?&quot; me asked in the morning. We were to help him with the dwarven children expedition. All we got is that he was &quot;busy&quot;. So we took the children out anyway. It was Barrel, Pitter, Throw Down, All Grins, myself, and about 10 dwarven children. Barrel knew this great little spot overlooking a mountain lake, some forests, and great cliff sides for climbing. Apparently, this is where he shot the mountain goat and has been returning often.</p>
 <p>We found a nice spot for the outdoor practice and fun. Barrel was keeping an eye out for trouble while All Grins and Pitter played with the children. Me and Throw Down were setting up some outdoor training materials. We was there for about an hour, high above the valley floor, when we heard a great crack and rocks showered upon us.</p>
 <p>Barrel was the first to spot the giant and loosed off an arrow that dug deep into the hill giant&#39;s shoulder. The children screamed and as they started to flee, I bellowed &quot;Stop! Go with Pitter and Throw Down back to home.&quot; And all but one stopped and started to line up with the others. The tenth one had run to the edge of a cliff and had fallen. All Grins rushed over. Pitter and Throw Down started to move the children down the path. I drew my sword and grew large in my wrath. I advanced to the Hill Giant as Barrel kept firing arrows at it. The children were gone from sight as I finally made contact with the giant. He was soon no more. We looked around and saw All Grins disappear over the cliff side.</p>
 <p>We followed and found that he was cradling the fallen child. I climbed down and healed the child a bit. He stirred, but not much. We brought the child up and then decided to move on out when Barrel saw movement--it was something small in the distance, but it looked humanoid. Barrel and I decided to check it out while All Grins brought the child back.</p>
@@ -46,11 +88,7 @@
 <p>I rammed against the wall, again and again, until my shoulders felt broken. Me couldn&#39;t think, out of my mind with confusion, pain, and fear. And then, asking Kord for his strength to course through me, I burst out into a cave and I could see daylight! I started to run. But then I stepped on something and heard a whoosh. I groaned and ran faster. The cave was shaking, rocks falling, but I dove out of the cave opening only to find myself falling down a great slope into the mountain lake valley and into its water, barely conscious. After drinking a healing potion, I swam again. And found myself on the shores of the lake, looking at the tired form of Barrel.</p>
 <p>He apparently had had a rough time with the goats. Low Show came over and licked my face. I did not even have the strength to shoo her away. So ended a simple excursion with the children.</p>
 <p>Mords of Wisdom: Get parents to take their children out for a walk.</p>
-
-    </div>
-    <div class="column col-sm-2"></div>
-
-    </div>
-    </div>
+</div>
+    <div role="navigation"><div id="before"><a href="docking-ale.html">&#8612; Docking Ale</a></div><div id="after"><a href="beaten-into-the-light.html">Beaten into the Light &#8614;</a></div></div>
     </body>
 </html>

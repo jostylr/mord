@@ -3,34 +3,76 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>_"*:title"</title>
-        <link rel="stylesheet" href="bootstrap.css">
+        <link href='http://fonts.googleapis.com/css?family=Leckerli+One' rel='stylesheet' type='text/css'>
+        <title>A small home for a small people</title>
         <style>
-            #site-title h2  a {font-family: cursive; color: maroon}
-            #site-title {border-bottom: medium solid #3C3C3C}
-            #body {background-color: #3C3C3C}
-            #body p:last-child {text-align:right; font-variant: small-caps;}
-            .row {margin-bottom: 1em}
+            body {
+                background-color: black; 
+                color : #999; 
+                font-size: 26px;
+            }
+            h1, h2, h3, h4, h5, h6, a {
+                font-family: 'Leckerli One', cursive; 
+                color: crimson;
+            }
+            #site-title h1 {
+                margin-bottom : 0;
+            }
+            #site-description { 
+                margin : 0 auto;
+                font-size : 20px;
+            }
+            div[role~=header] {
+                border-bottom: thick solid #3C3C3C;
+            }
+            div[role~=main] {
+            }
+            div[role~=main] p:last-child {
+                text-align:right; 
+                font-variant: small-caps;
+            }
+            div[role~=main], div[role~=main] a,  #site-description {
+                font-family : Times New Roman, sans-serif;
+            }
+            @media (min-width: 980px) {
+                div[role] {
+                    width:980px; 
+                    padding : 10px;
+                    margin: 1em auto;
+                }
+            }
+            @media (min-width: 500px) and (max-width: 979px) {
+                div[role] {
+                    margin: 1em;
+                }
+            }
+            
+            @media (max-width: 499px) {
+                div[role] {
+                    margin: 0.5em;
+                }
+            }
+            
+            div[role~=navigation] {
+                position:relative
+            }
+            #before {
+                float:left
+            }
+            #after {
+                float:right
+            }
         </style> 
+
     </head>
     <body>
-    <div class="container">
-    <div class="row">
-    <div class="column col-sm-2"></div>
-    <div class="column col-sm-8">
-    <div id="site-title">
-        <h2>
-            <a href="http://mord.jostylr.com" title="Mord Blog" rel="home">Mord Blog</a>
-        </h2>
-        <div id="site-description">I am Mord. I serve my lord Kord with my greatsword.</div>
-    </div>
-    </div>
-    <div class="column col-sm-2"></div>
-    </div>
-    <div class="row">
-    <div class="column col-sm-2"></div>
-    <div class="column col-sm-8" id="body">
-    <h3>A small home for a small people</h3><p>Killing is not something I delight in. Me like the thumping and the triumphing and all, but killing is sad. We killed some very stinky giants, but I can&#39;t help but think that I be big and stinky too. I am not so dissimilar to them. True, me don&#39;t go around torturing dwarves and burning their furnitures. But I could see myself tossing the occasional dwarf maybe at some furniture that then breaks and becomes wood for fire. So not so different. Well.</p>
+    <div role="header"><div id="site-title">
+            <h1>
+                <a href="http://mord.jostylr.com" title="Mord Blog" rel="home">Mord Blog</a>
+            </h1>
+            <p id="site-description">I am Mord. I serve my lord Kord with my greatsword.</p>
+        </div></div>
+    <div role="main"><h3>A small home for a small people</h3><p>Killing is not something I delight in. Me like the thumping and the triumphing and all, but killing is sad. We killed some very stinky giants, but I can&#39;t help but think that I be big and stinky too. I am not so dissimilar to them. True, me don&#39;t go around torturing dwarves and burning their furnitures. But I could see myself tossing the occasional dwarf maybe at some furniture that then breaks and becomes wood for fire. So not so different. Well.</p>
 <p>Pitter and I found ourselves trapped between two very dead smelly giants. So I naturally geared up my strength and pushed the giant in front of us. Me strong, me push hard, me flatten All Grins with stinky giant, me sad. All Grins not happy; he not even grin. Actually, he never grins. Why we call him All Grins? Maybe he grins a lot for a dwarf? I asked Barrel about it once, and he said something about iron. That did not make any sense. I think somebody must be jesting.</p>
 <p>So I pushed the giant again and helped All Grins up. We pulled the other giant out and then begin our own ransacking, I mean, searching. They searched the giants and the dead dwarves. We actually found a dead lady dwarf. I not know that dwarves had ladies. All Grins says she was quite the looker. But all I see is a tangle of messy hair. Still, very sad.</p>
 <p>I decided to check out the waterways. Maybe they hid something in it? So I asked Kord for light: &quot;Kord, Kord, Kord, my lord: my need to see could reveal to thee something of interest.&quot; I love the chants of Kord. And so a great light burst upon this stone that I picked up from the lower bowl. Barrel agreed to catch the stone as I dropped it in the sink. We looked, he caught, nothing. So then I dropped it in the lower bowl and looked. I saw nothing and it disappeared. The fates would not have us find anything.</p>
@@ -38,11 +80,7 @@
 <p>I feel sad for Pitter as well. He is so dedicated to peace between his people and the dwarves. And yet, it seems he is doomed to wade in their blood.</p>
 <p>The dwarven realms await us. Air and Wander says we will get there before lunch tomorrow.</p>
 <p>Mords of Wisdom: Searching refuse is not always useful.</p>
-
-    </div>
-    <div class="column col-sm-2"></div>
-
-    </div>
-    </div>
+</div>
+    <div role="navigation"><div id="before"><a href="elfling-and-me.html">&#8612; Elfling and Me</a></div><div id="after"><a href="a-new-day-a-new-strength.html">A new day, a new strength &#8614;</a></div></div>
     </body>
 </html>

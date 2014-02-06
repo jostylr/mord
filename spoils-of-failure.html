@@ -3,34 +3,76 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>_"*:title"</title>
-        <link rel="stylesheet" href="bootstrap.css">
+        <link href='http://fonts.googleapis.com/css?family=Leckerli+One' rel='stylesheet' type='text/css'>
+        <title>Spoils of Failure</title>
         <style>
-            #site-title h2  a {font-family: cursive; color: maroon}
-            #site-title {border-bottom: medium solid #3C3C3C}
-            #body {background-color: #3C3C3C}
-            #body p:last-child {text-align:right; font-variant: small-caps;}
-            .row {margin-bottom: 1em}
+            body {
+                background-color: black; 
+                color : #999; 
+                font-size: 26px;
+            }
+            h1, h2, h3, h4, h5, h6, a {
+                font-family: 'Leckerli One', cursive; 
+                color: crimson;
+            }
+            #site-title h1 {
+                margin-bottom : 0;
+            }
+            #site-description { 
+                margin : 0 auto;
+                font-size : 20px;
+            }
+            div[role~=header] {
+                border-bottom: thick solid #3C3C3C;
+            }
+            div[role~=main] {
+            }
+            div[role~=main] p:last-child {
+                text-align:right; 
+                font-variant: small-caps;
+            }
+            div[role~=main], div[role~=main] a,  #site-description {
+                font-family : Times New Roman, sans-serif;
+            }
+            @media (min-width: 980px) {
+                div[role] {
+                    width:980px; 
+                    padding : 10px;
+                    margin: 1em auto;
+                }
+            }
+            @media (min-width: 500px) and (max-width: 979px) {
+                div[role] {
+                    margin: 1em;
+                }
+            }
+            
+            @media (max-width: 499px) {
+                div[role] {
+                    margin: 0.5em;
+                }
+            }
+            
+            div[role~=navigation] {
+                position:relative
+            }
+            #before {
+                float:left
+            }
+            #after {
+                float:right
+            }
         </style> 
+
     </head>
     <body>
-    <div class="container">
-    <div class="row">
-    <div class="column col-sm-2"></div>
-    <div class="column col-sm-8">
-    <div id="site-title">
-        <h2>
-            <a href="http://mord.jostylr.com" title="Mord Blog" rel="home">Mord Blog</a>
-        </h2>
-        <div id="site-description">I am Mord. I serve my lord Kord with my greatsword.</div>
-    </div>
-    </div>
-    <div class="column col-sm-2"></div>
-    </div>
-    <div class="row">
-    <div class="column col-sm-2"></div>
-    <div class="column col-sm-8" id="body">
-    <h3>Spoils of Failure</h3><p>So the king called us up and we had to tell him what we had done. His people were impressed with our bravery. I was sad. WE FAILED to save the elf lady. I was not strong enough. I must work harder. I must save someone.</p>
+    <div role="header"><div id="site-title">
+            <h1>
+                <a href="http://mord.jostylr.com" title="Mord Blog" rel="home">Mord Blog</a>
+            </h1>
+            <p id="site-description">I am Mord. I serve my lord Kord with my greatsword.</p>
+        </div></div>
+    <div role="main"><h3>Spoils of Failure</h3><p>So the king called us up and we had to tell him what we had done. His people were impressed with our bravery. I was sad. WE FAILED to save the elf lady. I was not strong enough. I must work harder. I must save someone.</p>
 <p>King Fella is a heck of a nice fella. He give Barrel a new pair of boots. They looked like nice soft boots. Now Barrel can sneak up on me and I do not hear him. I am thinking of getting a bell and tying it around his neck. Use a Kordian knot?</p>
 <p>All Grins got a shiny ring. It takes me longer now to beat All Grins at arm wrestling. He is so short. How can he compete with me.</p>
 <p>Pitter got a nice club. I mean, a really nice club. It looked like it was nice.</p>
@@ -40,11 +82,7 @@
 <p>My drinking buddy Napkin is also going with us. He is a gnome and has traveled far and wide. He told Mord all about it during an all-night drinking binge.</p>
 <p>So now we leave the elves and head to the dwarves. Apparently, there is a giant war there. That sounds more fun. Mord like to fight steel, not magics and posions like those dark elves.</p>
 <p>Mords of Wisdom: Kings have nice stuff.</p>
-
-    </div>
-    <div class="column col-sm-2"></div>
-
-    </div>
-    </div>
+</div>
+    <div role="navigation"><div id="before"><a href="tree-house.html">&#8612; Tree house of Elves</a></div><div id="after"><a href="who-is-mord.html">Who is Mord &#8614;</a></div></div>
     </body>
 </html>

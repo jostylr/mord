@@ -3,34 +3,76 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>_"*:title"</title>
-        <link rel="stylesheet" href="bootstrap.css">
+        <link href='http://fonts.googleapis.com/css?family=Leckerli+One' rel='stylesheet' type='text/css'>
+        <title>A Mighty Tankard</title>
         <style>
-            #site-title h2  a {font-family: cursive; color: maroon}
-            #site-title {border-bottom: medium solid #3C3C3C}
-            #body {background-color: #3C3C3C}
-            #body p:last-child {text-align:right; font-variant: small-caps;}
-            .row {margin-bottom: 1em}
+            body {
+                background-color: black; 
+                color : #999; 
+                font-size: 26px;
+            }
+            h1, h2, h3, h4, h5, h6, a {
+                font-family: 'Leckerli One', cursive; 
+                color: crimson;
+            }
+            #site-title h1 {
+                margin-bottom : 0;
+            }
+            #site-description { 
+                margin : 0 auto;
+                font-size : 20px;
+            }
+            div[role~=header] {
+                border-bottom: thick solid #3C3C3C;
+            }
+            div[role~=main] {
+            }
+            div[role~=main] p:last-child {
+                text-align:right; 
+                font-variant: small-caps;
+            }
+            div[role~=main], div[role~=main] a,  #site-description {
+                font-family : Times New Roman, sans-serif;
+            }
+            @media (min-width: 980px) {
+                div[role] {
+                    width:980px; 
+                    padding : 10px;
+                    margin: 1em auto;
+                }
+            }
+            @media (min-width: 500px) and (max-width: 979px) {
+                div[role] {
+                    margin: 1em;
+                }
+            }
+            
+            @media (max-width: 499px) {
+                div[role] {
+                    margin: 0.5em;
+                }
+            }
+            
+            div[role~=navigation] {
+                position:relative
+            }
+            #before {
+                float:left
+            }
+            #after {
+                float:right
+            }
         </style> 
+
     </head>
     <body>
-    <div class="container">
-    <div class="row">
-    <div class="column col-sm-2"></div>
-    <div class="column col-sm-8">
-    <div id="site-title">
-        <h2>
-            <a href="http://mord.jostylr.com" title="Mord Blog" rel="home">Mord Blog</a>
-        </h2>
-        <div id="site-description">I am Mord. I serve my lord Kord with my greatsword.</div>
-    </div>
-    </div>
-    <div class="column col-sm-2"></div>
-    </div>
-    <div class="row">
-    <div class="column col-sm-2"></div>
-    <div class="column col-sm-8" id="body">
-    <h3>A Mighty Tankard</h3><p>Core, All Grins, and I walked the empty corridors of the old dwarven home. It had become infested with very large, hairy spiders and giant worms. It was kind of neat hacking through them all. Traps of all kinds wound through our way, but Core was able to help us get past them.</p>
+    <div role="header"><div id="site-title">
+            <h1>
+                <a href="http://mord.jostylr.com" title="Mord Blog" rel="home">Mord Blog</a>
+            </h1>
+            <p id="site-description">I am Mord. I serve my lord Kord with my greatsword.</p>
+        </div></div>
+    <div role="main"><h3>A Mighty Tankard</h3><p>Core, All Grins, and I walked the empty corridors of the old dwarven home. It had become infested with very large, hairy spiders and giant worms. It was kind of neat hacking through them all. Traps of all kinds wound through our way, but Core was able to help us get past them.</p>
 <p>Then for the last stretch. Core stopped.</p>
 <p>&quot;Mord, I need you to stand in the circle--not now, when I tell you--and grab the chains and pull with all your might. Well, most of your might. Don&#39;t break them. But pull them tight. AllGrins, once he has done that, you need to run as fast as you can to the far end and grab the Tankard. Run back. I will be defending Mord. And, Mord, I am sorry, but you are going to have to trust me.&quot;</p>
 <p>&quot;Trust you, old dwarf? You hold the chains; I can defend you.&quot;</p>
@@ -53,11 +95,7 @@
 <p>&quot;Don&#39;t worry AllGrins, these hammers will have this object charged by morning. Then you can have it back.&quot;</p>
 <p>AllGrins glared at Core, frowned, and then did so. He refused to leave. So we stayed there, sleeping in the detonation room. Until morning.</p>
 <p>Mords of Wisdom: Those in the know are not the ones in danger.</p>
-
-    </div>
-    <div class="column col-sm-2"></div>
-
-    </div>
-    </div>
+</div>
+    <div role="navigation"><div id="before"><a href="the-core-matter.html">&#8612; The Core Matter</a></div><div id="after"><a href="the-fall-of-galnear.html">The Fall of GalNear &#8614;</a></div></div>
     </body>
 </html>

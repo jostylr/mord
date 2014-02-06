@@ -3,34 +3,76 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>_"*:title"</title>
-        <link rel="stylesheet" href="bootstrap.css">
+        <link href='http://fonts.googleapis.com/css?family=Leckerli+One' rel='stylesheet' type='text/css'>
+        <title>Mine Enemy</title>
         <style>
-            #site-title h2  a {font-family: cursive; color: maroon}
-            #site-title {border-bottom: medium solid #3C3C3C}
-            #body {background-color: #3C3C3C}
-            #body p:last-child {text-align:right; font-variant: small-caps;}
-            .row {margin-bottom: 1em}
+            body {
+                background-color: black; 
+                color : #999; 
+                font-size: 26px;
+            }
+            h1, h2, h3, h4, h5, h6, a {
+                font-family: 'Leckerli One', cursive; 
+                color: crimson;
+            }
+            #site-title h1 {
+                margin-bottom : 0;
+            }
+            #site-description { 
+                margin : 0 auto;
+                font-size : 20px;
+            }
+            div[role~=header] {
+                border-bottom: thick solid #3C3C3C;
+            }
+            div[role~=main] {
+            }
+            div[role~=main] p:last-child {
+                text-align:right; 
+                font-variant: small-caps;
+            }
+            div[role~=main], div[role~=main] a,  #site-description {
+                font-family : Times New Roman, sans-serif;
+            }
+            @media (min-width: 980px) {
+                div[role] {
+                    width:980px; 
+                    padding : 10px;
+                    margin: 1em auto;
+                }
+            }
+            @media (min-width: 500px) and (max-width: 979px) {
+                div[role] {
+                    margin: 1em;
+                }
+            }
+            
+            @media (max-width: 499px) {
+                div[role] {
+                    margin: 0.5em;
+                }
+            }
+            
+            div[role~=navigation] {
+                position:relative
+            }
+            #before {
+                float:left
+            }
+            #after {
+                float:right
+            }
         </style> 
+
     </head>
     <body>
-    <div class="container">
-    <div class="row">
-    <div class="column col-sm-2"></div>
-    <div class="column col-sm-8">
-    <div id="site-title">
-        <h2>
-            <a href="http://mord.jostylr.com" title="Mord Blog" rel="home">Mord Blog</a>
-        </h2>
-        <div id="site-description">I am Mord. I serve my lord Kord with my greatsword.</div>
-    </div>
-    </div>
-    <div class="column col-sm-2"></div>
-    </div>
-    <div class="row">
-    <div class="column col-sm-2"></div>
-    <div class="column col-sm-8" id="body">
-    <h3>Mine Enemy</h3><p>We trudged north. I was feeling a little full of dwarven ale and welcomed the fresh air.</p>
+    <div role="header"><div id="site-title">
+            <h1>
+                <a href="http://mord.jostylr.com" title="Mord Blog" rel="home">Mord Blog</a>
+            </h1>
+            <p id="site-description">I am Mord. I serve my lord Kord with my greatsword.</p>
+        </div></div>
+    <div role="main"><h3>Mine Enemy</h3><p>We trudged north. I was feeling a little full of dwarven ale and welcomed the fresh air.</p>
 <p>It seemed cold as the humans seemed a little blue in the face. Pitter had an ease about him that I had not seen before, but he had a haunted look, presumably at the thought of having to slaughter his own people. I dread the day that I might have to do the same. May Kord guide my aim.</p>
 <p>Throw Down didn&#39;t say too much. I think he was deep in contemplation, calling the forces of arcana. Complicated stuff, you know. Me, I got it easy. I got Kord. But who do mages have? Just them. So lonely they must be, so weary. Still, a mage on his own must have some interesting stories. Or perhaps not since he is alive.</p>
 <p>We approached the mine. The entrance was smashed into rubble. Barrel scouted ahead and we approached cautiously though All Grins was ripping to run in. He did exactly that when we saw that giant tracks led in, but not out.</p>
@@ -50,11 +92,7 @@
 <p>When done checking, I prayed: &quot;Kord, grant your humble servant the strength of voice to talk with A Brick.&quot; I could feel a conduit open to A Brick. I said &quot;A Brick. Mord here. Two giants attacked, two giants are dead now. Three dwarves alive. Shall we return or go and hunt the general?&quot;</p>
 <p>And then his reply.</p>
 <p>Mords of wisdom: Swords work better than slings.</p>
-
-    </div>
-    <div class="column col-sm-2"></div>
-
-    </div>
-    </div>
+</div>
+    <div role="navigation"><div id="before"><a href="rescue-or-pursuit-2.html">&#8612; Rescue or Pursuit</a></div><div id="after"><a href="the-spoiling-of-victory.html">The spoiling of victory &#8614;</a></div></div>
     </body>
 </html>
