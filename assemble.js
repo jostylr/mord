@@ -7,10 +7,7 @@ var ghpages = "./ghpages/";
 var now = new Date();
 
 var fs = require("fs");    
-var read = function (a,b) {
-    console.log(a, b);
-    return fs.readFileSync(a,b);
-}
+var read = fs.readFileSync;
 var write = fs.writeFileSync;
 var ls = fs.readdirSync;
 var mv = fs.renameSync;
@@ -187,7 +184,7 @@ var files = {};
 
 sections.forEach(function (el) {
     var md;
-    if ( (el[0] !== "#") && (el[0] !== "##") ) {
+    if ( (el[0] !== "#") && (el[0] !== "##")  ) {
         if (el.length < 4) {
             if ( ! files[el[0]] ) {
                 files[el[0]] = read(entries+el[0], "utf8");

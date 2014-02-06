@@ -7,7 +7,6 @@ spoils-of-failure.md
 who-is-mord.md
 dwarf-roast.md
 ## Carrot ; Dwarves enjoy wrestling.
-mord-feed.md
 elfling-and-me.md
 a-small-home-for-a-small-people.md
 a-new-day-a-new-strength.md
@@ -108,6 +107,3 @@ baffledmint.md
 # Renewal
 # Pride
 # Doom
-# Apocrypha
-## Bero Speaks
-a-bero-of-fish.md 

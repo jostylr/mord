@@ -43,10 +43,7 @@ These are the variables that one might want tweaked.
 We define read and write functions so that we can easily swap in other ones (say for test runs).
 
     var fs = require("fs");    
-    var read = function (a,b) {
-        console.log(a, b);
-        return fs.readFileSync(a,b);
-    }
+    var read = fs.readFileSync;
     var write = fs.writeFileSync;
     var ls = fs.readdirSync;
     var mv = fs.renameSync;
@@ -75,7 +72,6 @@ We use the directory queue to queue up an article.
 We read the directory and put the filenames (stripped of .md) as
 
     files = ls("./drafts");
-    console.log(files);
     files = files.filter(function (el) {
         return (el.slice(-3) === ".md");
     });
@@ -278,7 +274,7 @@ Make the entries all have dates, etc.
 
     sections.forEach(function (el) {
         var md;
-        if ( (el[0] !== "#") && (el[0] !== "##") ) {
+        if ( (el[0] !== "#") && (el[0] !== "##")  ) {
             if (el.length < 4) {
                 if ( ! files[el[0]] ) {
                     files[el[0]] = read(entries+el[0], "utf8");
@@ -642,40 +638,17 @@ The body gets replaced with a short list (5) of the most recent.  Then it should
         <head>
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link href='http://fonts.googleapis.com/css?family=Leckerli+One' rel='stylesheet' type='text/css'>
             <title>_"*:title"</title>
-            <link rel="stylesheet" href="bootstrap.css">
             <style>
-                #site-title h2  a {font-family: cursive; color: maroon}
-                #site-title {border-bottom: medium solid #3C3C3C}
-                #body {background-color: #3C3C3C}
-                #body p:last-child {text-align:right; font-variant: small-caps;}
-                .row {margin-bottom: 1em}
-                #before {float:left}
-                #after {float:right}
+                _"css"
             </style> 
+
         </head>
         <body>
-        <div class="container">
-
-        <div class="row">
-        <div class="column col-sm-2"></div>
-        <div class="column col-sm-8">_"header"</div>
-        <div class="column col-sm-2"></div>
-        </div>
-
-        <div class="row">
-        <div class="column col-sm-2"></div>
-        <div class="column col-sm-8" id="body">_"*:body"</div>
-        <div class="column col-sm-2"></div>
-        </div>
-
-        <div class="row">
-        <div class="column col-sm-2"></div>
-        <div class="column col-sm-8" id="footer"><!--footer--></div>
-        <div class="column col-sm-2"></div>
-        </div>
-
-        </div>
+        <div role="header">_"header"</div>
+        <div role="main">_"*:body"</div>
+        <div role="navigation"><!--footer--></div>
         </body>
     </html>
 
@@ -684,17 +657,84 @@ The body gets replaced with a short list (5) of the most recent.  Then it should
 This is the html for the header on all the mord pages.
 
     <div id="site-title">
-        <h2>
+        <h1>
             <a href="http://mord.jostylr.com" title="Mord Blog" rel="home">Mord Blog</a>
-        </h2>
-        <div id="site-description">I am Mord. I serve my lord Kord with my greatsword.</div>
+        </h1>
+        <p id="site-description">I am Mord. I serve my lord Kord with my greatsword.</p>
     </div>
+
+### css
+
+Here is the css of the page. We want one column (div width = 980px, or less). 
+
+    body {
+        background-color: black; 
+        color : #999; 
+        font-size: 26px;
+    }
+    h1, h2, h3, h4, h5, h6, a {
+        font-family: 'Leckerli One', cursive; 
+        color: crimson;
+    }
+    #site-title h1 {
+        margin-bottom : 0;
+    }
+    #site-description { 
+        margin : 0 auto;
+        font-size : 20px;
+    }
+    div[role~=header] {
+        border-bottom: thick solid #3C3C3C;
+    }
+    div[role~=main] {
+background-color: #3C3C3C; 
+    }
+    div[role~=main] p:last-child {
+        text-align:right; 
+        font-variant: small-caps;
+    }
+    div[role~=main], div[role~=main] a,  #site-description {
+        font-family : Times New Roman, sans-serif;
+    }
+    @media (min-width: 980px) {
+        div[role] {
+            width:980px; 
+            padding : 10px;
+            margin: 1em auto;
+        }
+    }
+    @media (min-width: 500px) and (max-width: 979px) {
+        div[role] {
+            margin: 1em;
+        }
+    }
+
+    @media (max-width: 499px) {
+        div[role] {
+            margin: 0.5em;
+        }
+    }
+
+    div[role~=navigation] {
+        position:relative
+    }
+    #before {
+        float:left
+    }
+    #after {
+        float:right
+    }
 
 
 ## TODO
 
-Everything. 
+Generate feeds. 
 
+Swipe up / down, left/right  to go through the site. Thinking about hammer.js for touch devices, left/right for desktop.  
+
+Think about font selections.
+
+Deal with pages. 
 
 ## NPM package
 

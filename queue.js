@@ -7,10 +7,7 @@ var ghpages = "./ghpages/";
 var now = new Date();
 
 var fs = require("fs");    
-var read = function (a,b) {
-    console.log(a, b);
-    return fs.readFileSync(a,b);
-}
+var read = fs.readFileSync;
 var write = fs.writeFileSync;
 var ls = fs.readdirSync;
 var mv = fs.renameSync;
@@ -37,7 +34,6 @@ var mdyt = function (date) {
 
 var files;
 files = ls("./drafts");
-console.log(files);
 files = files.filter(function (el) {
     return (el.slice(-3) === ".md");
 });
