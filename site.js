@@ -11,19 +11,3 @@ window.onkeydown = function (e) {
         after.click();
     }
 };
-
-var dir; 
-
-Hammer(body).on("dragright", function () {
-    dir = before; 
-});
-
-Hammer(body).on("dragleft", function () {
-    dir = after;
-});
-
-Hammer(body).on("dragend", function () {
-    if (dir) {
-        dir.click();
-    }
-});
