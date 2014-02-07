@@ -3,67 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href='http://fonts.googleapis.com/css?family=Leckerli+One' rel='stylesheet' type='text/css'>
         <title>Lights in the sky</title>
-        <style>
-            body {
-                background-color: black; 
-                color : #999; 
-                font-size: 26px;
-            }
-            h1, h2, h3, h4, h5, h6, a {
-                font-family: 'Leckerli One', cursive; 
-                color: crimson;
-            }
-            #site-title h1 {
-                margin-bottom : 0;
-            }
-            #site-description { 
-                margin : 0 auto;
-                font-size : 20px;
-            }
-            div[role~=header] {
-                border-bottom: thick solid #3C3C3C;
-            }
-            div[role~=main] {
-            }
-            div[role~=main] p:last-child {
-                text-align:right; 
-                font-variant: small-caps;
-            }
-            div[role~=main], div[role~=main] a,  #site-description {
-                font-family : Times New Roman, sans-serif;
-            }
-            @media (min-width: 980px) {
-                div[role] {
-                    width:980px; 
-                    padding : 10px;
-                    margin: 1em auto;
-                }
-            }
-            @media (min-width: 500px) and (max-width: 979px) {
-                div[role] {
-                    margin: 1em;
-                }
-            }
-            
-            @media (max-width: 499px) {
-                div[role] {
-                    margin: 0.5em;
-                }
-            }
-            
-            div[role~=navigation] {
-                position:relative
-            }
-            #before {
-                float:left
-            }
-            #after {
-                float:right
-            }
-        </style> 
-
+        <link href="site.css" rel="stylesheet" type="text/css" media="all">
     </head>
     <body>
     <div role="header"><div id="site-title">
@@ -72,7 +13,7 @@
             </h1>
             <p id="site-description">I am Mord. I serve my lord Kord with my greatsword.</p>
         </div></div>
-    <div role="main"><h3>Lights in the sky</h3><p>So these crazy dwarves.  They apparently have a feast every so often in which they celebrate good fortune, their new gems, and generally get drunk. Sounds like every other night to me.</p>
+    <div role="main"><h2>Lights in the sky</h2><p>So these crazy dwarves.  They apparently have a feast every so often in which they celebrate good fortune, their new gems, and generally get drunk. Sounds like every other night to me.</p>
 <p>Well, there is one special thing that they do. Apparently they have these rods suspended in mid-air and they put their choicest gems on them. It is a great honor to have one&#39;s gems placed on these rods. Now, these rods are suspended high in the air. Usually, they have a dwarven mage take care of this arrangement. Well, I came across him. And man was I sorry.</p>
 <p>So this dwarf, who wouldn&#39;t give his name, I&#39;ll just call him Mage, was looking rather puzzled. So I went up and asked if he needed help. I knew nothing about what he was up to. Maybe he forgot where he lived. He was really old looking, hobbled with a gnarly gray staff. I am not sure which was more wrinkly.</p>
 <p>Anyway, he said that he had to change the gems. Me not know what he was talking about. He pointed up and I saw the gems sparkle. There were seven of them. I then looked down and saw he had seven gems in his hand. He whispered, &quot;Fallos shola thurem&quot;. Nothing happened. He said a couple of other things. One time the gems faintly glowed. But nothing happened.</p>
@@ -98,5 +39,9 @@
 <p>Mords of Wisodm: Never offer your heart to a hungry creature.</p>
 </div>
     <div role="navigation"><div id="before"><a href="wet-and-bruised.html">&#8612; Wet and Bruised</a></div><div id="after"><a href="docking-ale.html">Docking Ale &#8614;</a></div></div>
+
+    <script src="hammer.js"></script>
+    <script src="site.js"></script>
+
     </body>
 </html>

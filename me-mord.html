@@ -3,67 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href='http://fonts.googleapis.com/css?family=Leckerli+One' rel='stylesheet' type='text/css'>
         <title>Me Mord</title>
-        <style>
-            body {
-                background-color: black; 
-                color : #999; 
-                font-size: 26px;
-            }
-            h1, h2, h3, h4, h5, h6, a {
-                font-family: 'Leckerli One', cursive; 
-                color: crimson;
-            }
-            #site-title h1 {
-                margin-bottom : 0;
-            }
-            #site-description { 
-                margin : 0 auto;
-                font-size : 20px;
-            }
-            div[role~=header] {
-                border-bottom: thick solid #3C3C3C;
-            }
-            div[role~=main] {
-            }
-            div[role~=main] p:last-child {
-                text-align:right; 
-                font-variant: small-caps;
-            }
-            div[role~=main], div[role~=main] a,  #site-description {
-                font-family : Times New Roman, sans-serif;
-            }
-            @media (min-width: 980px) {
-                div[role] {
-                    width:980px; 
-                    padding : 10px;
-                    margin: 1em auto;
-                }
-            }
-            @media (min-width: 500px) and (max-width: 979px) {
-                div[role] {
-                    margin: 1em;
-                }
-            }
-            
-            @media (max-width: 499px) {
-                div[role] {
-                    margin: 0.5em;
-                }
-            }
-            
-            div[role~=navigation] {
-                position:relative
-            }
-            #before {
-                float:left
-            }
-            #after {
-                float:right
-            }
-        </style> 
-
+        <link href="site.css" rel="stylesheet" type="text/css" media="all">
     </head>
     <body>
     <div role="header"><div id="site-title">
@@ -72,7 +13,7 @@
             </h1>
             <p id="site-description">I am Mord. I serve my lord Kord with my greatsword.</p>
         </div></div>
-    <div role="main"><h3>Me Mord</h3><p>Hi. Me Mord. I not big on words, but silly wizard-man from future say I should write. So he gave me a book and I said, &quot;Write?&quot; He groaned. Then I said, &quot;I can speak&quot;. And he grumbled. I think he not happy.</p>
+    <div role="main"><h2>Me Mord</h2><p>Hi. Me Mord. I not big on words, but silly wizard-man from future say I should write. So he gave me a book and I said, &quot;Write?&quot; He groaned. Then I said, &quot;I can speak&quot;. And he grumbled. I think he not happy.</p>
 <p>He vanished in a poof of smoke and then he came back while I was eating a hog. It was just a small hog. It was tasty. Mmmm...spit-roasted hog with a tankard of ale. That was good.</p>
 <p>So wizard-man was standing in front of me and gave me a black stone. He said, &quot;Speak into this your thoughts and experiences and it will record what you say.&quot; I say &quot;okay&quot;. But then I wonder. Why? So I say, &quot;Why?&quot;</p>
 <p>Hi sighes deeply. &quot;Mord, this may be hard for you to believe, but those words of wisdom of yours that have survived the centuries still warm the hearts and minds of many of Kord&#39;s followers.&quot;</p>
@@ -87,5 +28,9 @@
 <p>Mords of Wisdom: Hog is mightier than the future.</p>
 </div>
     <div role="navigation"><div id="before"><a href="/">&#8613; Intro</a></div><div id="after"><a href="king-falla-fella.html">King Falla…fella? &#8614;</a></div></div>
+
+    <script src="hammer.js"></script>
+    <script src="site.js"></script>
+
     </body>
 </html>

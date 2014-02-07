@@ -3,67 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href='http://fonts.googleapis.com/css?family=Leckerli+One' rel='stylesheet' type='text/css'>
         <title>Rogue Strikes Back</title>
-        <style>
-            body {
-                background-color: black; 
-                color : #999; 
-                font-size: 26px;
-            }
-            h1, h2, h3, h4, h5, h6, a {
-                font-family: 'Leckerli One', cursive; 
-                color: crimson;
-            }
-            #site-title h1 {
-                margin-bottom : 0;
-            }
-            #site-description { 
-                margin : 0 auto;
-                font-size : 20px;
-            }
-            div[role~=header] {
-                border-bottom: thick solid #3C3C3C;
-            }
-            div[role~=main] {
-            }
-            div[role~=main] p:last-child {
-                text-align:right; 
-                font-variant: small-caps;
-            }
-            div[role~=main], div[role~=main] a,  #site-description {
-                font-family : Times New Roman, sans-serif;
-            }
-            @media (min-width: 980px) {
-                div[role] {
-                    width:980px; 
-                    padding : 10px;
-                    margin: 1em auto;
-                }
-            }
-            @media (min-width: 500px) and (max-width: 979px) {
-                div[role] {
-                    margin: 1em;
-                }
-            }
-            
-            @media (max-width: 499px) {
-                div[role] {
-                    margin: 0.5em;
-                }
-            }
-            
-            div[role~=navigation] {
-                position:relative
-            }
-            #before {
-                float:left
-            }
-            #after {
-                float:right
-            }
-        </style> 
-
+        <link href="site.css" rel="stylesheet" type="text/css" media="all">
     </head>
     <body>
     <div role="header"><div id="site-title">
@@ -72,7 +13,7 @@
             </h1>
             <p id="site-description">I am Mord. I serve my lord Kord with my greatsword.</p>
         </div></div>
-    <div role="main"><h3>Rogue Strikes Back</h3><p>I scryed and got very lucky. I was not only successful with scrying for this dwarf, but I also recognized his surroundings. It was the cave where we first met the giants killing dwarves. It looked like the dwarf was doing a thorough study of his found gems.</p>
+    <div role="main"><h2>Rogue Strikes Back</h2><p>I scryed and got very lucky. I was not only successful with scrying for this dwarf, but I also recognized his surroundings. It was the cave where we first met the giants killing dwarves. It looked like the dwarf was doing a thorough study of his found gems.</p>
 <p>I instantly set out for the cave. After about two hours of flight, I was outside of the cave. I went in and sealed the cave with a covering of stone. I prepared for combat.</p>
 <p>I went into the cave, memories coming back to me of a simpler time. It seemed so long ago. And the stench was overpowering as the bodies were still here. I was rather tempted to unseal the entrance.</p>
 <p>I could hear clinking and, &quot;Ah yes. This one will fetch 1000. And this one might even go for 5000...&quot;</p>
@@ -109,5 +50,9 @@
 <p>Mords of Wisdom: Always have a backup plan.</p>
 </div>
     <div role="navigation"><div id="before"><a href="a-new-hunt.html">&#8612; A New Hunt</a></div><div id="after"><a href="return-of-the-mord.html">Return of the Mord &#8614;</a></div></div>
+
+    <script src="hammer.js"></script>
+    <script src="site.js"></script>
+
     </body>
 </html>

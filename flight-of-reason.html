@@ -3,67 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href='http://fonts.googleapis.com/css?family=Leckerli+One' rel='stylesheet' type='text/css'>
         <title>Flight of Reason</title>
-        <style>
-            body {
-                background-color: black; 
-                color : #999; 
-                font-size: 26px;
-            }
-            h1, h2, h3, h4, h5, h6, a {
-                font-family: 'Leckerli One', cursive; 
-                color: crimson;
-            }
-            #site-title h1 {
-                margin-bottom : 0;
-            }
-            #site-description { 
-                margin : 0 auto;
-                font-size : 20px;
-            }
-            div[role~=header] {
-                border-bottom: thick solid #3C3C3C;
-            }
-            div[role~=main] {
-            }
-            div[role~=main] p:last-child {
-                text-align:right; 
-                font-variant: small-caps;
-            }
-            div[role~=main], div[role~=main] a,  #site-description {
-                font-family : Times New Roman, sans-serif;
-            }
-            @media (min-width: 980px) {
-                div[role] {
-                    width:980px; 
-                    padding : 10px;
-                    margin: 1em auto;
-                }
-            }
-            @media (min-width: 500px) and (max-width: 979px) {
-                div[role] {
-                    margin: 1em;
-                }
-            }
-            
-            @media (max-width: 499px) {
-                div[role] {
-                    margin: 0.5em;
-                }
-            }
-            
-            div[role~=navigation] {
-                position:relative
-            }
-            #before {
-                float:left
-            }
-            #after {
-                float:right
-            }
-        </style> 
-
+        <link href="site.css" rel="stylesheet" type="text/css" media="all">
     </head>
     <body>
     <div role="header"><div id="site-title">
@@ -72,7 +13,7 @@
             </h1>
             <p id="site-description">I am Mord. I serve my lord Kord with my greatsword.</p>
         </div></div>
-    <div role="main"><h3>Flight of Reason</h3><p>I took a couple of days off and flew down to New Ardlord to talk to my Mom and Fiola about Starg.</p>
+    <div role="main"><h2>Flight of Reason</h2><p>I took a couple of days off and flew down to New Ardlord to talk to my Mom and Fiola about Starg.</p>
 <p>&quot;Starg is a bully. He is rotten through and through. And he nearly got me killed. Why did you ever bring him back?&quot; said Fiola after I asked her for advice, after our exchanging pleasantries.</p>
 <p>&quot;Fiola, he has had a hard time of it. I think I can bring him back if I can figure out how to reach him. Me just not too good with the mind stuff.&quot;</p>
 <p>&quot;Look. I am not saying I agree with you, but if you must help him, it sounds like his death experience may have touched him in some way. Get him to talk more about that. Maybe even get him to talk about what he has been doing, how his actions have made him feel.&quot;</p>
@@ -95,5 +36,9 @@
 <p>Mords of Wisdom: Forgiveness is rare.</p>
 </div>
     <div role="navigation"><div id="before"><a href="prisoners-dilemma.html">&#8612; Prisoner’s Dilemma</a></div><div id="after"><a href="of-nightmares-and-elves.html">Of Nightmares and Elves &#8614;</a></div></div>
+
+    <script src="hammer.js"></script>
+    <script src="site.js"></script>
+
     </body>
 </html>

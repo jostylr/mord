@@ -3,67 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href='http://fonts.googleapis.com/css?family=Leckerli+One' rel='stylesheet' type='text/css'>
         <title>Dwarves and water</title>
-        <style>
-            body {
-                background-color: black; 
-                color : #999; 
-                font-size: 26px;
-            }
-            h1, h2, h3, h4, h5, h6, a {
-                font-family: 'Leckerli One', cursive; 
-                color: crimson;
-            }
-            #site-title h1 {
-                margin-bottom : 0;
-            }
-            #site-description { 
-                margin : 0 auto;
-                font-size : 20px;
-            }
-            div[role~=header] {
-                border-bottom: thick solid #3C3C3C;
-            }
-            div[role~=main] {
-            }
-            div[role~=main] p:last-child {
-                text-align:right; 
-                font-variant: small-caps;
-            }
-            div[role~=main], div[role~=main] a,  #site-description {
-                font-family : Times New Roman, sans-serif;
-            }
-            @media (min-width: 980px) {
-                div[role] {
-                    width:980px; 
-                    padding : 10px;
-                    margin: 1em auto;
-                }
-            }
-            @media (min-width: 500px) and (max-width: 979px) {
-                div[role] {
-                    margin: 1em;
-                }
-            }
-            
-            @media (max-width: 499px) {
-                div[role] {
-                    margin: 0.5em;
-                }
-            }
-            
-            div[role~=navigation] {
-                position:relative
-            }
-            #before {
-                float:left
-            }
-            #after {
-                float:right
-            }
-        </style> 
-
+        <link href="site.css" rel="stylesheet" type="text/css" media="all">
     </head>
     <body>
     <div role="header"><div id="site-title">
@@ -72,7 +13,7 @@
             </h1>
             <p id="site-description">I am Mord. I serve my lord Kord with my greatsword.</p>
         </div></div>
-    <div role="main"><h3>Dwarves and water</h3><p>Me tells them, &quot;This tree is blocking the view.&quot; But does they listen to dumb old Mord? No. So they have me lug all these stones over, building them a nice, hidden sniper tower. And what happens? What happens? The little runts climb up, look out the slits, and say &quot;There is a tree in the way, you dumb half-breed!&quot;</p>
+    <div role="main"><h2>Dwarves and water</h2><p>Me tells them, &quot;This tree is blocking the view.&quot; But does they listen to dumb old Mord? No. So they have me lug all these stones over, building them a nice, hidden sniper tower. And what happens? What happens? The little runts climb up, look out the slits, and say &quot;There is a tree in the way, you dumb half-breed!&quot;</p>
 <p>Now, I not usually a violent fellow. But this time I tackled the fellow and pummeled into unconsciousness. I dumb because I do what these little runts tell me even though it is most unwise to follow their directions.</p>
 <p>So I left the fellow. Yeah, I did. I was angry. I stormed past the Door Lick and into the dwarven cavern, heading for that glorious tavern. Me thinks the barkeep could smell the dwarf blood on my hands because he gave me the worst ale I have ever had. I don&#39;t think it clean.</p>
 <p>As I drank that wretched liquid, feeling down about what I was doing here. Why did Core die? What was I going to do, become a dwarf? When I get out of here? Then one of those young dwarf messengers came up, you know, the ones with the helmets that fall over their eyes and that trip over every other step. Says I got to go see A Brick.</p>
@@ -93,5 +34,9 @@
 <p>Mords of Wisdom: Beat someone senseless enough and they might come around.</p>
 </div>
     <div role="navigation"><div id="before"><a href="save-the-elf.html">&#8612; Save the Elf</a></div><div id="after"><a href="gurgle-gurgle.html">Gurgle, gurgle &#8614;</a></div></div>
+
+    <script src="hammer.js"></script>
+    <script src="site.js"></script>
+
     </body>
 </html>

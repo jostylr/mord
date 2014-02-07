@@ -3,67 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href='http://fonts.googleapis.com/css?family=Leckerli+One' rel='stylesheet' type='text/css'>
         <title>Follow the Temple</title>
-        <style>
-            body {
-                background-color: black; 
-                color : #999; 
-                font-size: 26px;
-            }
-            h1, h2, h3, h4, h5, h6, a {
-                font-family: 'Leckerli One', cursive; 
-                color: crimson;
-            }
-            #site-title h1 {
-                margin-bottom : 0;
-            }
-            #site-description { 
-                margin : 0 auto;
-                font-size : 20px;
-            }
-            div[role~=header] {
-                border-bottom: thick solid #3C3C3C;
-            }
-            div[role~=main] {
-            }
-            div[role~=main] p:last-child {
-                text-align:right; 
-                font-variant: small-caps;
-            }
-            div[role~=main], div[role~=main] a,  #site-description {
-                font-family : Times New Roman, sans-serif;
-            }
-            @media (min-width: 980px) {
-                div[role] {
-                    width:980px; 
-                    padding : 10px;
-                    margin: 1em auto;
-                }
-            }
-            @media (min-width: 500px) and (max-width: 979px) {
-                div[role] {
-                    margin: 1em;
-                }
-            }
-            
-            @media (max-width: 499px) {
-                div[role] {
-                    margin: 0.5em;
-                }
-            }
-            
-            div[role~=navigation] {
-                position:relative
-            }
-            #before {
-                float:left
-            }
-            #after {
-                float:right
-            }
-        </style> 
-
+        <link href="site.css" rel="stylesheet" type="text/css" media="all">
     </head>
     <body>
     <div role="header"><div id="site-title">
@@ -72,7 +13,7 @@
             </h1>
             <p id="site-description">I am Mord. I serve my lord Kord with my greatsword.</p>
         </div></div>
-    <div role="main"><h3>Follow the Temple</h3><p>The plains, Fiola, Starg, orcs, goblins, and gnomes, these I long for. It was supposed to be a short trip. Just drop some items off, say hi to the temple elders, maybe grab a bite to eat, some wrestling, and then return.</p>
+    <div role="main"><h2>Follow the Temple</h2><p>The plains, Fiola, Starg, orcs, goblins, and gnomes, these I long for. It was supposed to be a short trip. Just drop some items off, say hi to the temple elders, maybe grab a bite to eat, some wrestling, and then return.</p>
 <p>But no. They have other plans for me. And I must do as they say. They were fascinated by the tale I told, grateful for the return of the items, and we did have a feast with wrestling in celebration. All as I expected. But then, afterwards, the temple elders came to me.</p>
 <p>&quot;Mord, what are your plans now?&quot;</p>
 <p>&quot;I plan to be return to Fiola and Starg. The plains offer some interesting challenges.&quot;</p>
@@ -87,5 +28,9 @@
 <p>Mords of Wisdom: Expectations lead to disappointment.</p>
 </div>
     <div role="navigation"><div id="before"><a href="of-goblins-orcs-and-gnomes.html">&#8612; Of Goblins, Orcs, and Gnomes</a></div><div id="after"><a href="a-new-hunt.html">A New Hunt &#8614;</a></div></div>
+
+    <script src="hammer.js"></script>
+    <script src="site.js"></script>
+
     </body>
 </html>

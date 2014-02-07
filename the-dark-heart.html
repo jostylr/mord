@@ -3,67 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href='http://fonts.googleapis.com/css?family=Leckerli+One' rel='stylesheet' type='text/css'>
         <title>The Dark Heart</title>
-        <style>
-            body {
-                background-color: black; 
-                color : #999; 
-                font-size: 26px;
-            }
-            h1, h2, h3, h4, h5, h6, a {
-                font-family: 'Leckerli One', cursive; 
-                color: crimson;
-            }
-            #site-title h1 {
-                margin-bottom : 0;
-            }
-            #site-description { 
-                margin : 0 auto;
-                font-size : 20px;
-            }
-            div[role~=header] {
-                border-bottom: thick solid #3C3C3C;
-            }
-            div[role~=main] {
-            }
-            div[role~=main] p:last-child {
-                text-align:right; 
-                font-variant: small-caps;
-            }
-            div[role~=main], div[role~=main] a,  #site-description {
-                font-family : Times New Roman, sans-serif;
-            }
-            @media (min-width: 980px) {
-                div[role] {
-                    width:980px; 
-                    padding : 10px;
-                    margin: 1em auto;
-                }
-            }
-            @media (min-width: 500px) and (max-width: 979px) {
-                div[role] {
-                    margin: 1em;
-                }
-            }
-            
-            @media (max-width: 499px) {
-                div[role] {
-                    margin: 0.5em;
-                }
-            }
-            
-            div[role~=navigation] {
-                position:relative
-            }
-            #before {
-                float:left
-            }
-            #after {
-                float:right
-            }
-        </style> 
-
+        <link href="site.css" rel="stylesheet" type="text/css" media="all">
     </head>
     <body>
     <div role="header"><div id="site-title">
@@ -72,7 +13,7 @@
             </h1>
             <p id="site-description">I am Mord. I serve my lord Kord with my greatsword.</p>
         </div></div>
-    <div role="main"><h3>The Dark Heart</h3><p>Dark elves and darker men. So there we was, sitting in the dark hours of the early morning, a new day coming upon us, but the old one gripping us.</p>
+    <div role="main"><h2>The Dark Heart</h2><p>Dark elves and darker men. So there we was, sitting in the dark hours of the early morning, a new day coming upon us, but the old one gripping us.</p>
 <p>ThrowDown&#39;s wall of fire blazed eerily into the snowy night. Barrel, enraged by the escape of DieLess, kept beating on the helpless dark elves. I restrained him, but the soldier stirred.</p>
 <p>ThrowDown demanded that he tell us what they were trying to do that night, what that creature was, what their plans were. ThrowDown looked even more crazed than Barrel. I am not sure what has gotten into these men&#39;s hearts. At least Pitter seemed to have some compassion for our prisoners. I felt like the humans were going to torture this poor fellow.</p>
 <p>I stepped in, defending the soldier. I tried to explain to my friends that these dark elves did not know what they were really getting into. That if we told them the truth, maybe his people might have second thoughts.</p>
@@ -82,5 +23,9 @@
 <p>Mords of Wisdom: Darkness spreads.</p>
 </div>
     <div role="navigation"><div id="before"><a href="elves-in-the-dark.html">&#8612; Elves in the Dark</a></div><div id="after"><a href="the-council-cometh.html">The Council Cometh &#8614;</a></div></div>
+
+    <script src="hammer.js"></script>
+    <script src="site.js"></script>
+
     </body>
 </html>
