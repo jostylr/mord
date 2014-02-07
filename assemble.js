@@ -24,7 +24,7 @@ var render = function (str, obj) {
 var marked = require('marked');
 var RSS = require('rss');
 
-var feedNew = new RSS({
+var rssNew = new RSS({
     title: "Mord",
     description : "I am Mord. I serve my lord Kord with my greatsword.",
     feed_url : "http://mord.jostylr.com/rss.xml",
@@ -56,12 +56,12 @@ var rssUpdate = new RSS({
 
 var news, updates;
 try {
-     news = read("rssnew.txt", "utf8") ;
+     news = JSON.parse( read("rssnew.txt", "utf8") ) ;
 } catch (e) {
     news = [];
 }
 try {
-    updates = read("rssupdates.txt", "utf8") ;
+    updates = JSON.parse( read("rssupdates.txt", "utf8") );
 } catch (e) {
     updates = [];
 }
@@ -212,19 +212,28 @@ toPublish.forEach(function (index) {
         var body = md.slice(3).join("\n");
         var htm = marked(body);
     
-        htm = "<h3>"+title+"</h3>"+htm;
+        htm = "<h2>"+title+"</h2>"+htm;
         
     
         var html = template.replace('_"*:body"', htm);
         html = html.replace('_"*:title"', title);
         html = html.replace('<!--footer-->', nav(sections, index));
         write(ghpages+fname.replace(".md", ".html"), html, "utf8");
-        updates.unshift([fname, md, el[1]] );
+        updates.unshift({
+            title : md[0],
+            date : el[1],
+            url : "http://mord.jostylr.com/"+fname.slice(0,-2)+".html",
+            description : md.slice(3).join("\n")
+        });
         if (el.fresh) {
-            news.unshift([fname, md, el[1]]);
+            news.unshift( {
+                title : md[0],
+                date : el[1],
+                url : "http://mord.jostylr.com/"+fname.slice(0,-2)+".html",
+                description : md.slice(3).join("\n")
+            });
         }
-    
-    });
+    } );
 
 newlist = sections.map(function (el) {
     return el.join(" ");
@@ -311,3 +320,22 @@ var tocOut = tochtm.replace('_"table of contents:body"',
     latestOut + journalOut);
 
 write(ghpages+"toc.html", tocOut, "utf8");
+
+if (updates.length > 10) {
+    updates.length = 10;
+}
+if (news.length > 10) {
+    news.length = 10;
+}
+write("updates.txt", JSON.stringify(updates), "utf8" );
+write("news.txt", JSON.stringify(news), "utf8" );    
+
+updates.forEach( function (el) {
+    rssUpdate.item(el);
+});   
+write(ghpages+"updates.xml", rssUpdate.xml(), "utf8");
+
+news.forEach( function (el) {
+    rssNew.item(el);
+}); 
+write(ghpages+"news.xml", rssNew.xml(), "utf8");

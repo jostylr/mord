@@ -16,12 +16,14 @@ colors: crimson
 * [template.htm](#boilerplate "save:") the html template to insert the content in. 
 * [ghpages/index.html](#intro "save: *boilerplate ") the intro to Mord
 * [toc.htm](#table-of-contents "save: *boilerplate ") the table of contents template that assembler creates
+* [ghpages/site.css](#site-css "save:") The site-wide css.
+* [ghpages/site.js](#site-js "save: | jshint") The site-wide css.
 
 ## Modules of interest
 
 * [slug](https://npmjs.org/package/slug) makes slug out of strings (titles)
 * [rss](https://npmjs.org/package/rss) rss feed maker
-* [marked](
+* [marked]()
 
 
 ## Readme
@@ -188,6 +190,7 @@ The creating a list comes first since it gets the title into the mix of the entr
    
     _"creating the table of contents"
 
+    _"save feeds"
 
 ### Read list txt
 
@@ -314,7 +317,7 @@ First line is the title, second line is date, then blank line, and then the body
 
 Add title
 
-        htm = "<h3>"+title+"</h3>"+htm;
+        htm = "<h2>"+title+"</h2>"+htm;
         
 Create the page
 
@@ -322,12 +325,21 @@ Create the page
         html = html.replace('_"*:title"', title);
         html = html.replace('<!--footer-->', nav(sections, index));
         write(ghpages+fname.replace(".md", ".html"), html, "utf8");
-        updates.unshift([fname, md, el[1]] );
+        updates.unshift({
+            title : md[0],
+            date : el[1],
+            url : "http://mord.jostylr.com/"+fname.slice(0,-2)+".html",
+            description : md.slice(3).join("\n")
+        });
         if (el.fresh) {
-            news.unshift([fname, md, el[1]]);
+            news.unshift( {
+                title : md[0],
+                date : el[1],
+                url : "http://mord.jostylr.com/"+fname.slice(0,-2)+".html",
+                description : md.slice(3).join("\n")
+            });
         }
-
-    }
+    } 
 
 ### Footer Nav
 
@@ -393,7 +405,7 @@ A short little function that takes in a Date object and outputs a mm-dd-yyyy-hh:
 
 This is for setting up the rss feeds. So we create two need feeds, one for new items and one that includes updates. 
 
-    var feedNew = new RSS({
+    var rssNew = new RSS({
         title: "Mord",
         description : "I am Mord. I serve my lord Kord with my greatsword.",
         feed_url : "http://mord.jostylr.com/rss.xml",
@@ -426,12 +438,12 @@ This is for setting up the rss feeds. So we create two need feeds, one for new i
 
     var news, updates;
     try {
-         news = read("rssnew.txt", "utf8") ;
+         news = JSON.parse( read("rssnew.txt", "utf8") ) ;
     } catch (e) {
         news = [];
     }
     try {
-        updates = read("rssupdates.txt", "utf8") ;
+        updates = JSON.parse( read("rssupdates.txt", "utf8") );
     } catch (e) {
         updates = [];
     }
@@ -596,6 +608,27 @@ This is a simple templating function that replaces the caps version of the keys 
 
 Let's make the rss feeds. We have them already stored in updates and news. We only want the first 10. 
 
+!!! Convert this into a function with parameters arr of feeds, feedname, desired number of entries. last two optional with defautls feed, 10.
+
+    if (updates.length > 10) {
+        updates.length = 10;
+    }
+    if (news.length > 10) {
+        news.length = 10;
+    }
+    write("updates.txt", JSON.stringify(updates), "utf8" );
+    write("news.txt", JSON.stringify(news), "utf8" );    
+    
+    updates.forEach( function (el) {
+        rssUpdate.item(el);
+    });   
+    write(ghpages+"updates.xml", rssUpdate.xml(), "utf8");
+
+    news.forEach( function (el) {
+        rssNew.item(el);
+    }); 
+    write(ghpages+"news.xml", rssNew.xml(), "utf8");
+
 
 
 ## intro
@@ -638,17 +671,17 @@ The body gets replaced with a short list (5) of the most recent.  Then it should
         <head>
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link href='http://fonts.googleapis.com/css?family=Leckerli+One' rel='stylesheet' type='text/css'>
             <title>_"*:title"</title>
-            <style>
-                _"css"
-            </style> 
-
+            <link href="site.css" rel="stylesheet" type="text/css" media="all">
         </head>
         <body>
         <div role="header">_"header"</div>
         <div role="main">_"*:body"</div>
         <div role="navigation"><!--footer--></div>
+
+        <script src="hammer.js"></script>
+        <script src="site.js"></script>
+
         </body>
     </html>
 
@@ -663,18 +696,34 @@ This is the html for the header on all the mord pages.
         <p id="site-description">I am Mord. I serve my lord Kord with my greatsword.</p>
     </div>
 
-### css
+## site css
 
 Here is the css of the page. We want one column (div width = 980px, or less). 
+
+    _":font faces"
+
+    * {margin:0; padding:0}
+
+    p, h1, h2 {
+        margin-top:0.25em;
+    }
+
+    div[role] {
+        margin-top:1.25em;
+    }
 
     body {
         background-color: black; 
         color : #999; 
         font-size: 26px;
+        font-family: main, sans-serif;
     }
     h1, h2, h3, h4, h5, h6, a {
-        font-family: 'Leckerli One', cursive; 
+        font-family: mordscript, cursive; 
         color: crimson;
+    }
+    a {
+        text-decoration : none;
     }
     #site-title h1 {
         margin-bottom : 0;
@@ -693,14 +742,14 @@ background-color: #3C3C3C;
         text-align:right; 
         font-variant: small-caps;
     }
-    div[role~=main], div[role~=main] a,  #site-description {
-        font-family : Times New Roman, sans-serif;
-    }
+div[role~=main], div[role~=main] a,  #site-description {
+font-family : Times New Roman, sans-serif;
+}
     @media (min-width: 980px) {
         div[role] {
             width:980px; 
-            padding : 10px;
-            margin: 1em auto;
+            margin-left: auto;
+            margin-right: auto;
         }
     }
     @media (min-width: 500px) and (max-width: 979px) {
@@ -725,16 +774,80 @@ background-color: #3C3C3C;
         float:right
     }
 
+[font faces]()
+
+The main text will be [Liberation Serif](http://www.fontsquirrel.com/fonts/Liberation-Serif) which will be the font-family:main. The mordscript family will be [Bilbo](http://www.fontsquirrel.com/fonts/bilbo)
+
+    @font-face {
+        font-family : main;
+        font-weight : bold;
+        src: url('fonts/LiberationSerif-Regular-webfont.eot');
+        src: url('fonts/LiberationSerif-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+             url('fonts/LiberationSerif-Regular-webfont.woff') format('woff'),
+             url('fonts/LiberationSerif-Regular-webfont.ttf') format('truetype'),
+             url('fonts/LiberationSerif-Regular-webfont.svg#liberation_serifregular') format('svg');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family : mordscript;
+        src: url('fonts/bilboswashcaps-regular-webfont.eot');
+        src: url('fonts/bilboswashcaps-regular-webfont.eot?#iefix') format('embedded-opentype'),
+             url('fonts/bilboswashcaps-regular-webfont.woff') format('woff'),
+             url('fonts/bilboswashcaps-regular-webfont.ttf') format('truetype'),
+             url('fonts/bilboswashcaps-regular-webfont.svg#bilbo_swash_capsregular') format('svg');
+        font-weight: bold;
+        font-style: normal;    }    
+
+
+## site js
+
+Navigation for the site. 
+
+    var body = window.document.querySelector("body");
+    var before = window.document.querySelector("#before a");
+    var after = window.document.querySelector("#after a");
+
+    console.log(before, after);
+
+    window.onkeydown = function (e) {
+        var key = e.keyCode;
+        if (key === 37 && before) {
+            before.click();
+        }
+        if (key === 39 && after) {
+            after.click();
+        }
+    };
+
+    var dir; 
+
+    Hammer(body).on("dragright", function () {
+        dir = before; 
+    });
+
+    Hammer(body).on("dragleft", function () {
+        dir = after;
+    });
+
+    Hammer(body).on("dragend", function () {
+        if (dir) {
+            dir.click();
+        }
+    });
+
 
 ## TODO
 
-Generate feeds. 
-
-Swipe up / down, left/right  to go through the site. Thinking about hammer.js for touch devices, left/right for desktop.  
 
 Think about font selections.
 
-Deal with pages. 
+Deal with !pages. Have sitemap directory with various txt files that deal with various pages. For Mord, a pages.txt including the intro, mord feed, bero speaks.
+
+
+
+
 
 ## NPM package
 

@@ -101,9 +101,9 @@ earth-pounders.md
 snake-ladies.md
 dust-to-life.md
 ## BaffledMint ; Taking on a demon lord.
-braving-the-nothing.md
-a-maze.md
-baffledmint.md
+braving-the-nothing.md 1 new
+a-maze.md 1 new
+baffledmint.md 1 new
 # Renewal
 # Pride
 # Doom
