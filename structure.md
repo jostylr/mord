@@ -679,9 +679,7 @@ The body gets replaced with a short list (5) of the most recent.  Then it should
         <div role="main">_"*:body"</div>
         <div role="navigation"><!--footer--></div>
 
-        <script src="hammer.js"></script>
         <script src="site.js"></script>
-
         </body>
     </html>
 
@@ -809,8 +807,6 @@ Navigation for the site.
     var before = window.document.querySelector("#before a");
     var after = window.document.querySelector("#after a");
 
-    console.log(before, after);
-
     window.onkeydown = function (e) {
         var key = e.keyCode;
         if (key === 37 && before) {
@@ -820,23 +816,6 @@ Navigation for the site.
             after.click();
         }
     };
-
-    var dir; 
-
-    Hammer(body).on("dragright", function () {
-        dir = before; 
-    });
-
-    Hammer(body).on("dragleft", function () {
-        dir = after;
-    });
-
-    Hammer(body).on("dragend", function () {
-        if (dir) {
-            dir.click();
-        }
-    });
-
 
 ## TODO
 
