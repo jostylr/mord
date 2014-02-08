@@ -215,8 +215,8 @@ toPublish.forEach(function (index) {
         htm = "<h2>"+title+"</h2>"+htm;
         
     
-        var html = template.replace('_"*:body"', htm);
-        html = html.replace('_"*:title"', title);
+        var html = template.replace('BODY', htm);
+        html = html.replace('TITLE', title);
         html = html.replace('<!--footer-->', nav(sections, index));
         write(ghpages+fname.replace(".md", ".html"), html, "utf8");
         updates.unshift({
@@ -252,7 +252,7 @@ sections.forEach( function (el) {
     var nd; 
     if (el[0] === "#") {
         nd = el[1].split(";");
-        part = {name : nd[0], description : nd[1], chapters : []};
+        part = {name : nd[0], description : (nd[1] ? nd[1] : ""), chapters : []};
         parts.push(part);
         chapter = null;
     } else if (el[0] === "##") {
@@ -261,7 +261,7 @@ sections.forEach( function (el) {
             parts.push(part);
         }
         nd = el[1].split(";");
-        chapter = {name: nd[0], description: nd[1], entries : []};
+        chapter = {name: nd[0], description: (nd[1] ? nd[1] : ""), entries : []};
         part.chapters.push(chapter);
     } else {
         if (!part) {
@@ -287,10 +287,10 @@ sections.forEach( function (el) {
 });
 
 var journalOut = parts.reduce(function (ret, el) {
-        var heading = "<h2>"+el.name+"</h2>";
+        var heading = "<h1>"+el.name+"</h1>";
         var description = "<div class='description'>"+el.description+ "</div>";
         var chapters = el.chapters.reduce(function (ret, el) {
-                var heading = "<h3>"+el.name+"</h3>";
+                var heading = "<h2>"+el.name+"</h2>";
                 var description = "<div class='description'>"+el.description+ "</div>";
                 var entries = el.entries.reduce(function (ret, el) {
                         var tmpl = 
@@ -299,7 +299,7 @@ var journalOut = parts.reduce(function (ret, el) {
                             "</li>";
                         return ret + render(tmpl, el);
                     } , "");
-                return ret+"<div class='chapter'>"+heading+description+"<ol>"+entries+"</ol></div>";
+                return ret+"<div class='chapter'>"+heading+description+"<ul>"+entries+"</ul></div>";
             }, "");
         return ret+"<div class='part'>"+heading+description+chapters+"</div>";
     }, "");
@@ -311,8 +311,8 @@ var latestOut = latest.reduce(function (ret, el) {
             "</li>";
         return ret + render(tmpl, el);
     } , 
-    "<h2>The Latest</h2><ol class='latest'>") +
-    "</ol>";
+    "<h1>The Latest</h1><ul class='latest'>") +
+    "</ul>";
 
 var tochtm = read("toc.htm", "utf8");
 

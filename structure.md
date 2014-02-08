@@ -13,7 +13,7 @@ colors: crimson
 * [.gitignore](#gitignore "Save:") A .gitignore file
 * [assemble.js](#assembler "save: | jshint") assembling the blog
 * [queue.js](#queuer "save: | jshint")
-* [template.htm](#boilerplate "save:") the html template to insert the content in. 
+* [template.htm](#page-template "save: *boilerplate") the html template to insert the content in. 
 * [ghpages/index.html](#intro "save: *boilerplate ") the intro to Mord
 * [toc.htm](#table-of-contents "save: *boilerplate ") the table of contents template that assembler creates
 * [ghpages/site.css](#site-css "save:") The site-wide css.
@@ -321,8 +321,8 @@ Add title
         
 Create the page
 
-        var html = template.replace('_"*:body"', htm);
-        html = html.replace('_"*:title"', title);
+        var html = template.replace('BODY', htm);
+        html = html.replace('TITLE', title);
         html = html.replace('<!--footer-->', nav(sections, index));
         write(ghpages+fname.replace(".md", ".html"), html, "utf8");
         updates.unshift({
@@ -495,8 +495,8 @@ Once all of that is completed, then we loop over and create corresponding html.
     var journalOut = parts.reduce(_":part reduce", "");
 
     var latestOut = latest.reduce(_":entry render", 
-        "<h2>The Latest</h2><ol class='latest'>") +
-        "</ol>";
+        "<h1>The Latest</h1><ul class='latest'>") +
+        "</ul>";
 
     var tochtm = read("toc.htm", "utf8");
 
@@ -511,7 +511,7 @@ Once all of that is completed, then we loop over and create corresponding html.
 Here we figure out what to do when we encounter a part. Basically, get the name, description, and a place for chapters.
     
     nd = el[1].split(";");
-    part = {name : nd[0], description : nd[1], chapters : []};
+    part = {name : nd[0], description : (nd[1] ? nd[1] : ""), chapters : []};
     parts.push(part);
     chapter = null;
 
@@ -521,7 +521,7 @@ And now we add in chapters, adding in an umbrella part if need be.
 
     _":no part"
     nd = el[1].split(";");
-    chapter = {name: nd[0], description: nd[1], entries : []};
+    chapter = {name: nd[0], description: (nd[1] ? nd[1] : ""), entries : []};
     part.chapters.push(chapter);
 
 [entry]() 
@@ -560,7 +560,7 @@ Similarly with entry, adding a chapter if needed.
 Now we want to reduce the parts, creating some html that gets placed in the journal. 
 
     function (ret, el) {
-        var heading = "<h2>"+el.name+"</h2>";
+        var heading = "<h1>"+el.name+"</h1>";
         var description = "<div class='description'>"+el.description+ "</div>";
         var chapters = el.chapters.reduce(_":chapter reduce", "");
         return ret+"<div class='part'>"+heading+description+chapters+"</div>";
@@ -571,10 +571,10 @@ Now we want to reduce the parts, creating some html that gets placed in the jour
 Similar story for chapters.
 
     function (ret, el) {
-        var heading = "<h3>"+el.name+"</h3>";
+        var heading = "<h2>"+el.name+"</h2>";
         var description = "<div class='description'>"+el.description+ "</div>";
         var entries = el.entries.reduce(_":entry render", "");
-        return ret+"<div class='chapter'>"+heading+description+"<ol>"+entries+"</ol></div>";
+        return ret+"<div class='chapter'>"+heading+description+"<ul>"+entries+"</ul></div>";
     }
 
 
@@ -639,6 +639,10 @@ This is the intro
 
     Mord Blog
 
+[css]()
+
+    <link href="site.css" rel="stylesheet" type="text/css" media="all">
+
 [body](# "|marked")
 
     Welcome fans of Mord!
@@ -661,6 +665,13 @@ This is where the table of contents template is.
 
     Journal
 
+[css]() 
+
+    <link href="site.css" rel="stylesheet" type="text/css" media="all">
+    <style>
+    _"site css:table of contents"
+    </style>
+
 The body gets replaced with a short list (5) of the most recent.  Then it should become a set of divs with various headers.   
 
 ## boilerplate
@@ -672,7 +683,7 @@ The body gets replaced with a short list (5) of the most recent.  Then it should
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>_"*:title"</title>
-            <link href="site.css" rel="stylesheet" type="text/css" media="all">
+            _"*:css"            
         </head>
         <body>
         <div role="header">_"header"</div>
@@ -689,10 +700,25 @@ This is the html for the header on all the mord pages.
 
     <div id="site-title">
         <h1>
-            <a href="http://mord.jostylr.com" title="Mord Blog" rel="home">Mord Blog</a>
+            <a href="/" title="Mord Blog" rel="home">Mord Blog</a>
         </h1>
         <p id="site-description">I am Mord. I serve my lord Kord with my greatsword.</p>
     </div>
+
+
+### page template
+
+[title]()
+
+    Mord TITLE
+
+[css]()
+            
+    <link href="site.css" rel="stylesheet" type="text/css" media="all">
+
+[body]()
+
+    BODY
 
 ## site css
 
@@ -772,6 +798,25 @@ font-family : Times New Roman, sans-serif;
         float:right
     }
 
+[table of contents]()
+
+    .description {
+        font-size : medium;
+    }
+
+    .chapter, ul li {
+        margin-left : 1em;
+    }
+
+    ul {
+        list-style-type : none;
+    }
+
+    li a {
+        font-family : main;
+    }
+
+
 [font faces]()
 
 The main text will be [Liberation Serif](http://www.fontsquirrel.com/fonts/Liberation-Serif) which will be the font-family:main. The mordscript family will be [Bilbo](http://www.fontsquirrel.com/fonts/bilbo)
@@ -820,7 +865,7 @@ Navigation for the site.
 ## TODO
 
 
-Think about font selections.
+toc looks like crap.
 
 Deal with !pages. Have sitemap directory with various txt files that deal with various pages. For Mord, a pages.txt including the intro, mord feed, bero speaks.
 
